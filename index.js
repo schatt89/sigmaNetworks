@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
-app.listen(3030, () => console.log('listening at 3030'));
+const PORT = process.env.PORT || 7000;
+app.listen(PORT, () => console.log(`Listening on ${ PORT }`));
 
 app.use(express.static('public/'));
 app.use(express.json('100mb'));
