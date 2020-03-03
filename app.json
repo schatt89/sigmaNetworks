@@ -1,0 +1,8 @@
+{
+    "name": "Sigma Networks",
+    "description": "A tool to compare two networks",
+    "repository": "https://github.com/schatt89/sigmaNetworks",
+    "logo": "",
+    "keywords": ["node", "express", "sigma"],
+    "image": "heroku/nodejs"
+  }

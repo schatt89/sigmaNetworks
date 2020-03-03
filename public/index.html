@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <label>
+        </label>
+        <link href="css/main.css" rel = "stylesheet" type = "text/css"/>
+        <script src="js/jquery-3.4.1.min.js"></script>
+    </head>
+    <body>
+          <div class = "data">
+            <div class="clustering">
+              <p><label>clustering</label>
+              cluster network to add some color to the nodes</p>
+              <button id="clusterButton" type="button">Cluster</button>
+            </div>
+            <div class="force_alpha">
+              <p><label>alpha</label> Simulation activity</p>
+              <div class="alpha_bar" onclick="updateAll();"><div id="alpha_value"></div></div>
+            </div>
+          </div>
+          <div id="networks">
+
+              <div id="sidebar">
+                  <span id="position"></span>
+                  <div id="dragbar"></div>
+                  <div id="left_container" class="container">
+                    <svg id="left_svg"></svg>
+                    <div class="mini-container">
+                      <div class = "selection">
+                        <p><label class="label">data</label>
+                          Select a dataset</p>
+            
+                          <select name="ab" id="left_select" onchange="if (this.selectedIndex) select_data(this.selectedIndex, 'left');">
+                            <option value="-1">No selection</option>
+                            <option value="1">Investor network - before</option>
+                            <option value="2">Investor network - during</option>
+                            <option value="3">Option1</option> 
+                            <option value="4">Option2</option>
+                        </select> 
+
+                      </div>
+                      <div class="uploading">
+                        <p><label class = "label">json</label>
+                          Upload your dataset in .json</p>
+                          <input type="file" name="#left_svg" id="left_file" class="inputfile" />
+                          <label for="left_file" class="button"> Import </label> <br/>
+                          <button id="left_import" class="button">Build a network</button> 
+                          <textarea id="left_result" placeholder="Data preview"></textarea>
+                      </div>
+                      <div>
+                        <button class="button" id="left_clear"> Clear Chart </button>
+                      </div>
+
+                    </div>
+                  </div>
+              </div>
+              <div id="main">
+                  <div id="right_container" class="container">
+                    <svg id="right_svg" class = "viz"></svg>
+                    <div class="mini-container">
+                      <div class="selection">
+                        <p><label class="label">data</label>
+                          Select a dataset</p>
+            
+                          <select name="ab" id="right_select" onchange="if (this.selectedIndex) select_data(this.selectedIndex, 'right');">
+                            <option value="-1">No selection</option>
+                            <option value="1">Investor network - before</option>
+                            <option value="2">Investor network - during</option>
+                            <option value="3">Option1</option> 
+                            <option value="4">Option2</option>
+                        </select> 
+
+                      </div>
+                      <div class="uploading">
+                        <p><label class = "label">json</label>
+                          Upload your dataset in .json</p>
+                          <input type="file" name="#right_svg" id="right_file" class="inputfile" />
+                          <label for="right_file" class="button"> Import </label> <br/>
+                          <button id="right_import" class="button">Build a network</button> 
+                          <textarea id="right_result" placeholder="Data preview"></textarea>
+                      </div>
+                      <div>
+                        <button class="button" id="right_clear"> Clear Chart </button>
+                      </div>
+
+                    </div>
+                    </div>
+                  </div>
+              </div>
+              </div>  
+      
+          <script src="https://d3js.org/d3.v4.min.js"></script>
+          <script src="js/public.js"></script>
+    </body>
+</html>

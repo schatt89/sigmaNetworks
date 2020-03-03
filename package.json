@@ -1,0 +1,25 @@
+{
+  "name": "sigmanetworks",
+  "version": "1.0.0",
+  "description": "Compare two networks",
+  "engines": {
+    "node": "12.x"
+  },
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/schatt89/sigmaNetworks.git"
+  },
+  "author": "Anna Iashina",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/schatt89/sigmaNetworks/issues"
+  },
+  "homepage": "https://github.com/schatt89/sigmaNetworks#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
