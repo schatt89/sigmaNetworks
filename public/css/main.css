@@ -163,9 +163,6 @@ input[type="file"] {
     height: 100%;
 }
 
-.container div {
-    padding: 5px;
-}
 
 .mini-container {
     display: flex;
@@ -175,6 +172,7 @@ input[type="file"] {
     flex-basis: 10%;
     flex-wrap: wrap;
     flex-direction: row;
+    padding: 5px;
 }
 
 .mini-container div {
@@ -185,7 +183,7 @@ input[type="file"] {
 
 
 /* SVG styles */
-svg {
+.svg {
     flex-basis: 100%;
     min-width: 200px;
     order: 2;
