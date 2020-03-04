@@ -102,3 +102,8 @@ dist
 
 # TernJS port file
 .tern-port
+
+.DS_Store
+public/.DS_Store
+
+public/js/sigma.js/

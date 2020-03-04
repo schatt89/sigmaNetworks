@@ -15,7 +15,7 @@ function network_from_selected_data(sel) {
     } else if (sel == 4) {
         var name = "data/data2.json"
     }
-    d3.json(name, function (error, _graph) {
+    d3.json(name, function (error, _graph) { // d3 /////////////////
         if (error) throw error;
         graph = _graph;
         var side = window.side;
@@ -31,7 +31,7 @@ function select_data(index, side) {
     window.side = side;
     var selection = x.options[index].index;
 
-    var svg = d3.select("#" + side + "_svg");
+    var svg = d3.select("#" + side + "_svg"); // d3 ////////////
     svg.selectAll("*").remove();
 
     network_from_selected_data(selection);
@@ -62,7 +62,7 @@ document.getElementById('left_import').onclick = function () {
         const d = await response.json();
         console.log(d);
 
-        d3.selectAll("#left_svg > *").remove();
+        d3.selectAll("#left_svg > *").remove(); /// d3 ///////////
         var root = d.data;
         graph = root;
         initializeDisplay("left");
@@ -96,7 +96,7 @@ document.getElementById('right_import').onclick = function () {
         })
         const d = await response.json();
 
-        d3.selectAll("#right_svg > *").remove();
+        d3.selectAll("#right_svg > *").remove(); //// d3 ////////////////
         var root = d.data;
         graph = root;
         console.log(graph);
@@ -151,12 +151,12 @@ $(document).mouseup(function (e) {
 
 //// CLEAR SVG //////
 
-document.getElementById('left_clear').onclick = function () {
+document.getElementById('left_clear').onclick = function () { //// d3 //////////////
     var svg = d3.select("#left_svg");
     svg.selectAll("*").remove();
 }
 
-document.getElementById('right_clear').onclick = function () {
+document.getElementById('right_clear').onclick = function () { //// d3 ////////////
     var svg = d3.select("#right_svg");
     svg.selectAll("*").remove();
 }
