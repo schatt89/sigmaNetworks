@@ -1,16 +1,20 @@
 var left, right;
 
+
+
+sigma.classes.graph.addMethod('neighbors', function (nodeId) {
+    var k,
+        neighbors = {},
+        index = this.allNeighborsIndex[nodeId] || {};
+
+    for (k in index)
+        neighbors[k] = this.nodesIndex[k];
+
+    return neighbors;
+});
+
 function refreshGraph(name, side) {
-    sigma.classes.graph.addMethod('neighbors', function (nodeId) {
-        var k,
-            neighbors = {},
-            index = this.allNeighborsIndex[nodeId] || {};
 
-        for (k in index)
-            neighbors[k] = this.nodesIndex[k];
-
-        return neighbors;
-    });
     sigma.parsers.json(name, {
         container: side + "_svg",
         render: {
@@ -29,8 +33,10 @@ function refreshGraph(name, side) {
             s.graph.nodes().forEach(function (node, i, a) {
                 node.x = Math.cos(Math.PI * 2 * i / a.length);
                 node.y = Math.sin(Math.PI * 2 * i / a.length);
+                node.color = '#264249';
+                node.label = node.label ? node.label : 'Node' + node.id;
             });
-            s.refresh()
+
             sigma.plugins.relativeSize(s, 2);
             s.graph.nodes().forEach(function (n) {
                 n.originalColor = n.color;
@@ -137,6 +143,11 @@ function network_from_selected_data(sel, side) {
         var name = "data/data2.json"
     } else if (sel == 5) {
         var name = "data/sigma-data.json"
+    }
+    if (side == "left") {
+        window.left_id = sigma.instances(0) ? 1 : 0;
+    } else {
+        window.right_id = sigma.instances(0) ? 1 : 0;
     }
 
     refreshGraph(name, side);
