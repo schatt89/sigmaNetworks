@@ -189,6 +189,8 @@ document.getElementById('left_import').onclick = function () {
         console.log(d);
 
         //// add building network with sigma here ////
+        sigma.instances(window.left_id).kill();
+
 
     }
 
@@ -219,6 +221,7 @@ document.getElementById('right_import').onclick = function () {
         const d = await response.json();
 
         //// add building network with sigma here ////
+        sigma.instances(window.right_id).kill();
 
     }
 
@@ -269,12 +272,10 @@ $(document).mouseup(function (e) {
 //// CLEAR SVG //////
 
 document.getElementById('left_clear').onclick = function () { //// d3 //////////////
-    var svg = d3.select("#left_svg");
-    svg.selectAll("*").remove();
+    sigma.instances(window.left_id).kill();
 }
 
 document.getElementById('right_clear').onclick = function () { //// d3 ////////////
-    var svg = d3.select("#right_svg");
-    svg.selectAll("*").remove();
+    sigma.instances(window.right_id).kill();
 }
 
