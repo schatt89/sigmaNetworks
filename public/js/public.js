@@ -22,8 +22,9 @@ function refreshGraph(name, side) {
             type: 'canvas'
         },
         settings: {
-            minNodeSize: 8,
-            maxNodeSize: 16
+            minNodeSize: 4,
+            maxNodeSize: 12,
+            defaultNodeColor: '#264249' 
         }
     
     },
@@ -33,7 +34,6 @@ function refreshGraph(name, side) {
             s.graph.nodes().forEach(function (node, i, a) {
                 node.x = Math.cos(Math.PI * 2 * i / a.length);
                 node.y = Math.sin(Math.PI * 2 * i / a.length);
-                node.color = '#264249';
                 node.label = node.label ? node.label : 'Node' + node.id;
             });
 
@@ -271,11 +271,20 @@ $(document).mouseup(function (e) {
 
 //// CLEAR SVG //////
 
-document.getElementById('left_clear').onclick = function () { //// d3 //////////////
+document.getElementById('left_clear').onclick = function () { 
     sigma.instances(window.left_id).kill();
 }
 
-document.getElementById('right_clear').onclick = function () { //// d3 ////////////
+document.getElementById('right_clear').onclick = function () { 
     sigma.instances(window.right_id).kill();
 }
 
+//// RECOLOR THE NODES ////
+
+document.getElementById('left_color').onclick = function () {
+    sigma.instances(window.left_id).settings({ defaultNodeColor: '#32a852' });
+}
+
+document.getElementById('right_color').onclick = function () {
+    sigma.instances(window.right_id).settings({defaultNodeColor: '#32a852' });
+}
