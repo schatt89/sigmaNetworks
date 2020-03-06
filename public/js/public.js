@@ -30,6 +30,7 @@ function refreshGraph(name, side) {
     },
         function (s) {
             console.log(s)
+        
 
             s.graph.nodes().forEach(function (node, i, a) {
                 node.x = Math.cos(Math.PI * 2 * i / a.length);
@@ -42,6 +43,17 @@ function refreshGraph(name, side) {
                 n.originalColor = n.color;
                 console.log(n);
             });
+
+            var attributes = Object.keys(s.graph.nodes()[0]);
+            var value = 1;
+            var not_attributes = ['id', 'read_cam0:size', 'read_cam0:x', 'read_cam0:y', 'x', 'y', 'cam0:x', 'cam0:y', 'cam0:size', 'originalColor', 'label', 'size']
+            for (let i=0; i < attributes.length; i++) {
+                if (!not_attributes.includes(attributes[i])) {
+                    $('#' + side + '_recolor').append(new Option(attributes[i], toString(value)));
+                    value++;
+                }
+            }
+
             s.graph.edges().forEach(function (e) {
                 e.originalColor = e.color;
             });
