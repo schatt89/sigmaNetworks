@@ -289,8 +289,12 @@ document.getElementById('right_clear').onclick = function () {
 
 document.getElementById('left_color').onclick = function () {
     sigma.instances(window.left_id).settings({ defaultNodeColor: '#32a852' });
+    sigma.instances(window.left_id).startForceAtlas2();
+    window.setTimeout(function () { sigma.instances(window.left_id).stopForceAtlas2(); }, 100);
 }
 
 document.getElementById('right_color').onclick = function () {
     sigma.instances(window.right_id).settings({defaultNodeColor: '#32a852' });
+    sigma.instances(window.right_id).startForceAtlas2();
+    window.setTimeout(function () { sigma.instances(window.right_id).stopForceAtlas2(); }, 100);
 }
