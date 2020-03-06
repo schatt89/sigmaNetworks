@@ -45,10 +45,10 @@
                           <button id="left_import" class="button">Build a network</button> 
                           <textarea id="left_result" placeholder="Data preview"></textarea>
                       </div>
-                      <div class='selection'>
+                      <div class='selection' id="left_color_selection">
                         <p><label class='label'>recolor</label>select attribute to color the node</p>
                         <select name="ab" id="left_recolor" onchange="if (this.selectedIndex) recolor(this.selectedIndex, 'left');">
-                          <option value="-1">Default color</option>
+                          <option value="-1" name="Default">Default</option>
                         </select>
                       </div>
                       <div class="clear">
@@ -85,10 +85,10 @@
                           <button id="right_import" class="button">Build a network</button> 
                           <textarea id="right_result" placeholder="Data preview"></textarea>
                       </div>
-                      <div class='selection'>
+                      <div class='selection' id='right_color_selection'>
                         <p><label class='label'>recolor</label>select attribute to color the node</p>
                         <select name="ab" id="right_recolor" onchange="if (this.selectedIndex) recolor(this.selectedIndex, 'right');">
-                          <option value="-1">Default color</option>
+                          <option value="-1" name="Default">Default</option>
                         </select>
                       </div>
                       <div class="clear">

@@ -178,6 +178,22 @@ function select_data(index, side) {
     var x = document.getElementById(side + "_select")
     window.side = side;
     var selection = x.options[index].index;
+
+    var y = document.getElementById(side + "_recolor")
+    var len_options = y.options.length;
+    if (len_options > 1) {
+        $("#" + side + "_recolor").remove();
+        var arr = [
+            { val: -1, text: 'Default' }
+        ];
+
+        var sel = $('<select id="' + side + '_recolor" onchange="if (this.selectedIndex) recolor(this.selectedIndex, ' + side + ');">').appendTo("#" + side + '_color_selection');
+        $(arr).each(function () {
+            sel.append($("<option>").attr('value', this.val).text(this.text));
+        });
+    }
+
+
     network_from_selected_data(selection, side);
 }
 
