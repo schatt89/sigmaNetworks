@@ -183,11 +183,9 @@ function select_data(index, side) {
     var len_options = y.options.length;
     if (len_options > 1) {
         $("#" + side + "_recolor").remove();
-        var arr = [
-            { val: -1, text: 'Default' }
-        ];
+        var arr = [{ val: -1, text: 'Default' }];
 
-        var sel = $('<select id="' + side + '_recolor" onchange="if (this.selectedIndex) recolor(this.selectedIndex, ' + side + ');">').appendTo("#" + side + '_color_selection');
+        var sel = $('<select id="' + side + '_recolor" onchange="if (this.selectedIndex) recolor(this.selectedIndex,' + side + ');">').appendTo("#" + side + '_color_selection');
         $(arr).each(function () {
             sel.append($("<option>").attr('value', this.val).text(this.text));
         });
