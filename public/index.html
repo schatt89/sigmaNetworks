@@ -14,15 +14,6 @@
     </head>
     <body>
           <div class = "data">
-            <div class="clustering">
-              <p><label>clustering</label>
-              cluster network to add some color to the nodes</p>
-              <button id="clusterButton" type="button">Cluster</button>
-            </div>
-            <div class="force_alpha">
-              <p><label>alpha</label> Simulation activity</p>
-              <div class="alpha_bar" onclick="updateAll();"><div id="alpha_value"></div></div>
-            </div>
           </div>
           <div id="networks">
 
@@ -54,11 +45,15 @@
                           <button id="left_import" class="button">Build a network</button> 
                           <textarea id="left_result" placeholder="Data preview"></textarea>
                       </div>
-                      <div>
-                        <button class="button" id="left_color"> Recolor </button>
+                      <div class='selection'>
+                        <p><label class='label'>recolor</label>select attribute to color the node</p>
+                        <select name="ab" id="left_recolor" onchange="if (this.selectedIndex) recolor(this.selectedIndex, 'left');">
+                          <option value="-1">Default color</option>
+                        </select>
                       </div>
-                      <div>
-                        <button class="button" id="left_clear"> Clear Chart </button>
+                      <div class="clear">
+                        <p><label class="label">clear</label>kill network visualization</p>
+                        <button class="button" id="left_clear">Clear Chart</button>
                       </div>
 
                     </div>
@@ -90,10 +85,14 @@
                           <button id="right_import" class="button">Build a network</button> 
                           <textarea id="right_result" placeholder="Data preview"></textarea>
                       </div>
-                      <div>
-                        <button class="button" id="right_color"> Recolor </button>
+                      <div class='selection'>
+                        <p><label class='label'>recolor</label>select attribute to color the node</p>
+                        <select name="ab" id="right_recolor" onchange="if (this.selectedIndex) recolor(this.selectedIndex, 'right');">
+                          <option value="-1">Default color</option>
+                        </select>
                       </div>
-                      <div>
+                      <div class="clear">
+                        <p><label class="label">clear</label>kill network visualization</p>
                         <button class="button" id="right_clear"> Clear Chart </button>
                       </div>
 
