@@ -140,10 +140,16 @@ function network_from_selected_data(sel, side) {
     } else if (sel == 3) {
         var name = "data/data.json"
     } else if (sel == 4) {
-        var name = "data/data2.json"
+        var name = "śata/data2.json"
     } else if (sel == 5) {
         var name = "data/sigma-data.json"
     }
+    
+    side == "left" && typeof window.left_id !== 'undefined' ? sigma.instances(window.left_id).kill() : console.log("first time drawing");
+
+    side == "right" && typeof window.right_id !== 'undefined' ? sigma.instances(window.right_id).kill() : console.log("first time drawing");   
+
+
     if (side == "left") {
         window.left_id = sigma.instances(0) ? 1 : 0;
     } else {
