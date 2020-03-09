@@ -327,12 +327,27 @@ document.getElementById('right_color').onclick = function () {
     window.setTimeout(function () { sigma.instances(window.right_id).stopForceAtlas2(); }, 100);
 }
 
+
 function recolor(index, side) {
+    var colors = ['#a2b825', '#1E3F20', '#FF4B3E', '#ffc03d', '#B3001B', '#5438DC', '#52B788', '#EE6352', '#56EEF4', '#8E4162', '#9BF3F0', '#306B34', '#1A1F16', '#251351'];
     var side_id = side == "left" ? window.left_id : window.right_id;
     var x = document.getElementById(side + "_recolor");
-    var selection = x.options[index].index;
+    var selection = x.options[index].text;
 
+    var labels = [];
     sigma.instances(side_id).graph.nodes().forEach(function(n) {
-        n.color = ComputeColor();
+        var label = eval("n." + selection);
+        if (labels.includes(label)) {
+            var color = colors[labels.indexOf(label)];
+        } else {
+            labels.push(label);
+            var color = colors[labels.indexOf(label)];
+            console.log(label + ": " + color);
+        }
+        n.color = color;
+        n.originalColor = color;
     });
+    sigma.instances(side_id).startForceAtlas2();
+    window.setTimeout(function () { sigma.instances(side_id).stopForceAtlas2(); }, 100);
+
 }
