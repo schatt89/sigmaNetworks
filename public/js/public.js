@@ -386,15 +386,37 @@ document.getElementById('common_structure').onclick = function () {
             !nodes_intersection.includes(n.id) ? n.color = '#eee' : n.originalColor = n.originalColor;
         })
 
+
+        var edges_intersection = [];
+
+        sigma.instances(window.right_id).graph.edges().forEach(e1 => {
+            console.log(e1.target, e1.source);
+            sigma.instances(window.left_id).graph.edges().forEach(e2 => {
+                if(e1.source == e2.source && e1.target == e2.target) {
+                    edges_intersection.push([e1.source, e1.target]);
+                    e1.intersection = true;
+                    e2.intersection = true;
+                } else if (e1.source == e2.target && e1.target == e2.source) {
+                    edges_intersection.push([e1.target, e1.source]);
+                    e1.intersection = true;
+                    e2.intersection = true;
+                }
+            }); 
+        });
+
+        console.log(edges_intersection);
+
         sigma.instances(window.left_id).graph.edges().forEach(e => {
-            if (!nodes_intersection.includes(e.source) || !nodes_intersection.includes(e.target)) {
+            if (!nodes_intersection.includes(e.source) || !nodes_intersection.includes(e.target) || !e.intersection == true) {
                 e.color = '#eee';
             }
         });
+
+
         sigma.instances(window.right_id).graph.edges().forEach(e => {
-            if (!nodes_intersection.includes(e.source) || !nodes_intersection.includes(e.target)) {
+            if (!nodes_intersection.includes(e.source) || !nodes_intersection.includes(e.target) || !e.intersection == true) {
                 e.color = '#eee';
-            }            
+            }
         });
         sigma.instances(window.left_id).startForceAtlas2();
         sigma.instances(window.right_id).startForceAtlas2();
