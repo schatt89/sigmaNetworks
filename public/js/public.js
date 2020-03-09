@@ -1,4 +1,6 @@
 var left, right;
+var left_first_time = true;
+var right_first_time = true;
 
 
 
@@ -58,6 +60,7 @@ function refreshGraph(name, side) {
                 e.originalColor = e.color;
             });
             s.bind('clickNode', function (e) {
+                console.log(e.data.node.color);
                 var nodeId = e.data.node.id,
                     toKeep = s.graph.neighbors(nodeId);
                 toKeep[nodeId] = e.data.node;
@@ -157,10 +160,21 @@ function network_from_selected_data(sel, side) {
         var name = "data/sigma-data.json"
     }
     
-    side == "left" && typeof window.left_id !== 'undefined' ? sigma.instances(window.left_id).kill() : console.log("first time drawing");
+    console.log(window.left_id);
+    if (side == 'left' && left_first_time) {
+        left_first_time = false;
+        console.log("left first time drawing");
+    } else if (side == 'left' && typeof sigma.instances(window.left_id) !== 'undefined') {
+        console.log(sigma.instances(window.left_id));
+        sigma.instances(window.left_id).kill();
+    }
 
-    side == "right" && typeof window.right_id !== 'undefined' ? sigma.instances(window.right_id).kill() : console.log("first time drawing");   
-
+    if (side == 'right' && right_first_time) {
+        right_first_time = false;
+        console.log("right first time drawing");
+    } else if (side == 'right' && typeof sigma.instances(window.right_id) !== 'undefined') {
+        sigma.instances(window.right_id).kill();
+    }
 
     if (side == "left") {
         window.left_id = sigma.instances(0) ? 1 : 0;
@@ -305,31 +319,18 @@ $(document).mouseup(function (e) {
 
 document.getElementById('left_clear').onclick = function () { 
     sigma.instances(window.left_id).kill();
+    left_first_time = true;
 }
 
 document.getElementById('right_clear').onclick = function () { 
     sigma.instances(window.right_id).kill();
+    right_first_time = true;
 }
 
 //// RECOLOR THE NODES ////
 
-document.getElementById('left_color').onclick = function () {
-    sigma.instances(window.left_id).settings({ defaultNodeColor: '#32a852' });
-    sigma.instances(window.left_id).startForceAtlas2();
-    window.setTimeout(function () { sigma.instances(window.left_id).stopForceAtlas2(); }, 100);
-
-
-}
-
-document.getElementById('right_color').onclick = function () {
-    sigma.instances(window.right_id).settings({defaultNodeColor: '#32a852' });
-    sigma.instances(window.right_id).startForceAtlas2();
-    window.setTimeout(function () { sigma.instances(window.right_id).stopForceAtlas2(); }, 100);
-}
-
-
 function recolor(index, side) {
-    var colors = ['#a2b825', '#1E3F20', '#FF4B3E', '#ffc03d', '#B3001B', '#5438DC', '#52B788', '#EE6352', '#56EEF4', '#8E4162', '#9BF3F0', '#306B34', '#1A1F16', '#251351'];
+    var colors = ['#f47835', '#d41243', '#a2b825', '#4deeea', '#306B34', '#FF4B3E', '#ffc03d', '#00aedb', '#B3001B', '#74ee15', '#a200ff', '#5438DC', '#52B788', '#f000ff', '#EE6352', '#56EEF4', '#8E4162', '#9BF3F0', '#251351', '#001eff'];
     var side_id = side == "left" ? window.left_id : window.right_id;
     var x = document.getElementById(side + "_recolor");
     var selection = x.options[index].text;
