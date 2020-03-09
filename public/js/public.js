@@ -352,3 +352,54 @@ function recolor(index, side) {
     window.setTimeout(function () { sigma.instances(side_id).stopForceAtlas2(); }, 100);
 
 }
+
+//////////// COMMON STRUCTURE HIGHLIGHT ////////////////
+
+document.getElementById('common_structure').onclick = function () {
+    var left_sigma = sigma.instances(window.left_id);
+    var right_sigma = sigma.instances(window.right_id);
+
+    if (typeof left_sigma === 'undefined' || typeof right_sigma === 'undefined') {
+        alert("Both networks should be visualized")
+    } else {
+        console.log(left_sigma.graph.nodes());
+        console.log(right_sigma.graph.nodes());
+        var left_nodes = [];
+        left_sigma.graph.nodes().forEach( function (n) {
+            left_nodes.push(n.id);
+        })
+        var right_nodes = [];
+        right_sigma.graph.nodes().forEach(function (n) {
+            right_nodes.push(n.id);
+        })
+        console.log(left_nodes);
+        console.log(right_nodes);
+
+        var nodes_intersection = left_nodes.filter(value => right_nodes.includes(value));
+
+        console.log(nodes_intersection);
+
+        sigma.instances(window.left_id).graph.nodes().forEach(n => {
+            !nodes_intersection.includes(n.id) ? n.color = '#eee' : n.originalColor = n.originalColor;
+        })
+        sigma.instances(window.right_id).graph.nodes().forEach(n => {
+            !nodes_intersection.includes(n.id) ? n.color = '#eee' : n.originalColor = n.originalColor;
+        })
+
+        sigma.instances(window.left_id).graph.edges().forEach(e => {
+            if (!nodes_intersection.includes(e.source) || !nodes_intersection.includes(e.target)) {
+                e.color = '#eee';
+            }
+        });
+        sigma.instances(window.right_id).graph.edges().forEach(e => {
+            if (!nodes_intersection.includes(e.source) || !nodes_intersection.includes(e.target)) {
+                e.color = '#eee';
+            }            
+        });
+        sigma.instances(window.left_id).startForceAtlas2();
+        sigma.instances(window.right_id).startForceAtlas2();
+        window.setTimeout(function () { sigma.instances(window.left_id).stopForceAtlas2(); }, 100);
+        window.setTimeout(function () { sigma.instances(window.right_id).stopForceAtlas2(); }, 100);
+    }
+
+}
