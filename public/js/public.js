@@ -26,15 +26,15 @@ function refreshGraph(name, side) {
         settings: {
             minNodeSize: 4,
             maxNodeSize: 12,
-            defaultNodeColor: '#264249', 
+            defaultNodeColor: '#264249',
             edgeColor: 'default',
             defaultEdgeColor: '#264249'
         }
-    
+
     },
         function (s, side) {
             console.log(s, side)
-        
+
 
             s.graph.nodes().forEach(function (node, i, a) {
                 node.x = Math.cos(Math.PI * 2 * i / a.length);
@@ -51,7 +51,7 @@ function refreshGraph(name, side) {
             var attributes = Object.keys(s.graph.nodes()[0]);
             var value = 1;
             var not_attributes = ['id', 'read_cam0:size', 'read_cam0:x', 'read_cam0:y', 'x', 'y', 'cam0:x', 'cam0:y', 'cam0:size', 'originalColor', 'label', 'size']
-            for (let i=0; i < attributes.length; i++) {
+            for (let i = 0; i < attributes.length; i++) {
                 if (!not_attributes.includes(attributes[i])) {
                     $('#recolor').append(new Option(attributes[i], value));
                     value++;
@@ -63,7 +63,7 @@ function refreshGraph(name, side) {
                 all_options.push($(this).text())
             });
 
-            var unique = [...new Set(all_options) ];
+            var unique = [...new Set(all_options)];
 
             $("#recolor").remove();
 
@@ -78,7 +78,7 @@ function refreshGraph(name, side) {
                     value++;
                 }
             }
-            
+
             s.graph.edges().forEach(function (e) {
                 e.originalColor = e.color;
             });
@@ -157,7 +157,7 @@ function refreshGraph(name, side) {
                 window.setTimeout(function () { s.stopForceAtlas2(); }, 100);*/
             });
 
-        } 
+        }
     );
 }
 
@@ -176,7 +176,7 @@ function network_from_selected_data(sel, side) {
     } else if (sel == 5) {
         var name = "data/sigma-data.json"
     }
-    
+
     console.log(window.left_id);
     if (side == 'left' && left_first_time) {
         left_first_time = false;
@@ -319,6 +319,18 @@ $(document).mouseup(function (e) {
     }
 });
 
+///////////// STATISTICS ///////////////////////////
+
+$("#statistics").click(function () {
+    $('#left_node_count').text("Nodes: " + sigma.instances(window.left_id).graph.nodes().length);
+    $('#left_edge_count').text("Edges: " + sigma.instances(window.left_id).graph.edges().length);
+
+    $('#right_node_count').text("Nodes: " + sigma.instances(window.right_id).graph.nodes().length);
+    $('#right_edge_count').text("Edges: " + sigma.instances(window.right_id).graph.edges().length);
+}
+)
+
+
 //// CLEAR SVG //////
 
 function refresh_color_selection() {
@@ -336,14 +348,14 @@ function refresh_color_selection() {
     }
 }
 
-document.getElementById('left_clear').onclick = function () { 
+document.getElementById('left_clear').onclick = function () {
     sigma.instances(window.left_id).kill();
     left_first_time = true;
 
     refresh_color_selection();
 }
 
-document.getElementById('right_clear').onclick = function () { 
+document.getElementById('right_clear').onclick = function () {
     sigma.instances(window.right_id).kill();
     right_first_time = true;
 
@@ -362,7 +374,7 @@ function recolor(index) {
 
     var labels = [];
     var assigned_colors = [];
-    sigma.instances(0).graph.nodes().forEach(function(n) {
+    sigma.instances(0).graph.nodes().forEach(function (n) {
         var label = eval("n." + selection);
         if (labels.includes(label)) {
             var color = colors[labels.indexOf(label)];
@@ -389,7 +401,7 @@ function recolor(index) {
     sigma.instances(1).startForceAtlas2();
     window.setTimeout(function () { sigma.instances(1).stopForceAtlas2(); }, 1);
 
-    for(let i=0; i<labels.length; i++) {
+    for (let i = 0; i < labels.length; i++) {
         $('#color_selection').append('<div class="color_label" style="background-color:' + assigned_colors[i] + ';margin:4px" id="' + labels[i] + '">' + labels[i] + '</div>')
     }
 
@@ -409,7 +421,7 @@ document.getElementById('common_structure').onclick = function () {
         console.log(left_sigma.graph.nodes());
         console.log(right_sigma.graph.nodes());
         var left_nodes = [];
-        left_sigma.graph.nodes().forEach( function (n) {
+        left_sigma.graph.nodes().forEach(function (n) {
             left_nodes.push(n.id);
         })
         var right_nodes = [];
@@ -436,7 +448,7 @@ document.getElementById('common_structure').onclick = function () {
         sigma.instances(window.right_id).graph.edges().forEach(e1 => {
             console.log(e1.target, e1.source);
             sigma.instances(window.left_id).graph.edges().forEach(e2 => {
-                if(e1.source == e2.source && e1.target == e2.target) {
+                if (e1.source == e2.source && e1.target == e2.target) {
                     edges_intersection.push([e1.source, e1.target]);
                     e1.intersection = true;
                     e2.intersection = true;
@@ -445,7 +457,7 @@ document.getElementById('common_structure').onclick = function () {
                     e1.intersection = true;
                     e2.intersection = true;
                 }
-            }); 
+            });
         });
 
         console.log(edges_intersection);
@@ -475,7 +487,7 @@ document.getElementById('common_structure').onclick = function () {
         var x = [];
         var y = [];
         var ids = [];
-        sigma.instances(window.right_id).graph.nodes().forEach(function(n) {
+        sigma.instances(window.right_id).graph.nodes().forEach(function (n) {
             console.log('left network coordinates');
             console.log(n.x, n.y);
             if (nodes_intersection.includes(n.id)) {
@@ -486,7 +498,7 @@ document.getElementById('common_structure').onclick = function () {
         })
         sigma.instances(window.right_id).graph.nodes().forEach(function (n) {
             console.log('right network coordinates');
-            if(nodes_intersection.includes(n.id)) {
+            if (nodes_intersection.includes(n.id)) {
                 n.x = x[ids.indexOf(n.id)];
                 n.y = y[ids.indexOf(n.id)];
             } else {
