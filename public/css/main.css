@@ -10,13 +10,20 @@ body {
     margin: 0; padding: 0; 
     display: flex; 
     font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif; font-size: 80%; 
-    background-color: white;
+    background-color: whitesmoke;
 }
 
+.list {
+    padding-left: 0px;
+    list-style-type:none;
+}
 
 .structure {
     flex-basis: 200px;
-    padding: 0 5px;
+    padding: 0 2px;
+    background-color: #aaa;
+    border-radius: 3px;
+    margin: 2px 0px 0px 2px;
 }
 .structure div {
     border-style: dashed;
@@ -24,7 +31,7 @@ body {
     border-color: gainsboro;
     border-radius: 3px;
     padding: 5px;
-    width: 200px;
+    width: inherit;
     height: inherit;
     margin: 2px;
     background-color: #aaa;
@@ -63,6 +70,13 @@ body {
             opacity: 1;
             pointer-events: none;
         }
+
+.structure .statistics {
+    height: inherit;
+}
+
+
+
 
 .uploading .inputfile {margin-bottom: 0.25em; max-width: 100%; overflow: hidden;}
 .uploading textarea {
@@ -138,7 +152,7 @@ input[type="file"] {
     display: flex;
     background-color: #aaa;
     border-radius: 3px;
-    margin: 0 5px;
+    margin: 0 2px;
     flex-basis: 10%;
     flex-wrap: wrap;
     flex-direction: row;
@@ -152,12 +166,6 @@ input[type="file"] {
     flex-basis: 100%;
     min-width: 200px;
     order: 2;
-  }
-  .links line {
-    stroke: #aaa;
-  }
-  .nodes circle {
-    pointer-events: all;
   }
 
 #networks {

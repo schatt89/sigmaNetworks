@@ -18,6 +18,33 @@
               <p><label class='label'>common structure</label>press the button to highlight the common structure of the two networks</p>
               <button class="button" id="common_structure"> Highlight! </button>
             </div>
+              <div class='selection' id='color_selection'>
+                <p><label class='label'>recolor</label>select attribute to color the nodes of both networks</p>
+                <select id="recolor" onchange="if (this.selectedIndex) recolor(this.selectedIndex);">
+                <option value="-1" name="Default">Default</option>
+                </select>
+              </div>
+            <div class="statistics">
+              <p><label class="label">statistics</label>in this block the statistics for the two networks will be displayed</p>
+              <h3>Left network</h3>
+              <ul class="list">
+                <li>Nodes: </li>
+                <li>Edges: </li>
+                <li>Density: </li>
+              </ul>
+              <h3>Right network</h3>
+              <ul class="list">
+                <li>Nodes: </li>
+                <li>Edges: </li>
+                <li>Density: </li>
+              </ul>
+              <h3>Common Structure</h3>
+              <ul class="list">
+                <li>Common nodes:</li>
+                <li>Common edges:</li>
+                <li>Similarity coef:</li>
+              </ul>
+            </div>
           </div>
           <div id="networks">
 
@@ -48,12 +75,6 @@
                           <label for="left_file" class="button"> Import </label> <br/>
                           <button id="left_import" class="button">Build a network</button> 
                           <textarea id="left_result" placeholder="Data preview"></textarea>
-                      </div>
-                      <div class='selection' id="left_color_selection">
-                        <p><label class='label'>recolor</label>select attribute to color the node</p>
-                        <select name="ab" id="left_recolor" onchange="if (this.selectedIndex) recolor(this.selectedIndex, 'left');">
-                          <option value="-1" name="Default">Default</option>
-                        </select>
                       </div>
                       <div class="clear">
                         <p><label class="label">clear</label>kill network visualization</p>
@@ -89,17 +110,10 @@
                           <button id="right_import" class="button">Build a network</button> 
                           <textarea id="right_result" placeholder="Data preview"></textarea>
                       </div>
-                      <div class='selection' id='right_color_selection'>
-                        <p><label class='label'>recolor</label>select attribute to color the node</p>
-                        <select name="ab" id="right_recolor" onchange="if (this.selectedIndex) recolor(this.selectedIndex, 'right');">
-                          <option value="-1" name="Default">Default</option>
-                        </select>
-                      </div>
                       <div class="clear">
                         <p><label class="label">clear</label>kill network visualization</p>
                         <button class="button" id="right_clear"> Clear Chart </button>
                       </div>
-
                     </div>
                     </div>
                   </div>

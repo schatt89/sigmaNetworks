@@ -1,1 +1,570 @@
-{"directed": false, "multigraph": false, "graph": {"node_default": {}, "edge_default": {}}, "nodes": [{"id": "0"}, {"id": "1"}, {"id": "4"}, {"id": "6"}, {"id": "7"}, {"id": "9"}, {"id": "22"}, {"id": "25"}, {"id": "26"}, {"id": "33"}, {"id": "56"}, {"id": "57"}, {"id": "58"}, {"id": "59"}, {"id": "62"}, {"id": "63"}, {"id": "68"}, {"id": "71"}, {"id": "72"}, {"id": "73"}, {"id": "74"}, {"id": "76"}, {"id": "78"}, {"id": "79"}, {"id": "82"}, {"id": "83"}, {"id": "84"}, {"id": "87"}, {"id": "88"}, {"id": "92"}, {"id": "93"}, {"id": "94"}, {"id": "97"}, {"id": "98"}, {"id": "102"}, {"id": "103"}, {"id": "104"}, {"id": "109"}], "edges": [{"source": "0", "target": "57", "id": "0"}, {"source": "0", "target": "68", "id": "1"}, {"source": "1", "target": "98", "id": "2"}, {"source": "1", "target": "83", "id": "3"}, {"source": "1", "target": "93", "id": "4"}, {"source": "4", "target": "104", "id": "5"}, {"source": "4", "target": "88", "id": "6"}, {"source": "6", "target": "78", "id": "7"}, {"source": "7", "target": "83", "id": "8"}, {"source": "9", "target": "97", "id": "9"}, {"source": "9", "target": "58", "id": "10"}, {"source": "22", "target": "33", "id": "11"}, {"source": "22", "target": "26", "id": "12"}, {"source": "25", "target": "82", "id": "13"}, {"source": "25", "target": "102", "id": "14"}, {"source": "26", "target": "33", "id": "15"}, {"source": "56", "target": "98", "id": "16"}, {"source": "58", "target": "98", "id": "17"}, {"source": "58", "target": "102", "id": "18"}, {"source": "58", "target": "93", "id": "19"}, {"source": "58", "target": "62", "id": "20"}, {"source": "59", "target": "88", "id": "21"}, {"source": "59", "target": "98", "id": "22"}, {"source": "63", "target": "97", "id": "23"}, {"source": "63", "target": "68", "id": "24"}, {"source": "63", "target": "102", "id": "25"}, {"source": "63", "target": "74", "id": "26"}, {"source": "63", "target": "76", "id": "27"}, {"source": "63", "target": "109", "id": "28"}, {"source": "63", "target": "83", "id": "29"}, {"source": "63", "target": "87", "id": "30"}, {"source": "63", "target": "88", "id": "31"}, {"source": "63", "target": "93", "id": "32"}, {"source": "63", "target": "94", "id": "33"}, {"source": "68", "target": "98", "id": "34"}, {"source": "68", "target": "72", "id": "35"}, {"source": "68", "target": "109", "id": "36"}, {"source": "68", "target": "88", "id": "37"}, {"source": "68", "target": "93", "id": "38"}, {"source": "71", "target": "103", "id": "39"}, {"source": "72", "target": "73", "id": "40"}, {"source": "72", "target": "93", "id": "41"}, {"source": "72", "target": "94", "id": "42"}, {"source": "73", "target": "97", "id": "43"}, {"source": "73", "target": "78", "id": "44"}, {"source": "73", "target": "79", "id": "45"}, {"source": "73", "target": "83", "id": "46"}, {"source": "73", "target": "88", "id": "47"}, {"source": "73", "target": "93", "id": "48"}, {"source": "74", "target": "79", "id": "49"}, {"source": "78", "target": "98", "id": "50"}, {"source": "78", "target": "102", "id": "51"}, {"source": "78", "target": "79", "id": "52"}, {"source": "78", "target": "88", "id": "53"}, {"source": "78", "target": "93", "id": "54"}, {"source": "79", "target": "84", "id": "55"}, {"source": "83", "target": "88", "id": "56"}, {"source": "83", "target": "93", "id": "57"}, {"source": "84", "target": "93", "id": "58"}, {"source": "88", "target": "93", "id": "59"}, {"source": "88", "target": "94", "id": "60"}, {"source": "92", "target": "98", "id": "61"}, {"source": "93", "target": "97", "id": "62"}, {"source": "93", "target": "98", "id": "63"}, {"source": "93", "target": "102", "id": "64"}, {"source": "98", "target": "109", "id": "65"}]}
+{
+    "directed": false,
+    "multigraph": false,
+    "graph": {
+        "node_default": {},
+        "edge_default": {}
+    },
+    "nodes": [
+        {
+            "sector_code": "Non-Financial",
+            "postal_code": "Helsinki",
+            "age": "no-age",
+            "id": "0"
+        },
+        {
+            "sector_code": "Non-Financial",
+            "postal_code": "Rest-Uusimaa",
+            "age": "no-age",
+            "id": "1"
+        },
+        {
+            "sector_code": "Non-Financial",
+            "postal_code": "Western-Tavastia",
+            "age": "no-age",
+            "id": "4"
+        },
+        {
+            "sector_code": "Non-Financial",
+            "postal_code": "South-East",
+            "age": "no-age",
+            "id": "6"
+        },
+        {
+            "sector_code": "Non-Financial",
+            "postal_code": "Ostrobothnia",
+            "age": "no-age",
+            "id": "7"
+        },
+        {
+            "sector_code": "Non-Financial",
+            "postal_code": "Eastern-Finland",
+            "age": "no-age",
+            "id": "9"
+        },
+        {
+            "sector_code": "General-Government",
+            "postal_code": "Helsinki",
+            "age": "no-age",
+            "id": "22"
+        },
+        {
+            "sector_code": "General-Government",
+            "postal_code": "South-West",
+            "age": "no-age",
+            "id": "25"
+        },
+        {
+            "sector_code": "General-Government",
+            "postal_code": "Western-Tavastia",
+            "age": "no-age",
+            "id": "26"
+        },
+        {
+            "sector_code": "Non-Profit",
+            "postal_code": "Helsinki",
+            "age": "no-age",
+            "id": "33"
+        },
+        {
+            "sector_code": "Households",
+            "postal_code": "Helsinki",
+            "age": "Young",
+            "id": "56"
+        },
+        {
+            "sector_code": "Households",
+            "postal_code": "Helsinki",
+            "age": "Middle-Age",
+            "id": "57"
+        },
+        {
+            "sector_code": "Households",
+            "postal_code": "Helsinki",
+            "age": "Mature",
+            "id": "58"
+        },
+        {
+            "sector_code": "Households",
+            "postal_code": "Helsinki",
+            "age": "Retired",
+            "id": "59"
+        },
+        {
+            "sector_code": "Households",
+            "postal_code": "Rest-Uusimaa",
+            "age": "Middle-Age",
+            "id": "62"
+        },
+        {
+            "sector_code": "Households",
+            "postal_code": "Rest-Uusimaa",
+            "age": "Mature",
+            "id": "63"
+        },
+        {
+            "sector_code": "Households",
+            "postal_code": "Eastern-Tavastia",
+            "age": "Mature",
+            "id": "68"
+        },
+        {
+            "sector_code": "Households",
+            "postal_code": "South-West",
+            "age": "Young",
+            "id": "71"
+        },
+        {
+            "sector_code": "Households",
+            "postal_code": "South-West",
+            "age": "Middle-Age",
+            "id": "72"
+        },
+        {
+            "sector_code": "Households",
+            "postal_code": "South-West",
+            "age": "Mature",
+            "id": "73"
+        },
+        {
+            "sector_code": "Households",
+            "postal_code": "South-West",
+            "age": "Retired",
+            "id": "74"
+        },
+        {
+            "sector_code": "Households",
+            "postal_code": "Western-Tavastia",
+            "age": "Young",
+            "id": "76"
+        },
+        {
+            "sector_code": "Households",
+            "postal_code": "Western-Tavastia",
+            "age": "Mature",
+            "id": "78"
+        },
+        {
+            "sector_code": "Households",
+            "postal_code": "Western-Tavastia",
+            "age": "Retired",
+            "id": "79"
+        },
+        {
+            "sector_code": "Households",
+            "postal_code": "Central-Finland",
+            "age": "Middle-Age",
+            "id": "82"
+        },
+        {
+            "sector_code": "Households",
+            "postal_code": "Central-Finland",
+            "age": "Mature",
+            "id": "83"
+        },
+        {
+            "sector_code": "Households",
+            "postal_code": "Central-Finland",
+            "age": "Retired",
+            "id": "84"
+        },
+        {
+            "sector_code": "Households",
+            "postal_code": "South-East",
+            "age": "Middle-Age",
+            "id": "87"
+        },
+        {
+            "sector_code": "Households",
+            "postal_code": "South-East",
+            "age": "Mature",
+            "id": "88"
+        },
+        {
+            "sector_code": "Households",
+            "postal_code": "Ostrobothnia",
+            "age": "Middle-Age",
+            "id": "92"
+        },
+        {
+            "sector_code": "Households",
+            "postal_code": "Ostrobothnia",
+            "age": "Mature",
+            "id": "93"
+        },
+        {
+            "sector_code": "Households",
+            "postal_code": "Ostrobothnia",
+            "age": "Retired",
+            "id": "94"
+        },
+        {
+            "sector_code": "Households",
+            "postal_code": "Northern-Savonia",
+            "age": "Middle-Age",
+            "id": "97"
+        },
+        {
+            "sector_code": "Households",
+            "postal_code": "Northern-Savonia",
+            "age": "Mature",
+            "id": "98"
+        },
+        {
+            "sector_code": "Households",
+            "postal_code": "Eastern-Finland",
+            "age": "Middle-Age",
+            "id": "102"
+        },
+        {
+            "sector_code": "Households",
+            "postal_code": "Eastern-Finland",
+            "age": "Mature",
+            "id": "103"
+        },
+        {
+            "sector_code": "Households",
+            "postal_code": "Eastern-Finland",
+            "age": "Retired",
+            "id": "104"
+        },
+        {
+            "sector_code": "Households",
+            "postal_code": "Northern-Finland",
+            "age": "Retired",
+            "id": "109"
+        }
+    ],
+    "edges": [
+        {
+            "source": "0",
+            "target": "57",
+            "id": "0"
+        },
+        {
+            "source": "0",
+            "target": "68",
+            "id": "1"
+        },
+        {
+            "source": "1",
+            "target": "98",
+            "id": "2"
+        },
+        {
+            "source": "1",
+            "target": "83",
+            "id": "3"
+        },
+        {
+            "source": "1",
+            "target": "93",
+            "id": "4"
+        },
+        {
+            "source": "4",
+            "target": "104",
+            "id": "5"
+        },
+        {
+            "source": "4",
+            "target": "88",
+            "id": "6"
+        },
+        {
+            "source": "6",
+            "target": "78",
+            "id": "7"
+        },
+        {
+            "source": "7",
+            "target": "83",
+            "id": "8"
+        },
+        {
+            "source": "9",
+            "target": "97",
+            "id": "9"
+        },
+        {
+            "source": "9",
+            "target": "58",
+            "id": "10"
+        },
+        {
+            "source": "22",
+            "target": "33",
+            "id": "11"
+        },
+        {
+            "source": "22",
+            "target": "26",
+            "id": "12"
+        },
+        {
+            "source": "25",
+            "target": "82",
+            "id": "13"
+        },
+        {
+            "source": "25",
+            "target": "102",
+            "id": "14"
+        },
+        {
+            "source": "26",
+            "target": "33",
+            "id": "15"
+        },
+        {
+            "source": "56",
+            "target": "98",
+            "id": "16"
+        },
+        {
+            "source": "58",
+            "target": "98",
+            "id": "17"
+        },
+        {
+            "source": "58",
+            "target": "102",
+            "id": "18"
+        },
+        {
+            "source": "58",
+            "target": "93",
+            "id": "19"
+        },
+        {
+            "source": "58",
+            "target": "62",
+            "id": "20"
+        },
+        {
+            "source": "59",
+            "target": "88",
+            "id": "21"
+        },
+        {
+            "source": "59",
+            "target": "98",
+            "id": "22"
+        },
+        {
+            "source": "63",
+            "target": "97",
+            "id": "23"
+        },
+        {
+            "source": "63",
+            "target": "68",
+            "id": "24"
+        },
+        {
+            "source": "63",
+            "target": "102",
+            "id": "25"
+        },
+        {
+            "source": "63",
+            "target": "74",
+            "id": "26"
+        },
+        {
+            "source": "63",
+            "target": "76",
+            "id": "27"
+        },
+        {
+            "source": "63",
+            "target": "109",
+            "id": "28"
+        },
+        {
+            "source": "63",
+            "target": "83",
+            "id": "29"
+        },
+        {
+            "source": "63",
+            "target": "87",
+            "id": "30"
+        },
+        {
+            "source": "63",
+            "target": "88",
+            "id": "31"
+        },
+        {
+            "source": "63",
+            "target": "93",
+            "id": "32"
+        },
+        {
+            "source": "63",
+            "target": "94",
+            "id": "33"
+        },
+        {
+            "source": "68",
+            "target": "98",
+            "id": "34"
+        },
+        {
+            "source": "68",
+            "target": "72",
+            "id": "35"
+        },
+        {
+            "source": "68",
+            "target": "109",
+            "id": "36"
+        },
+        {
+            "source": "68",
+            "target": "88",
+            "id": "37"
+        },
+        {
+            "source": "68",
+            "target": "93",
+            "id": "38"
+        },
+        {
+            "source": "71",
+            "target": "103",
+            "id": "39"
+        },
+        {
+            "source": "72",
+            "target": "73",
+            "id": "40"
+        },
+        {
+            "source": "72",
+            "target": "93",
+            "id": "41"
+        },
+        {
+            "source": "72",
+            "target": "94",
+            "id": "42"
+        },
+        {
+            "source": "73",
+            "target": "97",
+            "id": "43"
+        },
+        {
+            "source": "73",
+            "target": "78",
+            "id": "44"
+        },
+        {
+            "source": "73",
+            "target": "79",
+            "id": "45"
+        },
+        {
+            "source": "73",
+            "target": "83",
+            "id": "46"
+        },
+        {
+            "source": "73",
+            "target": "88",
+            "id": "47"
+        },
+        {
+            "source": "73",
+            "target": "93",
+            "id": "48"
+        },
+        {
+            "source": "74",
+            "target": "79",
+            "id": "49"
+        },
+        {
+            "source": "78",
+            "target": "98",
+            "id": "50"
+        },
+        {
+            "source": "78",
+            "target": "102",
+            "id": "51"
+        },
+        {
+            "source": "78",
+            "target": "79",
+            "id": "52"
+        },
+        {
+            "source": "78",
+            "target": "88",
+            "id": "53"
+        },
+        {
+            "source": "78",
+            "target": "93",
+            "id": "54"
+        },
+        {
+            "source": "79",
+            "target": "84",
+            "id": "55"
+        },
+        {
+            "source": "83",
+            "target": "88",
+            "id": "56"
+        },
+        {
+            "source": "83",
+            "target": "93",
+            "id": "57"
+        },
+        {
+            "source": "84",
+            "target": "93",
+            "id": "58"
+        },
+        {
+            "source": "88",
+            "target": "93",
+            "id": "59"
+        },
+        {
+            "source": "88",
+            "target": "94",
+            "id": "60"
+        },
+        {
+            "source": "92",
+            "target": "98",
+            "id": "61"
+        },
+        {
+            "source": "93",
+            "target": "97",
+            "id": "62"
+        },
+        {
+            "source": "93",
+            "target": "98",
+            "id": "63"
+        },
+        {
+            "source": "93",
+            "target": "102",
+            "id": "64"
+        },
+        {
+            "source": "98",
+            "target": "109",
+            "id": "65"
+        }
+    ]
+}

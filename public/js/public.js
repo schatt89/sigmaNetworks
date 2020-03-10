@@ -30,8 +30,8 @@ function refreshGraph(name, side) {
         }
     
     },
-        function (s) {
-            console.log(s)
+        function (s, side) {
+            console.log(s, side)
         
 
             s.graph.nodes().forEach(function (node, i, a) {
@@ -51,11 +51,32 @@ function refreshGraph(name, side) {
             var not_attributes = ['id', 'read_cam0:size', 'read_cam0:x', 'read_cam0:y', 'x', 'y', 'cam0:x', 'cam0:y', 'cam0:size', 'originalColor', 'label', 'size']
             for (let i=0; i < attributes.length; i++) {
                 if (!not_attributes.includes(attributes[i])) {
-                    $('#' + side + '_recolor').append(new Option(attributes[i], toString(value)));
+                    $('#recolor').append(new Option(attributes[i], value));
                     value++;
                 }
             }
 
+            var all_options = [];
+            $("#recolor option").each(function () {
+                all_options.push($(this).text())
+            });
+
+            var unique = [...new Set(all_options) ];
+
+            $("#recolor").remove();
+
+            var sel = $('<select id="recolor" onchange="if (this.selectedIndex) recolor(this.selectedIndex,' + side + ');">').appendTo('#color_selection');
+
+            var value = 1;
+            for (let i = 0; i < unique.length; i++) {
+                if (unique[i] == "Default") {
+                    $('#recolor').append(new Option(unique[i], -1));
+                } else {
+                    $('#recolor').append(new Option(unique[i], value));
+                    value++;
+                }
+            }
+            
             s.graph.edges().forEach(function (e) {
                 e.originalColor = e.color;
             });
@@ -121,12 +142,6 @@ function refreshGraph(name, side) {
             dragListener.bind('startdrag', function (event) {
                 s.stopForceAtlas2();
             });
-            dragListener.bind('drag', function (event) {
-                console.log(event);
-            });
-            dragListener.bind('drop', function (event) {
-                console.log(event);
-            });
             dragListener.bind('dragend', function (event) {
                 nodes = atlasObj.supervisor.graph.nodes();
                 for (let j = 0, i = 0, l = atlasObj.supervisor.nodesByteArray.length; i < l; i += atlasObj.supervisor.ppn) {
@@ -136,8 +151,8 @@ function refreshGraph(name, side) {
                     }
                     j++;
                 }
-                s.startForceAtlas2();
-                window.setTimeout(function () { s.stopForceAtlas2(); }, 100);
+                /*s.startForceAtlas2();
+                window.setTimeout(function () { s.stopForceAtlas2(); }, 100);*/
             });
 
         } 
@@ -192,19 +207,6 @@ function select_data(index, side) {
     var x = document.getElementById(side + "_select")
     window.side = side;
     var selection = x.options[index].index;
-
-    var y = document.getElementById(side + "_recolor")
-    var len_options = y.options.length;
-    if (len_options > 1) {
-        $("#" + side + "_recolor").remove();
-        var arr = [{ val: -1, text: 'Default' }];
-
-        var sel = $('<select id="' + side + '_recolor" onchange="if (this.selectedIndex) recolor(this.selectedIndex,' + side + ');">').appendTo("#" + side + '_color_selection');
-        $(arr).each(function () {
-            sel.append($("<option>").attr('value', this.val).text(this.text));
-        });
-    }
-
 
     network_from_selected_data(selection, side);
 }
@@ -317,39 +319,70 @@ $(document).mouseup(function (e) {
 
 //// CLEAR SVG //////
 
+function refresh_color_selection() {
+    var y = document.getElementById("recolor")
+    var len_options = y.options.length;
+    if (len_options > 1) {
+        $("#recolor").remove();
+        var arr = [{ val: -1, text: 'Default' }];
+
+        var sel = $('<select id="recolor" onchange="if (this.selectedIndex) recolor(this.selectedIndex,' + side + ');">').appendTo('#color_selection');
+        $(arr).each(function () {
+            sel.append($("<option>").attr('value', this.val).text(this.text));
+        });
+    }
+}
+
 document.getElementById('left_clear').onclick = function () { 
     sigma.instances(window.left_id).kill();
     left_first_time = true;
+
+    refresh_color_selection();
 }
 
 document.getElementById('right_clear').onclick = function () { 
     sigma.instances(window.right_id).kill();
     right_first_time = true;
+
+    refresh_color_selection();
+
 }
 
 //// RECOLOR THE NODES ////
 
-function recolor(index, side) {
+function recolor(index) {
     var colors = ['#f47835', '#d41243', '#a2b825', '#4deeea', '#306B34', '#FF4B3E', '#ffc03d', '#00aedb', '#B3001B', '#74ee15', '#a200ff', '#5438DC', '#52B788', '#f000ff', '#EE6352', '#56EEF4', '#8E4162', '#9BF3F0', '#251351', '#001eff'];
-    var side_id = side == "left" ? window.left_id : window.right_id;
-    var x = document.getElementById(side + "_recolor");
+    var x = document.getElementById("recolor");
     var selection = x.options[index].text;
 
     var labels = [];
-    sigma.instances(side_id).graph.nodes().forEach(function(n) {
+    var assigned_colors = [];
+    sigma.instances(0).graph.nodes().forEach(function(n) {
         var label = eval("n." + selection);
         if (labels.includes(label)) {
             var color = colors[labels.indexOf(label)];
         } else {
             labels.push(label);
             var color = colors[labels.indexOf(label)];
+            assigned_colors.push(color);
             console.log(label + ": " + color);
         }
         n.color = color;
         n.originalColor = color;
     });
-    sigma.instances(side_id).startForceAtlas2();
-    window.setTimeout(function () { sigma.instances(side_id).stopForceAtlas2(); }, 100);
+
+    sigma.instances(0).startForceAtlas2();
+    window.setTimeout(function () { sigma.instances(0).stopForceAtlas2(); }, 100);
+
+    sigma.instances(1).graph.nodes().forEach(function (n) {
+        var label = eval("n." + selection);
+        var color = assigned_colors[labels.indexOf(label)];
+        n.color = color;
+        n.originalColor = color;
+    })
+
+    sigma.instances(1).startForceAtlas2();
+    window.setTimeout(function () { sigma.instances(1).stopForceAtlas2(); }, 100);
 
 }
 
