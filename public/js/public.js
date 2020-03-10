@@ -80,6 +80,7 @@ function refreshGraph(name, side) {
             s.graph.edges().forEach(function (e) {
                 e.originalColor = e.color;
             });
+            /*
             s.bind('clickNode', function (e) {
                 console.log(e.data.node.color);
                 var nodeId = e.data.node.id,
@@ -106,11 +107,10 @@ function refreshGraph(name, side) {
 
                 s.refresh();
             });
-
+            
             s.bind('clickStage', function (e) {
                 s.graph.nodes().forEach(function (n) {
                     n.color = n.originalColor;
-                    console.log(n.originalColor);
                 });
 
                 s.graph.edges().forEach(function (e) {
@@ -120,7 +120,7 @@ function refreshGraph(name, side) {
                 // Same as in the previous event:
                 s.refresh();
             });
-
+            */
             atlasObj = s.startForceAtlas2({
                 linLogMode: true,
                 outboundAttractionDistribution: false,
@@ -441,20 +441,49 @@ document.getElementById('common_structure').onclick = function () {
 
         sigma.instances(window.left_id).graph.edges().forEach(e => {
             if (!nodes_intersection.includes(e.source) || !nodes_intersection.includes(e.target) || !e.intersection == true) {
-                e.color = '#eee';
+                sigma.instances(window.left_id).graph.dropEdge(e.id);
             }
         });
 
 
         sigma.instances(window.right_id).graph.edges().forEach(e => {
             if (!nodes_intersection.includes(e.source) || !nodes_intersection.includes(e.target) || !e.intersection == true) {
-                e.color = '#eee';
+                sigma.instances(window.right_id).graph.dropEdge(e.id);
             }
         });
         sigma.instances(window.left_id).startForceAtlas2();
         sigma.instances(window.right_id).startForceAtlas2();
-        window.setTimeout(function () { sigma.instances(window.left_id).stopForceAtlas2(); }, 100);
-        window.setTimeout(function () { sigma.instances(window.right_id).stopForceAtlas2(); }, 100);
+        window.setTimeout(function () { sigma.instances(window.left_id).stopForceAtlas2(); }, 1000);
+        window.setTimeout(function () { sigma.instances(window.right_id).stopForceAtlas2(); }, 1000);
+
+
+
+
+        var x = [];
+        var y = [];
+        var ids = [];
+        sigma.instances(window.right_id).graph.nodes().forEach(function(n) {
+            console.log('left network coordinates');
+            console.log(n.x, n.y);
+            if (nodes_intersection.includes(n.id)) {
+                x.push(n.x);
+                y.push(n.y);
+                ids.push(n.id);
+            }
+        })
+        sigma.instances(window.right_id).graph.nodes().forEach(function (n) {
+            console.log('right network coordinates');
+            if(nodes_intersection.includes(n.id)) {
+                n.x = x[ids.indexOf(n.id)];
+                n.y = y[ids.indexOf(n.id)];
+            } else {
+                n.x = 0;
+                n.y = 0;
+            }
+            console.log(n.x, n.y);
+        })
+
+
     }
 
 }
