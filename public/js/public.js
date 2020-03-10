@@ -26,7 +26,9 @@ function refreshGraph(name, side) {
         settings: {
             minNodeSize: 4,
             maxNodeSize: 12,
-            defaultNodeColor: '#264249' 
+            defaultNodeColor: '#264249', 
+            edgeColor: 'default',
+            defaultEdgeColor: '#264249'
         }
     
     },
@@ -320,6 +322,7 @@ $(document).mouseup(function (e) {
 //// CLEAR SVG //////
 
 function refresh_color_selection() {
+    $('.color_label').remove();
     var y = document.getElementById("recolor")
     var len_options = y.options.length;
     if (len_options > 1) {
@@ -351,7 +354,9 @@ document.getElementById('right_clear').onclick = function () {
 //// RECOLOR THE NODES ////
 
 function recolor(index) {
-    var colors = ['#f47835', '#d41243', '#a2b825', '#4deeea', '#306B34', '#FF4B3E', '#ffc03d', '#00aedb', '#B3001B', '#74ee15', '#a200ff', '#5438DC', '#52B788', '#f000ff', '#EE6352', '#56EEF4', '#8E4162', '#9BF3F0', '#251351', '#001eff'];
+    $('.color_label').remove();
+
+    var colors = ['#d41243', '#a2b825', '#4deeea', '#306B34', '#ffc03d', '#00aedb', '#B3001B', '#74ee15', '#a200ff', '#5438DC', '#52B788', '#f000ff', '#EE6352', '#56EEF4', '#8E4162', '#9BF3F0', '#251351', '#001eff', '#f47835', '#FF4B3E'];
     var x = document.getElementById("recolor");
     var selection = x.options[index].text;
 
@@ -382,7 +387,13 @@ function recolor(index) {
     })
 
     sigma.instances(1).startForceAtlas2();
-    window.setTimeout(function () { sigma.instances(1).stopForceAtlas2(); }, 100);
+    window.setTimeout(function () { sigma.instances(1).stopForceAtlas2(); }, 1);
+
+    for(let i=0; i<labels.length; i++) {
+        $('#color_selection').append('<div class="color_label" style="background-color:' + assigned_colors[i] + ';margin:4px" id="' + labels[i] + '">' + labels[i] + '</div>')
+    }
+
+
 
 }
 
@@ -441,6 +452,7 @@ document.getElementById('common_structure').onclick = function () {
 
         sigma.instances(window.left_id).graph.edges().forEach(e => {
             if (!nodes_intersection.includes(e.source) || !nodes_intersection.includes(e.target) || !e.intersection == true) {
+                //e.hidden = true;
                 sigma.instances(window.left_id).graph.dropEdge(e.id);
             }
         });
@@ -448,13 +460,14 @@ document.getElementById('common_structure').onclick = function () {
 
         sigma.instances(window.right_id).graph.edges().forEach(e => {
             if (!nodes_intersection.includes(e.source) || !nodes_intersection.includes(e.target) || !e.intersection == true) {
+                //e.hidden = true;
                 sigma.instances(window.right_id).graph.dropEdge(e.id);
             }
         });
         sigma.instances(window.left_id).startForceAtlas2();
         sigma.instances(window.right_id).startForceAtlas2();
-        window.setTimeout(function () { sigma.instances(window.left_id).stopForceAtlas2(); }, 1000);
-        window.setTimeout(function () { sigma.instances(window.right_id).stopForceAtlas2(); }, 1000);
+        window.setTimeout(function () { sigma.instances(window.left_id).stopForceAtlas2(); }, 100);
+        window.setTimeout(function () { sigma.instances(window.right_id).stopForceAtlas2(); }, 100);
 
 
 

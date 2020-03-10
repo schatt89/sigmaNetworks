@@ -24,6 +24,7 @@ body {
     background-color: #aaa;
     border-radius: 3px;
     margin: 2px 0px 0px 2px;
+    overflow: scroll;
 }
 .structure div {
     border-style: dashed;
@@ -36,6 +37,11 @@ body {
     margin: 2px;
     background-color: #aaa;
     flex: 1;
+}
+
+.structure .selection {
+    max-height: 300px;
+    overflow: scroll;
 }
 
 .structure div .label { margin-right: .5em; font-size: 120%; font-weight: bold; display: inline-block; }
