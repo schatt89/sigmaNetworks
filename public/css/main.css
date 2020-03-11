@@ -58,7 +58,7 @@ a[download]:focus {
 }
 
 .structure .selection {
-    max-height: 300px;
+    max-height: 230px;
     overflow: scroll;
 }
 

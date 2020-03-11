@@ -107,3 +107,5 @@ dist
 public/.DS_Store
 
 public/js/try.js
+
+transform_data/.ipynb_checkpoints/

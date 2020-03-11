@@ -99,6 +99,9 @@ function refreshGraph(name, side, json, graph) {
 
                 $("#recolor").remove();
 
+                var sel = $('<select id="recolor" onchange="if (this.selectedIndex) recolor(this.selectedIndex,' + side + ');">').appendTo('#color_selection');
+
+
                 var value = 1;
                 for (let i = 0; i < unique.length; i++) {
                     if (unique[i] == "Default") {
@@ -227,6 +230,9 @@ function refreshGraph(name, side, json, graph) {
 
         $("#recolor").remove();
 
+        var sel = $('<select id="recolor" onchange="if (this.selectedIndex) recolor(this.selectedIndex,' + side + ');">').appendTo('#color_selection');
+
+
         var value = 1;
         for (let i = 0; i < unique.length; i++) {
             if (unique[i] == "Default") {
@@ -340,10 +346,16 @@ document.getElementById('left_import').onclick = function () {
         console.log(d);
 
         //// add building network with sigma here ////
-        if (!typeof sigma.instances(window.left_id) == "undefined") {
+
+        if (left_first_time) {
+            left_first_time = false;
+            console.log("left first time drawing");
+        } else if (typeof sigma.instances(window.left_id) !== 'undefined') {
             sigma.instances(window.left_id).kill();
         }
-        
+
+        window.left_id = sigma.instances(0) ? 1 : 0;
+
         refreshGraph(name = "none", side = "left", json = "from_upload", graph = d.data);
     }
 
@@ -374,9 +386,15 @@ document.getElementById('right_import').onclick = function () {
         const d = await response.json();
 
         //// add building network with sigma here ////
-        if (!typeof sigma.instances(window.right_id) == "undefined") {
+
+        if (right_first_time) {
+            right_first_time = false;
+            console.log("right first time drawing");
+        } else if (typeof sigma.instances(window.right_id) !== 'undefined') {
             sigma.instances(window.right_id).kill();
         }
+
+        window.right_id = sigma.instances(0) ? 1 : 0;
 
         refreshGraph(name = "none", side = "right", json = "from_upload", graph = d.data);
 
