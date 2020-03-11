@@ -1,0 +1,61 @@
+{   
+    "_comment": "The .json must have 'nodes':[] and 'edges':[] parts. Each node and each edge should have a unique 'id'. Nodes and edges may include any number of attributes",
+    "nodes": [
+        {
+            "sector_code": "Households",
+            "postal_code": "Eastern-Finland",
+            "age": "Retired",
+            "id": "0"
+        },
+        {
+            "sector_code": "Households",
+            "postal_code": "Northern-Finland",
+            "age": "Middle-Age",
+            "id": "1"
+        },
+        {
+            "sector_code": "Households",
+            "postal_code": "Northern-Finland",
+            "age": "Mature",
+            "id": "2"
+        },
+        {
+            "sector_code": "Households",
+            "postal_code": "Northern-Finland",
+            "age": "Retired",
+            "id": "3"
+        }
+    ],
+    "edges": [
+        {
+            "source": "0",
+            "target": "3",
+            "id": "0",
+            "neighbors": "0"
+        },
+        {
+            "source": "3",
+            "target": "2",
+            "id": "1",
+            "neighbors": "1"
+        },
+        {
+            "source": "2",
+            "target": "0",
+            "id": "2",
+            "neighbors":"0"
+        },
+        {
+            "source": "1",
+            "target": "2",
+            "id": "3",
+            "neighbors":"1"
+        },
+        {
+            "source": "1",
+            "target": "3",
+            "id": "4",
+            "neighbors":"1"
+        }
+    ]
+}
