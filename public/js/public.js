@@ -3,7 +3,7 @@ var left_first_time = true;
 var right_first_time = true;
 
 
-
+/*
 sigma.classes.graph.addMethod('neighbors', function (nodeId) {
     var k,
         neighbors = {},
@@ -14,163 +14,251 @@ sigma.classes.graph.addMethod('neighbors', function (nodeId) {
 
     return neighbors;
 });
+*/
 
-function refreshGraph(name, side) {
 
-    sigma.parsers.json(name, {
-        container: side + "_svg",
-        render: {
-            container: document.getElementById(side + "_svg"),
-            type: 'canvas'
+function refreshGraph(name, side, json, graph) {
+    var settings = {
+                minNodeSize: 4,
+                maxNodeSize: 12,
+                defaultNodeColor: '#264249',
+                edgeColor: 'default',
+                defaultEdgeColor: '#264249',
+                borderSize: 2,
+                defaultNodeBorderColor: '#000',
+                drawLabels: false
+            };
+
+    var atlas_settings = {
+        linLogMode: true,
+        outboundAttractionDistribution: false,
+        adjustSizes: false,
+        edgeWeightInfluence: 0,
+        scalingRatio: 0.7,
+        strongGravityMode: false,
+        gravity: 3,
+        barnesHutOptimize: false,
+        barnesHutTheta: 0.5,
+        slowDown: 5,
+        startingIterations: 20,
+        iterationsPerRender: 1,
+        worker: true
+    };
+
+    var not_attributes = ['id', 'read_cam0:size', 'read_cam0:x', 'read_cam0:y', 'x', 'y', 'cam0:x', 'cam0:y', 'cam0:size', 'originalColor', 'label', 'size'];
+
+    if (json == "from_file") {
+        sigma.parsers.json(name, {
+            container: side + "_svg",
+            render: {
+                container: document.getElementById(side + "_svg"),
+                type: 'canvas'
+            },
+            settings: settings
+
         },
-        settings: {
-            minNodeSize: 4,
-            maxNodeSize: 12,
-            defaultNodeColor: '#264249',
-            edgeColor: 'default',
-            defaultEdgeColor: '#264249',
-            borderSize: 2,
-            defaultNodeBorderColor: '#000',
-            drawLabels: false
-        }
+            function (s) {
 
-    },
-        function (s, side) {
-            console.log(s, side)
-
-            var attributes = Object.keys(s.graph.nodes()[0]);
-            var not_attributes = ['id', 'read_cam0:size', 'read_cam0:x', 'read_cam0:y', 'x', 'y', 'cam0:x', 'cam0:y', 'cam0:size', 'originalColor', 'label', 'size'];
-            attributes_to_label = [];
-            for (let i = 0; i < attributes.length; i++) {
-                if (!not_attributes.includes(attributes[i])) {
-                    attributes_to_label.push(attributes[i])
+                var attributes = Object.keys(s.graph.nodes()[0]);
+                attributes_to_label = [];
+                for (let i = 0; i < attributes.length; i++) {
+                    if (!not_attributes.includes(attributes[i])) {
+                        attributes_to_label.push(attributes[i])
+                    }
                 }
-            }
 
-            s.graph.nodes().forEach(function (node, i, a) {
-                node.x = Math.cos(Math.PI * 2 * i / a.length);
-                node.y = Math.sin(Math.PI * 2 * i / a.length);
-                node.label = node.label ? node.label : 'Node ' + node.id;
-                for (let i = 0; i < attributes_to_label.length; i++) { 
-                    node.label += " // " + eval("node." + attributes_to_label[i])
-                }
-            });
+                s.graph.nodes().forEach(function (node, i, a) {
+                    node.x = Math.cos(Math.PI * 2 * i / a.length);
+                    node.y = Math.sin(Math.PI * 2 * i / a.length);
+                    node.label = node.label ? node.label : 'Node ' + node.id;
+                    for (let i = 0; i < attributes_to_label.length; i++) {
+                        node.label += " // " + eval("node." + attributes_to_label[i])
+                    }
+                });
 
-            sigma.plugins.relativeSize(s, 2);
-            s.graph.nodes().forEach(function (n) {
-                n.originalColor = n.color;
-                console.log(n);
-            });
-
-            var value = 1;
-            for (let i = 0; i < attributes.length; i++) {
-                if (!not_attributes.includes(attributes[i])) {
-                    $('#recolor').append(new Option(attributes[i], value));
-                    value++;
-                }
-            }
-
-            var all_options = [];
-            $("#recolor option").each(function () {
-                all_options.push($(this).text())
-            });
-
-            var unique = [...new Set(all_options)];
-
-            $("#recolor").remove();
-
-            var sel = $('<select id="recolor" onchange="if (this.selectedIndex) recolor(this.selectedIndex,' + side + ');">').appendTo('#color_selection');
-
-            var value = 1;
-            for (let i = 0; i < unique.length; i++) {
-                if (unique[i] == "Default") {
-                    $('#recolor').append(new Option(unique[i], -1));
-                } else {
-                    $('#recolor').append(new Option(unique[i], value));
-                    value++;
-                }
-            }
-
-            s.graph.edges().forEach(function (e) {
-                e.originalColor = e.color;
-            });
-            /*
-            s.bind('clickNode', function (e) {
-                console.log(e.data.node.color);
-                var nodeId = e.data.node.id,
-                    toKeep = s.graph.neighbors(nodeId);
-                toKeep[nodeId] = e.data.node;
-
+                sigma.plugins.relativeSize(s, 2);
                 s.graph.nodes().forEach(function (n) {
-                    if (toKeep[n.id]) {
+                    n.originalColor = n.color;
+                    console.log(n);
+                });
+
+                var value = 1;
+                for (let i = 0; i < attributes.length; i++) {
+                    if (!not_attributes.includes(attributes[i])) {
+                        $('#recolor').append(new Option(attributes[i], value));
+                        value++;
+                    }
+                }
+
+                var all_options = [];
+                $("#recolor option").each(function () {
+                    all_options.push($(this).text())
+                });
+
+                var unique = [...new Set(all_options)];
+
+                $("#recolor").remove();
+
+                var value = 1;
+                for (let i = 0; i < unique.length; i++) {
+                    if (unique[i] == "Default") {
+                        $('#recolor').append(new Option(unique[i], -1));
+                    } else {
+                        $('#recolor').append(new Option(unique[i], value));
+                        value++;
+                    }
+                }
+
+                s.graph.edges().forEach(function (e) {
+                    e.originalColor = e.color;
+                });
+                /*
+                s.bind('clickNode', function (e) {
+                    console.log(e.data.node.color);
+                    var nodeId = e.data.node.id,
+                        toKeep = s.graph.neighbors(nodeId);
+                    toKeep[nodeId] = e.data.node;
+    
+                    s.graph.nodes().forEach(function (n) {
+                        if (toKeep[n.id]) {
+                            n.color = n.originalColor;
+                        }
+                        else {
+                            n.color = '#eee';
+                        }
+                    });
+    
+                    s.graph.edges().forEach(function (e) {
+                        if (toKeep[e.source] && toKeep[e.target]) {
+                            e.color = e.originalColor;
+                        }
+                        else {
+                            e.color = '#eee';
+                        }
+                    });
+    
+                    s.refresh();
+                });
+                
+                s.bind('clickStage', function (e) {
+                    s.graph.nodes().forEach(function (n) {
                         n.color = n.originalColor;
-                    }
-                    else {
-                        n.color = '#eee';
-                    }
-                });
-
-                s.graph.edges().forEach(function (e) {
-                    if (toKeep[e.source] && toKeep[e.target]) {
+                    });
+    
+                    s.graph.edges().forEach(function (e) {
                         e.color = e.originalColor;
+                    });
+    
+                    // Same as in the previous event:
+                    s.refresh();
+                });
+                */
+                atlasObj = s.startForceAtlas2(atlas_settings);
+                window.setTimeout(function () { s.stopForceAtlas2(); }, 5000);
+                var dragListener = sigma.plugins.dragNodes(s, s.renderers[0]);
+
+                dragListener.bind('startdrag', function (event) {
+                    s.stopForceAtlas2();
+                });
+                dragListener.bind('dragend', function (event) {
+                    nodes = atlasObj.supervisor.graph.nodes();
+                    for (let j = 0, i = 0, l = atlasObj.supervisor.nodesByteArray.length; i < l; i += atlasObj.supervisor.ppn) {
+                        if (nodes[j] === event.data.node) {
+                            atlasObj.supervisor.nodesByteArray[i] = event.data.node.x;
+                            atlasObj.supervisor.nodesByteArray[i + 1] = event.data.node.y;
+                        }
+                        j++;
                     }
-                    else {
-                        e.color = '#eee';
-                    }
+                    /*s.startForceAtlas2();
+                    window.setTimeout(function () { s.stopForceAtlas2(); }, 100);*/
                 });
 
-                s.refresh();
-            });
-            
-            s.bind('clickStage', function (e) {
-                s.graph.nodes().forEach(function (n) {
-                    n.color = n.originalColor;
-                });
+            }
+        );
 
-                s.graph.edges().forEach(function (e) {
-                    e.color = e.originalColor;
-                });
+    } else if (json == "from_upload") {
+        s = new sigma({
+            graph: graph,
+            container: side + "_svg",
+            render: {
+                container: document.getElementById(side + "_svg"),
+                type: 'canvas'
+            },
+            settings: settings
+        });
 
-                // Same as in the previous event:
-                s.refresh();
-            });
-            */
-            atlasObj = s.startForceAtlas2({
-                linLogMode: true,
-                outboundAttractionDistribution: false,
-                adjustSizes: false,
-                edgeWeightInfluence: 0,
-                scalingRatio: 0.7,
-                strongGravityMode: false,
-                gravity: 3,
-                barnesHutOptimize: false,
-                barnesHutTheta: 0.5,
-                slowDown: 5,
-                startingIterations: 20,
-                iterationsPerRender: 1,
-                worker: true
-            });
-            window.setTimeout(function () { s.stopForceAtlas2(); }, 5000);
-            var dragListener = sigma.plugins.dragNodes(s, s.renderers[0]);
-
-            dragListener.bind('startdrag', function (event) {
-                s.stopForceAtlas2();
-            });
-            dragListener.bind('dragend', function (event) {
-                nodes = atlasObj.supervisor.graph.nodes();
-                for (let j = 0, i = 0, l = atlasObj.supervisor.nodesByteArray.length; i < l; i += atlasObj.supervisor.ppn) {
-                    if (nodes[j] === event.data.node) {
-                        atlasObj.supervisor.nodesByteArray[i] = event.data.node.x;
-                        atlasObj.supervisor.nodesByteArray[i + 1] = event.data.node.y;
-                    }
-                    j++;
-                }
-                /*s.startForceAtlas2();
-                window.setTimeout(function () { s.stopForceAtlas2(); }, 100);*/
-            });
-
+        var attributes = Object.keys(s.graph.nodes()[0]);
+        attributes_to_label = [];
+        for (let i = 0; i < attributes.length; i++) {
+            if (!not_attributes.includes(attributes[i])) {
+                attributes_to_label.push(attributes[i])
+            }
         }
-    );
+
+        s.graph.nodes().forEach(function (node, i, a) {
+            node.x = Math.cos(Math.PI * 2 * i / a.length);
+            node.y = Math.sin(Math.PI * 2 * i / a.length);
+            node.label = node.label ? node.label : 'Node ' + node.id;
+            for (let i = 0; i < attributes_to_label.length; i++) {
+                node.label += " // " + eval("node." + attributes_to_label[i])
+            }
+        });
+
+        sigma.plugins.relativeSize(s, 2);
+        s.graph.nodes().forEach(function (n) {
+            n.originalColor = n.color;
+            console.log(n);
+        });
+
+        var value = 1;
+        for (let i = 0; i < attributes.length; i++) {
+            if (!not_attributes.includes(attributes[i])) {
+                $('#recolor').append(new Option(attributes[i], value));
+                value++;
+            }
+        }
+
+        var all_options = [];
+        $("#recolor option").each(function () {
+            all_options.push($(this).text())
+        });
+
+        var unique = [...new Set(all_options)];
+
+        $("#recolor").remove();
+
+        var value = 1;
+        for (let i = 0; i < unique.length; i++) {
+            if (unique[i] == "Default") {
+                $('#recolor').append(new Option(unique[i], -1));
+            } else {
+                $('#recolor').append(new Option(unique[i], value));
+                value++;
+            }
+        }
+
+        s.graph.edges().forEach(function (e) {
+            e.originalColor = e.color;
+        });
+
+        atlasObj = s.startForceAtlas2(atlas_settings);
+        window.setTimeout(function () { s.stopForceAtlas2(); }, 5000);
+        var dragListener = sigma.plugins.dragNodes(s, s.renderers[0]);
+
+        dragListener.bind('startdrag', function (event) {
+            s.stopForceAtlas2();
+        });
+        dragListener.bind('dragend', function (event) {
+            nodes = atlasObj.supervisor.graph.nodes();
+            for (let j = 0, i = 0, l = atlasObj.supervisor.nodesByteArray.length; i < l; i += atlasObj.supervisor.ppn) {
+                if (nodes[j] === event.data.node) {
+                    atlasObj.supervisor.nodesByteArray[i] = event.data.node.x;
+                    atlasObj.supervisor.nodesByteArray[i + 1] = event.data.node.y;
+                }
+                j++;
+            }
+        });
+    }
 }
 
 
@@ -211,7 +299,7 @@ function network_from_selected_data(sel, side) {
         window.right_id = sigma.instances(0) ? 1 : 0;
     }
 
-    refreshGraph(name, side);
+    refreshGraph(name, side, json = "from_file", graph = "none");
 }
 
 
@@ -252,9 +340,11 @@ document.getElementById('left_import').onclick = function () {
         console.log(d);
 
         //// add building network with sigma here ////
-        sigma.instances(window.left_id).kill();
-
-
+        if (!typeof sigma.instances(window.left_id) == "undefined") {
+            sigma.instances(window.left_id).kill();
+        }
+        
+        refreshGraph(name = "none", side = "left", json = "from_upload", graph = d.data);
     }
 
     fr.readAsText(files.item(0));
@@ -284,7 +374,11 @@ document.getElementById('right_import').onclick = function () {
         const d = await response.json();
 
         //// add building network with sigma here ////
-        sigma.instances(window.right_id).kill();
+        if (!typeof sigma.instances(window.right_id) == "undefined") {
+            sigma.instances(window.right_id).kill();
+        }
+
+        refreshGraph(name = "none", side = "right", json = "from_upload", graph = d.data);
 
     }
 
