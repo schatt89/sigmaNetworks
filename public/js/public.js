@@ -99,7 +99,7 @@ function refreshGraph(name, side, json, graph) {
 
                 $("#recolor").remove();
 
-                var sel = $('<select id="recolor" onchange="if (this.selectedIndex) recolor(this.selectedIndex,' + side + ');">').appendTo('#color_selection');
+                $('<select id="recolor" onchange="if (this.selectedIndex) recolor(this.selectedIndex,' + side + ');">').appendTo('#color_selection');
 
 
                 var value = 1;
@@ -327,6 +327,8 @@ document.getElementById('left_import').onclick = function () {
     console.log(files);
     if (files.length <= 0) {
         return false;
+    } else {
+        $("#left_filename").text(files[0].name);
     }
 
     var fr = new FileReader();
@@ -368,6 +370,8 @@ document.getElementById('right_import').onclick = function () {
     console.log(files);
     if (files.length <= 0) {
         return false;
+    } else {
+        $("#right_filename").text(files[0].name);
     }
 
     var fr = new FileReader();
@@ -448,29 +452,30 @@ $(document).mouseup(function (e) {
 
 $("#statistics").click(function () {
 
-    var n1 = sigma.instances(window.left_id).graph.nodes().length;
-    var e1 = sigma.instances(window.left_id).graph.edges().length;
+    if (typeof sigma.instances(window.left_id) !== "undefined") {
+        var n1 = sigma.instances(window.left_id).graph.nodes().length;
+        var e1 = sigma.instances(window.left_id).graph.edges().length;
+        var d1 = e1 * 2 / (n1 * (n1 - 1));
+        $('#left_node_count').text("Nodes: " + n1);
+        $('#left_edge_count').text("Edges: " + e1);
+        $('#left_density').text("Density: " + (d1).toFixed(3));
+    } 
 
-    var n2 = sigma.instances(window.right_id).graph.nodes().length;
-    var e2 = sigma.instances(window.right_id).graph.edges().length;
+    if (typeof sigma.instances(window.right_id) !== "undefined") {
+        var n2 = sigma.instances(window.right_id).graph.nodes().length;
+        var e2 = sigma.instances(window.right_id).graph.edges().length;
+        var d2 = e2 * 2 / (n2 * (n2 - 1));
+        $('#right_node_count').text("Nodes: " + n2);
+        $('#right_edge_count').text("Edges: " + e2);
+        $('#right_density').text("Density: " + (d2).toFixed(3));
+    }
+    if (typeof sigma.instances(window.left_id) !== "undefined" && typeof sigma.instances(window.right_id) !== "undefined") {
+        var result = find_common_structure();
+        $('#common_nodes').text("Common nodes: " + result[0].length);
+        $('#common_edges').text("Common edges: " + result[1].length);
+        $('#similarity_coef').text("Jaccard index: " + (result[1].length / ((e1 + e2) - result[1].length)).toFixed(3));
 
-    var d1 = e1 * 2 / (n1 * (n1 - 1));
-    var d2 = e2 * 2 / (n2 * (n2 - 1));
-
-    $('#left_node_count').text("Nodes: " + n1);
-    $('#left_edge_count').text("Edges: " + e1);
-
-    $('#right_node_count').text("Nodes: " + n2);
-    $('#right_edge_count').text("Edges: " + e2);
-
-    $('#left_density').text("Density: " + (d1).toFixed(3));
-    $('#right_density').text("Density: " + (d2).toFixed(3));
-
-    var result = find_common_structure();
-
-    $('#common_nodes').text("Common nodes: " + result[0].length);
-    $('#common_edges').text("Common edges: " + result[1].length);
-    $('#similarity_coef').text("Jaccard index: " + (result[1].length/((e1 + e2)-result[1].length)).toFixed(3));
+    }
 
 }
 )
