@@ -341,6 +341,13 @@ $("#statistics").click(function () {
 
     $('#left_density').text("Density: " + (d1).toFixed(3));
     $('#right_density').text("Density: " + (d2).toFixed(3));
+
+    var result = find_common_structure();
+
+    $('#common_nodes').text("Common nodes: " + result[0].length);
+    $('#common_edges').text("Common edges: " + result[1].length);
+    $('#similarity_coef').text("Jaccard index: " + (result[1].length/((e1 + e2)-result[1].length)).toFixed(3));
+
 }
 )
 
@@ -388,7 +395,7 @@ function recolor(index) {
 
     var labels = [];
     var assigned_colors = [];
-    sigma.instances(0).graph.nodes().forEach(function (n) {
+    sigma.instances(0).graph.nodes().forEach( n => {
         var label = eval("n." + selection);
         if (labels.includes(label)) {
             var color = colors[labels.indexOf(label)];
@@ -405,7 +412,7 @@ function recolor(index) {
     sigma.instances(0).startForceAtlas2();
     window.setTimeout(function () { sigma.instances(0).stopForceAtlas2(); }, 100);
 
-    sigma.instances(1).graph.nodes().forEach(function (n) {
+    sigma.instances(1).graph.nodes().forEach( n => {
         var label = eval("n." + selection);
         var color = assigned_colors[labels.indexOf(label)];
         n.color = color;
@@ -425,42 +432,30 @@ function recolor(index) {
 
 //////////// COMMON STRUCTURE HIGHLIGHT ////////////////
 
-document.getElementById('common_structure').onclick = function () {
+function find_common_structure() {
     var left_sigma = sigma.instances(window.left_id);
     var right_sigma = sigma.instances(window.right_id);
 
     if (typeof left_sigma === 'undefined' || typeof right_sigma === 'undefined') {
         alert("Both networks should be visualized")
     } else {
-        console.log(left_sigma.graph.nodes());
-        console.log(right_sigma.graph.nodes());
+        //// node intersection ////
         var left_nodes = [];
-        left_sigma.graph.nodes().forEach(function (n) {
+        left_sigma.graph.nodes().forEach(n => {
             left_nodes.push(n.id);
         })
         var right_nodes = [];
-        right_sigma.graph.nodes().forEach(function (n) {
+        right_sigma.graph.nodes().forEach(n => {
             right_nodes.push(n.id);
         })
-        console.log(left_nodes);
-        console.log(right_nodes);
 
         var nodes_intersection = left_nodes.filter(value => right_nodes.includes(value));
 
-        console.log(nodes_intersection);
-
-        sigma.instances(window.left_id).graph.nodes().forEach(n => {
-            !nodes_intersection.includes(n.id) ? n.color = '#eee' : n.originalColor = n.originalColor;
-        })
-        sigma.instances(window.right_id).graph.nodes().forEach(n => {
-            !nodes_intersection.includes(n.id) ? n.color = '#eee' : n.originalColor = n.originalColor;
-        })
-
+        //// edge intersection ////
 
         var edges_intersection = [];
 
         sigma.instances(window.right_id).graph.edges().forEach(e1 => {
-            console.log(e1.target, e1.source);
             sigma.instances(window.left_id).graph.edges().forEach(e2 => {
                 if (e1.source == e2.source && e1.target == e2.target) {
                     edges_intersection.push([e1.source, e1.target]);
@@ -473,6 +468,30 @@ document.getElementById('common_structure').onclick = function () {
                 }
             });
         });
+        return [nodes_intersection, edges_intersection];
+    }
+}
+
+
+document.getElementById('common_structure').onclick = function () {
+    var left_sigma = sigma.instances(window.left_id);
+    var right_sigma = sigma.instances(window.right_id);
+
+    if (typeof left_sigma === 'undefined' || typeof right_sigma === 'undefined') {
+        alert("Both networks should be visualized")
+    } else {
+        var result = find_common_structure();
+        var nodes_intersection = result[0];
+        var edges_intersection = result[1];
+
+        console.log(nodes_intersection);
+
+        sigma.instances(window.left_id).graph.nodes().forEach(n => {
+            !nodes_intersection.includes(n.id) ? n.color = '#eee' : n.originalColor = n.originalColor;
+        })
+        sigma.instances(window.right_id).graph.nodes().forEach(n => {
+            !nodes_intersection.includes(n.id) ? n.color = '#eee' : n.originalColor = n.originalColor;
+        })
 
         console.log(edges_intersection);
 
@@ -495,23 +514,17 @@ document.getElementById('common_structure').onclick = function () {
         window.setTimeout(function () { sigma.instances(window.left_id).stopForceAtlas2(); }, 100);
         window.setTimeout(function () { sigma.instances(window.right_id).stopForceAtlas2(); }, 100);
 
-
-
-
         var x = [];
         var y = [];
         var ids = [];
-        sigma.instances(window.right_id).graph.nodes().forEach(function (n) {
-            console.log('left network coordinates');
-            console.log(n.x, n.y);
+        sigma.instances(window.right_id).graph.nodes().forEach( n => {
             if (nodes_intersection.includes(n.id)) {
                 x.push(n.x);
                 y.push(n.y);
                 ids.push(n.id);
             }
         })
-        sigma.instances(window.right_id).graph.nodes().forEach(function (n) {
-            console.log('right network coordinates');
+        sigma.instances(window.right_id).graph.nodes().forEach( n => {
             if (nodes_intersection.includes(n.id)) {
                 n.x = x[ids.indexOf(n.id)];
                 n.y = y[ids.indexOf(n.id)];
@@ -519,7 +532,6 @@ document.getElementById('common_structure').onclick = function () {
                 n.x = 0;
                 n.y = 0;
             }
-            console.log(n.x, n.y);
         })
 
 
