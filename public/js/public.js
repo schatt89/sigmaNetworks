@@ -28,18 +28,32 @@ function refreshGraph(name, side) {
             maxNodeSize: 12,
             defaultNodeColor: '#264249',
             edgeColor: 'default',
-            defaultEdgeColor: '#264249'
+            defaultEdgeColor: '#264249',
+            borderSize: 2,
+            defaultNodeBorderColor: '#000',
+            drawLabels: false
         }
 
     },
         function (s, side) {
             console.log(s, side)
 
+            var attributes = Object.keys(s.graph.nodes()[0]);
+            var not_attributes = ['id', 'read_cam0:size', 'read_cam0:x', 'read_cam0:y', 'x', 'y', 'cam0:x', 'cam0:y', 'cam0:size', 'originalColor', 'label', 'size'];
+            attributes_to_label = [];
+            for (let i = 0; i < attributes.length; i++) {
+                if (!not_attributes.includes(attributes[i])) {
+                    attributes_to_label.push(attributes[i])
+                }
+            }
 
             s.graph.nodes().forEach(function (node, i, a) {
                 node.x = Math.cos(Math.PI * 2 * i / a.length);
                 node.y = Math.sin(Math.PI * 2 * i / a.length);
-                node.label = node.label ? node.label : 'Node' + node.id;
+                node.label = node.label ? node.label : 'Node ' + node.id;
+                for (let i = 0; i < attributes_to_label.length; i++) { 
+                    node.label += " // " + eval("node." + attributes_to_label[i])
+                }
             });
 
             sigma.plugins.relativeSize(s, 2);
@@ -48,9 +62,7 @@ function refreshGraph(name, side) {
                 console.log(n);
             });
 
-            var attributes = Object.keys(s.graph.nodes()[0]);
             var value = 1;
-            var not_attributes = ['id', 'read_cam0:size', 'read_cam0:x', 'read_cam0:y', 'x', 'y', 'cam0:x', 'cam0:y', 'cam0:size', 'originalColor', 'label', 'size']
             for (let i = 0; i < attributes.length; i++) {
                 if (!not_attributes.includes(attributes[i])) {
                     $('#recolor').append(new Option(attributes[i], value));
@@ -128,13 +140,13 @@ function refreshGraph(name, side) {
                 outboundAttractionDistribution: false,
                 adjustSizes: false,
                 edgeWeightInfluence: 0,
-                scalingRatio: 0.5,
+                scalingRatio: 0.7,
                 strongGravityMode: false,
                 gravity: 3,
                 barnesHutOptimize: false,
                 barnesHutTheta: 0.5,
-                slowDown: 1,
-                startingIterations: 1,
+                slowDown: 5,
+                startingIterations: 20,
                 iterationsPerRender: 1,
                 worker: true
             });
