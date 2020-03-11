@@ -213,6 +213,7 @@ function select_data(index, side) {
     network_from_selected_data(selection, side);
 }
 
+
 //////////// UPLOADING A CUSTOM FILE //////////////
 
 document.getElementById('left_import').onclick = function () {
@@ -322,11 +323,24 @@ $(document).mouseup(function (e) {
 ///////////// STATISTICS ///////////////////////////
 
 $("#statistics").click(function () {
-    $('#left_node_count').text("Nodes: " + sigma.instances(window.left_id).graph.nodes().length);
-    $('#left_edge_count').text("Edges: " + sigma.instances(window.left_id).graph.edges().length);
 
-    $('#right_node_count').text("Nodes: " + sigma.instances(window.right_id).graph.nodes().length);
-    $('#right_edge_count').text("Edges: " + sigma.instances(window.right_id).graph.edges().length);
+    var n1 = sigma.instances(window.left_id).graph.nodes().length;
+    var e1 = sigma.instances(window.left_id).graph.edges().length;
+
+    var n2 = sigma.instances(window.right_id).graph.nodes().length;
+    var e2 = sigma.instances(window.right_id).graph.edges().length;
+
+    var d1 = e1 * 2 / (n1 * (n1 - 1));
+    var d2 = e2 * 2 / (n2 * (n2 - 1));
+
+    $('#left_node_count').text("Nodes: " + n1);
+    $('#left_edge_count').text("Edges: " + e1);
+
+    $('#right_node_count').text("Nodes: " + n2);
+    $('#right_edge_count').text("Edges: " + e2);
+
+    $('#left_density').text("Density: " + (d1).toFixed(3));
+    $('#right_density').text("Density: " + (d2).toFixed(3));
 }
 )
 
