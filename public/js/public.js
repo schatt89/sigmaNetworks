@@ -620,32 +620,38 @@ function recolor(index) {
 
     var labels = [];
     var assigned_colors = [];
-    sigma.instances(0).graph.nodes().forEach( n => {
-        var label = eval("n." + selection);
-        if (labels.includes(label)) {
-            var color = colors[labels.indexOf(label)];
-        } else {
-            labels.push(label);
-            var color = colors[labels.indexOf(label)];
-            assigned_colors.push(color);
-            console.log(label + ": " + color);
-        }
-        n.color = color;
-        n.originalColor = color;
-    });
+    if (sigma.instances(0) !== "undefined") {
+        sigma.instances(0).graph.nodes().forEach(n => {
+            var label = eval("n." + selection);
+            if (labels.includes(label)) {
+                var color = colors[labels.indexOf(label)];
+            } else {
+                labels.push(label);
+                var color = colors[labels.indexOf(label)];
+                assigned_colors.push(color);
+                console.log(label + ": " + color);
+            }
+            n.color = color;
+            n.originalColor = color;
+        });
 
-    sigma.instances(0).startForceAtlas2();
-    window.setTimeout(function () { sigma.instances(0).stopForceAtlas2(); }, 100);
+        sigma.instances(0).startForceAtlas2();
+        window.setTimeout(function () { sigma.instances(0).stopForceAtlas2(); }, 100);
 
-    sigma.instances(1).graph.nodes().forEach( n => {
-        var label = eval("n." + selection);
-        var color = assigned_colors[labels.indexOf(label)];
-        n.color = color;
-        n.originalColor = color;
-    })
+    }
 
-    sigma.instances(1).startForceAtlas2();
-    window.setTimeout(function () { sigma.instances(1).stopForceAtlas2(); }, 1);
+
+    if (sigma.instances(1) !== "undefined") {
+        sigma.instances(1).graph.nodes().forEach(n => {
+            var label = eval("n." + selection);
+            var color = assigned_colors[labels.indexOf(label)];
+            n.color = color;
+            n.originalColor = color;
+        })
+
+        sigma.instances(1).startForceAtlas2();
+        window.setTimeout(function () { sigma.instances(1).stopForceAtlas2(); }, 1);
+    }
 
     for (let i = 0; i < labels.length; i++) {
         $('#color_selection').append('<div class="color_label" style="background-color:' + assigned_colors[i] + ';margin:4px" id="' + labels[i] + '">' + labels[i] + '</div>')
@@ -666,6 +672,8 @@ function add_weight(index) {
     sigma.instances(0).graph.edges().forEach(e => {
         var weight = eval("e." + selection);
         e.size = weight;
+        e.originalColor = e.color;
+        e.color = weight > 0 ? "#dc143c" : e.color;
     }) 
 
     sigma.instances(0).startForceAtlas2();
@@ -674,6 +682,8 @@ function add_weight(index) {
     sigma.instances(1).graph.edges().forEach(e => {
         var weight = eval("e." + selection);
         e.size = weight;
+        e.originalColor = e.color;
+        e.color = weight > 0 ? "#dc143c" : e.color;
     })
 
     sigma.instances(1).startForceAtlas2();
@@ -800,12 +810,14 @@ document.getElementById('reset_common_structure').onclick = function () {
     sigma.instances(window.left_id).graph.edges().forEach(e => {
             e.hidden = false;
             e.size = 0;
+            e.color = e.originalColor;
     });
 
 
     sigma.instances(window.right_id).graph.edges().forEach(e => {
             e.hidden = false;
             e.size = 0;
+            e.color = e.originalColor;
     });
 
     sigma.instances(window.left_id).startForceAtlas2();
