@@ -24,6 +24,8 @@ function refreshGraph(name, side, json, graph) {
                 defaultNodeColor: '#264249',
                 edgeColor: 'default',
                 defaultEdgeColor: '#264249',
+                minEdgeSize: 1,
+                maxEdgeSize: 3,
                 borderSize: 2,
                 defaultNodeBorderColor: '#000',
                 drawLabels: false
@@ -45,7 +47,7 @@ function refreshGraph(name, side, json, graph) {
         worker: true
     };
 
-    var not_attributes = ['id', 'read_cam0:size', 'read_cam0:x', 'read_cam0:y', 'x', 'y', 'cam0:x', 'cam0:y', 'cam0:size', 'originalColor', 'label', 'size'];
+    var not_attributes = ['id', 'read_cam0:size', 'read_cam0:x', 'read_cam0:y', 'x', 'y', 'cam0:x', 'cam0:y', 'cam0:size', 'originalColor', 'label', 'size', 'source', 'target', 'size'];
 
     if (json == "from_file") {
         sigma.parsers.json(name, {
@@ -58,6 +60,9 @@ function refreshGraph(name, side, json, graph) {
 
         },
             function (s) {
+
+
+                ///// FOR NODE COLORING /////////////
 
                 var attributes = Object.keys(s.graph.nodes()[0]);
                 attributes_to_label = [];
@@ -99,7 +104,7 @@ function refreshGraph(name, side, json, graph) {
 
                 $("#recolor").remove();
 
-                $('<select id="recolor" onchange="if (this.selectedIndex) recolor(this.selectedIndex,' + side + ');">').appendTo('#color_selection');
+                $('<select id="recolor" onchange="if (this.selectedIndex) recolor(this.selectedIndex);">').appendTo('#color_selection');
 
 
                 var value = 1;
@@ -112,9 +117,54 @@ function refreshGraph(name, side, json, graph) {
                     }
                 }
 
+                ///// FOR EDGE VISUALIZATION /////////
+
+
                 s.graph.edges().forEach(function (e) {
                     e.originalColor = e.color;
                 });
+
+                var edge_attributes = Object.keys(s.graph.edges()[0]);
+                console.log(s.graph.edges()[0])
+                attributes_to_edges = [];
+                for (let i = 0; i < edge_attributes.length; i++) {
+                    if (!not_attributes.includes(edge_attributes[i])) {
+                        attributes_to_edges.push(edge_attributes[i])
+                    }
+                }
+
+                var value = 1;
+                for (let i = 0; i < edge_attributes.length; i++) {
+                    if (!not_attributes.includes(edge_attributes[i])) {
+                        $('#set_weight').append(new Option(edge_attributes[i], value));
+                        value++;
+                    }
+                }
+
+                var all_options = [];
+                $("#set_weight option").each(function () {
+                    all_options.push($(this).text())
+                });
+
+                var unique = [...new Set(all_options)];
+                
+                $("#set_weight").remove();
+
+                $('<select id="set_weight" onchange="if (this.selectedIndex) add_weight(this.selectedIndex);">').appendTo('#edges_settings');
+
+                var value = 1;
+                for (let i = 0; i < unique.length; i++) {
+                    if (unique[i] == "Default") {
+                        $('#set_weight').append(new Option(unique[i], -1));
+                    } else {
+                        $('#set_weight').append(new Option(unique[i], value));
+                        value++;
+                    }
+                }
+
+
+                ////////// LAYOUT ///////////
+
                 /*
                 s.bind('clickNode', function (e) {
                     console.log(e.data.node.color);
@@ -190,6 +240,10 @@ function refreshGraph(name, side, json, graph) {
             settings: settings
         });
 
+
+
+        ///// FOR NODE COLORING /////////////
+
         var attributes = Object.keys(s.graph.nodes()[0]);
         attributes_to_label = [];
         for (let i = 0; i < attributes.length; i++) {
@@ -230,7 +284,7 @@ function refreshGraph(name, side, json, graph) {
 
         $("#recolor").remove();
 
-        var sel = $('<select id="recolor" onchange="if (this.selectedIndex) recolor(this.selectedIndex,' + side + ');">').appendTo('#color_selection');
+        $('<select id="recolor" onchange="if (this.selectedIndex) recolor(this.selectedIndex);">').appendTo('#color_selection');
 
 
         var value = 1;
@@ -243,9 +297,51 @@ function refreshGraph(name, side, json, graph) {
             }
         }
 
+        ///// FOR EDGE VISUALIZATION /////////
         s.graph.edges().forEach(function (e) {
             e.originalColor = e.color;
         });
+
+        var edge_attributes = Object.keys(s.graph.edges()[0]);
+        console.log(s.graph.edges()[0])
+        attributes_to_edges = [];
+        for (let i = 0; i < edge_attributes.length; i++) {
+            if (!not_attributes.includes(edge_attributes[i])) {
+                attributes_to_edges.push(edge_attributes[i])
+            }
+        }
+
+        var value = 1;
+        for (let i = 0; i < edge_attributes.length; i++) {
+            if (!not_attributes.includes(edge_attributes[i])) {
+                $('#set_weight').append(new Option(edge_attributes[i], value));
+                value++;
+            }
+        }
+
+        var all_options = [];
+        $("#set_weight option").each(function () {
+            all_options.push($(this).text())
+        });
+
+        var unique = [...new Set(all_options)];
+
+        $("#set_weight").remove();
+
+        $('<select id="set_weight" onchange="if (this.selectedIndex) add_weight(this.selectedIndex);">').appendTo('#edges_settings');
+
+        var value = 1;
+        for (let i = 0; i < unique.length; i++) {
+            if (unique[i] == "Default") {
+                $('#set_weight').append(new Option(unique[i], -1));
+            } else {
+                $('#set_weight').append(new Option(unique[i], value));
+                value++;
+            }
+        }
+
+
+        ////////// LAYOUT ///////////
 
         atlasObj = s.startForceAtlas2(atlas_settings);
         window.setTimeout(function () { s.stopForceAtlas2(); }, 5000);
@@ -278,7 +374,7 @@ function network_from_selected_data(sel, side) {
     } else if (sel == 3) {
         var name = "data/data.json"
     } else if (sel == 4) {
-        var name = "śata/data2.json"
+        var name = "data/data2.json"
     } else if (sel == 5) {
         var name = "data/sigma-data.json"
     }
@@ -559,6 +655,32 @@ function recolor(index) {
 
 }
 
+
+///////////// ADD WEIGHT TO THE EDGES ///////////////////
+
+function add_weight(index) {
+    var x = document.getElementById("set_weight");
+    var selection = x.options[index].text;
+
+
+    sigma.instances(0).graph.edges().forEach(e => {
+        var weight = eval("e." + selection);
+        e.size = weight;
+    }) 
+
+    sigma.instances(0).startForceAtlas2();
+    window.setTimeout(function () { sigma.instances(0).stopForceAtlas2(); }, 100);
+
+    sigma.instances(1).graph.edges().forEach(e => {
+        var weight = eval("e." + selection);
+        e.size = weight;
+    })
+
+    sigma.instances(1).startForceAtlas2();
+    window.setTimeout(function () { sigma.instances(1).stopForceAtlas2(); }, 100);
+}
+    
+
 //////////// COMMON STRUCTURE HIGHLIGHT ////////////////
 
 function find_common_structure() {
@@ -679,11 +801,13 @@ document.getElementById('reset_common_structure').onclick = function () {
 
     sigma.instances(window.left_id).graph.edges().forEach(e => {
             e.hidden = false;
+            e.size = 0;
     });
 
 
     sigma.instances(window.right_id).graph.edges().forEach(e => {
             e.hidden = false;
+            e.size = 0;
     });
 
     sigma.instances(window.left_id).startForceAtlas2();
@@ -691,3 +815,4 @@ document.getElementById('reset_common_structure').onclick = function () {
     window.setTimeout(function () { sigma.instances(window.left_id).stopForceAtlas2(); }, 100);
     window.setTimeout(function () { sigma.instances(window.right_id).stopForceAtlas2(); }, 100);
 }
+
