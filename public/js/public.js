@@ -659,9 +659,9 @@ function recolor(index) {
 ///////////// ADD WEIGHT TO THE EDGES ///////////////////
 
 function add_weight(index) {
+    
     var x = document.getElementById("set_weight");
     var selection = x.options[index].text;
-
 
     sigma.instances(0).graph.edges().forEach(e => {
         var weight = eval("e." + selection);
@@ -749,7 +749,6 @@ document.getElementById('common_structure').onclick = function () {
         sigma.instances(window.left_id).graph.edges().forEach(e => {
             if (!nodes_intersection.includes(e.source) || !nodes_intersection.includes(e.target) || !e.intersection == true) {
                 e.hidden = true;
-                //sigma.instances(window.left_id).graph.dropEdge(e.id);
             }
         });
 
@@ -757,7 +756,6 @@ document.getElementById('common_structure').onclick = function () {
         sigma.instances(window.right_id).graph.edges().forEach(e => {
             if (!nodes_intersection.includes(e.source) || !nodes_intersection.includes(e.target) || !e.intersection == true) {
                 e.hidden = true;
-                //sigma.instances(window.right_id).graph.dropEdge(e.id);
             }
         });
         sigma.instances(window.left_id).startForceAtlas2();
