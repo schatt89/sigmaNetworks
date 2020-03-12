@@ -19,6 +19,7 @@
             <div class = "common">
               <p><label class='label'>common structure</label>press the button to highlight the common structure of the two networks</p>
               <button class="button" id="common_structure"> Highlight! </button>
+              <button class="button" id="reset_common_structure"> Reset </button>
             </div>
               <div class='selection' id='color_selection'>
                 <p><label class='label'>recolor</label>select attribute to color the nodes of both networks</p>
@@ -59,7 +60,7 @@
                     <div class="mini-container">
                       <div class = "selection">
                         <p><label class="label">data</label>
-                          Select a dataset</p>
+                          select a dataset</p>
             
                           <select name="ab" id="left_select" onchange="if (this.selectedIndex) select_data(this.selectedIndex, 'left');">
                             <option value="-1">No selection</option>
@@ -71,7 +72,7 @@
                       </div>
                       <div class="uploading">
                         <p><label class = "label">json</label>
-                          Upload your dataset in <a download="template.json" href="data/template.json" title='download a json template'>.json</a>
+                          upload your dataset in <a download="template.json" href="data/template.json" title='download a json template'>.json</a>
                         </p>
                           <input type="file" name="#left_svg" id="left_file" class="inputfile" />
                           <label for="left_file" class="button"> Import </label> <label class="filename" id="left_filename"> file.json </label> <br/>
@@ -92,7 +93,7 @@
                     <div class="mini-container">
                       <div class="selection">
                         <p><label class="label">data</label>
-                          Select a dataset</p>
+                          select a dataset</p>
             
                           <select name="ab" id="right_select" onchange="if (this.selectedIndex) select_data(this.selectedIndex, 'right');">
                             <option value="-1">No selection</option>
@@ -104,7 +105,7 @@
                       </div>
                       <div class="uploading">
                         <p><label class = "label">json</label>
-                          Upload your dataset in <a download="template.json"href="data/template.json" title='download a json template'>.json</a>
+                          upload your dataset in <a download="template.json"href="data/template.json" title='download a json template'>.json</a>
                         </p>
                           <input type="file" name="#right_svg" id="right_file" class="inputfile" />
                           <label for="right_file" class="button"> Import </label> <label class="filename" id="right_filename"> file.json </label> <br/>

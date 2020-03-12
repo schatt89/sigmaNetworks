@@ -626,16 +626,16 @@ document.getElementById('common_structure').onclick = function () {
 
         sigma.instances(window.left_id).graph.edges().forEach(e => {
             if (!nodes_intersection.includes(e.source) || !nodes_intersection.includes(e.target) || !e.intersection == true) {
-                //e.hidden = true;
-                sigma.instances(window.left_id).graph.dropEdge(e.id);
+                e.hidden = true;
+                //sigma.instances(window.left_id).graph.dropEdge(e.id);
             }
         });
 
 
         sigma.instances(window.right_id).graph.edges().forEach(e => {
             if (!nodes_intersection.includes(e.source) || !nodes_intersection.includes(e.target) || !e.intersection == true) {
-                //e.hidden = true;
-                sigma.instances(window.right_id).graph.dropEdge(e.id);
+                e.hidden = true;
+                //sigma.instances(window.right_id).graph.dropEdge(e.id);
             }
         });
         sigma.instances(window.left_id).startForceAtlas2();
@@ -666,4 +666,28 @@ document.getElementById('common_structure').onclick = function () {
 
     }
 
+}
+
+////// RESET COMMON STRUCTURE //////
+document.getElementById('reset_common_structure').onclick = function () {
+    sigma.instances(window.left_id).graph.nodes().forEach(n => {
+        n.color = n.originalColor;
+    })
+    sigma.instances(window.right_id).graph.nodes().forEach(n => {
+        n.color = n.originalColor;
+    })
+
+    sigma.instances(window.left_id).graph.edges().forEach(e => {
+            e.hidden = false;
+    });
+
+
+    sigma.instances(window.right_id).graph.edges().forEach(e => {
+            e.hidden = false;
+    });
+
+    sigma.instances(window.left_id).startForceAtlas2();
+    sigma.instances(window.right_id).startForceAtlas2();
+    window.setTimeout(function () { sigma.instances(window.left_id).stopForceAtlas2(); }, 100);
+    window.setTimeout(function () { sigma.instances(window.right_id).stopForceAtlas2(); }, 100);
 }
