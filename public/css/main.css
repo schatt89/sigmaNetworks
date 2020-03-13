@@ -197,7 +197,46 @@ input[type="file"] {
     flex-basis: 100%;
     min-width: 200px;
     order: 2;
+    display: flex;
+    flex-direction: column-reverse;
   }
+
+.control_buttons {
+    display: flex;
+    height: fit-content;
+}
+
+.zoom {
+  display: inline-flex;
+  align-items: center;
+}
+
+i.fa-search-plus {
+  margin: 10px;
+  cursor: pointer;
+  font-size: 15px;
+  color: #264249;
+}
+
+i.fa-search-minus {
+  margin: 10px;
+  cursor: pointer;
+  font-size: 15px;
+  color: #264249;
+}
+
+i.fa-arrows-alt {
+  margin: 10px;
+  cursor: pointer;
+  font-size: 15px;
+  color: #264249;
+}
+
+i:hover {
+  opacity: 0.6;
+}
+
+
 
 #networks {
     width:100%;height:100vh;padding:0;margin:0;

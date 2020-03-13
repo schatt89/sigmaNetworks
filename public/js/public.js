@@ -672,6 +672,7 @@ function add_weight(index) {
     sigma.instances(0).graph.edges().forEach(e => {
         var weight = eval("e." + selection);
         e.size = weight;
+        e.color = e.originalColor;
         e.originalColor = e.color;
         e.color = weight > 0 ? "#dc143c" : e.color;
     }) 
@@ -682,6 +683,7 @@ function add_weight(index) {
     sigma.instances(1).graph.edges().forEach(e => {
         var weight = eval("e." + selection);
         e.size = weight;
+        e.color = e.originalColor;
         e.originalColor = e.color;
         e.color = weight > 0 ? "#dc143c" : e.color;
     })

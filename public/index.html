@@ -13,12 +13,13 @@
         <script src="js/sigma/plugins/sigma.plugins.dragNodes/sigma.plugins.dragNodes.js"></script>
         <script src="js/sigma/plugins/sigma.plugins.animate/sigma.plugins.animate.js"></script>
         <script src="js/sigma/plugins/sigma.layout.noverlap/sigma.layout.noverlap.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
     <body>
           <div class = "structure">
             <div class = "common">
-              <p><label class='label'>common structure</label>press the button to highlight the common structure of the two networks</p>
+              <p><label class='label'>common structure</label>press the button to highlight common nodes and edges of the two networks</p>
               <button class="button" id="common_structure"> Highlight! </button>
               <button class="button" id="reset_common_structure"> Reset </button>
             </div>
@@ -64,6 +65,17 @@
                   <div id="dragbar"></div>
                   <div id="left_container" class="container">
                     <div id="left_svg" class="svg">
+                      <div id="left_control_buttons" class="control_buttons">
+                        <div class="zoom" id="left_zoom_in" title="zoom in">
+                          <i class="fa fa-search-plus"></i>
+                        </div>
+                        <div class="zoom" id="left_zoom_out" title="zoom out">
+                          <i class="fa fa-search-minus"></i>
+                        </div>
+                        <div class="zoom" id="left_reset_zoom" title="reset">
+                          <i class="fa fa-arrows-alt"></i>
+                        </div>
+                      </div>
                     </div>
                     <div class="mini-container">
                       <div class = "selection">
@@ -97,7 +109,19 @@
               </div>
               <div id="main">
                   <div id="right_container" class="container">
-                    <div id="right_svg" class="svg"></div>
+                    <div id="right_svg" class="svg">
+                      <div id="right_control_buttons" class="control_buttons">
+                        <div class="zoom" id="right_zoom_in" title="zoom in">
+                          <i class="fa fa-search-plus"></i>
+                        </div>
+                        <div class="zoom" id="right_zoom_out" title="zoom out">
+                          <i class="fa fa-search-minus"></i>
+                        </div>
+                        <div class="zoom" id="right_reset_zoom" title="reset">
+                          <i class="fa fa-arrows-alt"></i>
+                        </div>
+                      </div>
+                    </div>
                     <div class="mini-container">
                       <div class="selection">
                         <p><label class="label">data</label>
