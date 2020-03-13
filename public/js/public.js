@@ -565,12 +565,15 @@ $("#statistics").click(function () {
         $('#right_edge_count').text("Edges: " + e2);
         $('#right_density').text("Density: " + (d2).toFixed(3));
     }
+
     if (typeof sigma.instances(window.left_id) !== "undefined" && typeof sigma.instances(window.right_id) !== "undefined") {
         var result = find_common_structure();
         $('#common_nodes').text("Common nodes: " + result[0].length);
         $('#common_edges').text("Common edges: " + result[1].length);
         $('#similarity_coef').text("Jaccard index: " + (result[1].length / ((e1 + e2) - result[1].length)).toFixed(3));
 
+    } else {
+        alert("Visualize at least one network to see the statistics")
     }
 
 }
@@ -828,3 +831,69 @@ document.getElementById('reset_common_structure').onclick = function () {
     window.setTimeout(function () { sigma.instances(window.right_id).stopForceAtlas2(); }, 100);
 }
 
+
+////// ZOOM IN AND OUT //////
+
+// zoom in ///////////
+$(document).ready(function () {
+    $("#left_zoom_in").bind("click", function () {
+        c = sigma.instances(window.left_id).camera;
+        c.goTo({
+            ratio: c.ratio / c.settings('zoomingRatio')
+        });
+    });
+});
+
+$(document).ready(function () {
+    $("#right_zoom_in").bind("click", function () {
+        c = sigma.instances(window.right_id).camera;
+        c.goTo({
+            ratio: c.ratio / c.settings('zoomingRatio')
+        });
+    });
+});
+
+//// zoom out /////////
+$(document).ready(function () {
+    $("#left_zoom_out").bind("click", function () {
+        c = sigma.instances(window.left_id).camera;
+        c.goTo({
+            ratio: c.ratio * c.settings('zoomingRatio')
+        });
+    });
+});
+
+$(document).ready(function () {
+    $("#right_zoom_out").bind("click", function () {
+        c = sigma.instances(window.right_id).camera;
+        c.goTo({
+            ratio: c.ratio * c.settings('zoomingRatio')
+        });
+    });
+});
+
+///// reset ///////
+
+$(document).ready(function () {
+    $('#left_reset_zoom').bind("click", function () {
+        c = sigma.instances(window.left_id).camera;
+        c.goTo({
+            ratio: 1,
+            x: 0,
+            y: 0,
+            angle: 0
+        })
+    })
+})
+
+$(document).ready(function () {
+    $('#right_reset_zoom').bind("click", function () {
+        c = sigma.instances(window.right_id).camera;
+        c.goTo({
+            ratio: 1,
+            x: 0,
+            y: 0,
+            angle: 0
+        })
+    })
+})
