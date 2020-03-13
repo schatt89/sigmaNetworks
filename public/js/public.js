@@ -23,7 +23,7 @@ function refreshGraph(name, side, json, graph) {
                 maxNodeSize: 12,
                 defaultNodeColor: '#264249',
                 edgeColor: 'default',
-                defaultEdgeColor: '#264249',
+                defaultEdgeColor: '#526b2d',
                 minEdgeSize: 1,
                 maxEdgeSize: 3,
                 borderSize: 2,
@@ -675,9 +675,9 @@ function add_weight(index) {
     sigma.instances(0).graph.edges().forEach(e => {
         var weight = eval("e." + selection);
         e.size = weight;
-        e.color = e.originalColor;
-        e.originalColor = e.color;
-        e.color = weight > 0 ? "#dc143c" : e.color;
+        //e.color = e.originalColor;
+        //e.originalColor = e.color;
+        //e.color = weight > 0 ? "#dc143c" : e.color;
     }) 
 
     sigma.instances(0).startForceAtlas2();
@@ -686,9 +686,9 @@ function add_weight(index) {
     sigma.instances(1).graph.edges().forEach(e => {
         var weight = eval("e." + selection);
         e.size = weight;
-        e.color = e.originalColor;
-        e.originalColor = e.color;
-        e.color = weight > 0 ? "#dc143c" : e.color;
+        //e.color = e.originalColor;
+        //e.originalColor = e.color;
+        //e.color = weight > 0 ? "#dc143c" : e.color;
     })
 
     sigma.instances(1).startForceAtlas2();
