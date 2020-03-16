@@ -53,7 +53,6 @@ a .zoom {
 }
 .structure div {
     border-style: dashed;
-    border-width: 1%;
     border-color: gainsboro;
     border-radius: 3px;
     padding: 5px;
@@ -106,7 +105,9 @@ a .zoom {
     height: inherit;
 }
 
-
+#recolor {
+    order: 1;
+}
 
 
 .uploading .inputfile {margin-bottom: 0.25em; max-width: 100%; overflow: hidden;}

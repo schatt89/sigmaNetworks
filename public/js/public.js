@@ -657,7 +657,7 @@ function recolor(index) {
     }
 
     for (let i = 0; i < labels.length; i++) {
-        $('#color_selection').append('<div class="color_label" style="background-color:' + assigned_colors[i] + ';margin:4px" id="' + labels[i] + '">' + labels[i] + '</div>')
+        $('#color_selection').append('<div class="color_label"' + ' style="background-color:' + assigned_colors[i] + ';margin:4px;order:'+(i+2)+'" id="' + labels[i] + '">' + labels[i] + '</div>')
     }
 
 
