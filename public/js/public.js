@@ -581,18 +581,26 @@ $("#statistics").click( () => {
 
 //// CLEAR SVG //////
 
+function refresh_edge_weight_selection() {
+    var y = document.getElementById("set_weight")
+    var len_options = y.options.length;
+    if (len_options > 1) {
+        $("#set_weight").remove();
+        var sel = $('<select id="set_weight" onchange="if (this.selectedIndex) add_weight(this.selectedIndex);">').appendTo('#edges_settings');
+        sel.append($('<option>').attr('value', -1).text('Default'));
+    } 
+
+}
+
 function refresh_color_selection() {
     $('.color_label').remove();
     var y = document.getElementById("recolor")
     var len_options = y.options.length;
     if (len_options > 1) {
         $("#recolor").remove();
-        var arr = [{ val: -1, text: 'Default' }];
-
         var sel = $('<select id="recolor" onchange="if (this.selectedIndex) recolor(this.selectedIndex,' + side + ');">').appendTo('#color_selection');
-        $(arr).each(function () {
-            sel.append($("<option>").attr('value', this.val).text(this.text));
-        });
+        sel.append($("<option>").attr('value', -1).text('Default'));
+
     }
 }
 
@@ -600,15 +608,20 @@ document.getElementById('left_clear').onclick = () => {
     sigma.instances(window.left_id).kill();
     left_first_time = true;
 
-    refresh_color_selection();
+    if (typeof sigma.instances(window.right_id) == 'undefined') { // check if another side is also cleared
+        refresh_color_selection();
+        refresh_edge_weight_selection();
+    }
 }
 
 document.getElementById('right_clear').onclick = () => {
     sigma.instances(window.right_id).kill();
     right_first_time = true;
 
-    refresh_color_selection();
-
+    if (typeof sigma.instances(window.left_id) == 'undefined') { // check if another side is also cleared
+        refresh_color_selection();
+        refresh_edge_weight_selection();
+    }
 }
 
 //// RECOLOR THE NODES ////
