@@ -61,7 +61,6 @@ function refreshGraph(name, side, json, graph) {
         },
             (s) => {
 
-
                 ///// FOR NODE COLORING /////////////
 
                 var attributes = Object.keys(s.graph.nodes()[0]);
@@ -763,14 +762,16 @@ document.getElementById('common_structure').onclick = () => {
 
         sigma.instances(window.left_id).graph.edges().forEach( e => {
             if (!nodes_intersection.includes(e.source) || !nodes_intersection.includes(e.target) || !e.intersection == true) {
-                e.hidden = true;
+                e.color = '#eee';
+                //e.hidden = true;
             }
         });
 
 
         sigma.instances(window.right_id).graph.edges().forEach( e => {
             if (!nodes_intersection.includes(e.source) || !nodes_intersection.includes(e.target) || !e.intersection == true) {
-                e.hidden = true;
+                e.color = '#eee';
+                //e.hidden = true;
             }
         });
         sigma.instances(window.left_id).startForceAtlas2();
@@ -813,14 +814,14 @@ document.getElementById('reset_common_structure').onclick = () => {
     })
 
     sigma.instances(window.left_id).graph.edges().forEach( e => {
-            e.hidden = false;
+            //e.hidden = false;
             e.size = 0;
             e.color = e.originalColor;
     });
 
 
     sigma.instances(window.right_id).graph.edges().forEach( e => {
-            e.hidden = false;
+            //e.hidden = false;
             e.size = 0;
             e.color = e.originalColor;
     });
