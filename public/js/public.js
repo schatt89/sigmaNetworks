@@ -1,6 +1,7 @@
 var left, right;
 var left_first_time = true;
 var right_first_time = true;
+var not_attributes = ['id', 'read_cam0:size', 'read_cam0:x', 'read_cam0:y', 'x', 'y', 'cam0:x', 'cam0:y', 'cam0:size', 'originalColor', 'label', 'size', 'source', 'target', 'size'];
 
 
 /*
@@ -47,7 +48,6 @@ function refreshGraph(name, side, json, graph) {
         worker: true
     };
 
-    var not_attributes = ['id', 'read_cam0:size', 'read_cam0:x', 'read_cam0:y', 'x', 'y', 'cam0:x', 'cam0:y', 'cam0:size', 'originalColor', 'label', 'size', 'source', 'target', 'size'];
 
     if (json == "from_file") {
         sigma.parsers.json(name, {
@@ -161,8 +161,28 @@ function refreshGraph(name, side, json, graph) {
                     }
                 }
 
+                ////// INFO BOXES ///////
 
-                ////////// LAYOUT ///////////
+                s.bind('clickNode', function (e) {
+                    var nodeId = e.data.node.id;
+                    var container = e.data.renderer.container.id;
+                    var container_id = "#" + container;
+                    var info_box_id = container_id + '_node_info';
+                    console.log(e);
+                    console.log(attributes_to_label);
+                    if ($(info_box_id).length === 0) {
+                        $("<div id='" + container + "_node_info' class='info_box'>").appendTo(container_id)
+                        for (let i=0; i < attributes_to_label.length; i++) {
+                            $('<p>' + attributes_to_label[i] + ": " + eval('e.data.node.' + attributes_to_label[i]) + '</p>').appendTo(info_box_id)
+                        }
+                    }
+                    else {
+                        $(info_box_id + ' p').remove();
+                        for (let i = 0; i < attributes_to_label.length; i++) {
+                            $('<p>' + attributes_to_label[i] + ": " + eval('e.data.node.' + attributes_to_label[i]) + '</p>').appendTo(info_box_id)
+                        }
+                    }
+                })
 
                 /*
                 s.bind('clickNode', function (e) {
@@ -205,6 +225,8 @@ function refreshGraph(name, side, json, graph) {
                     s.refresh();
                 });
                 */
+
+                ////////// LAYOUT ///////////
                 atlasObj = s.startForceAtlas2(atlas_settings);
                 window.setTimeout( () => { s.stopForceAtlas2(); }, 5000);
                 var dragListener = sigma.plugins.dragNodes(s, s.renderers[0]);
@@ -401,6 +423,7 @@ function network_from_selected_data(sel, side) {
     }
 
     refreshGraph(name, side, json = "from_file", graph = "none");
+
 }
 
 
@@ -911,3 +934,7 @@ $(document).ready( () => {
         })
     })
 })
+
+//// NODE INFO IN A BOX ////////
+
+
