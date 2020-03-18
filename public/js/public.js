@@ -103,7 +103,7 @@ function refreshGraph(name, side, json, graph) {
 
                 $("#recolor").remove();
 
-                $('<select id="recolor" onchange="if (this.selectedIndex) recolor(this.selectedIndex);">').appendTo('#color_selection');
+                $('<select id="recolor" onchange="if (this.selectedIndex) recolor(this.selectedIndex);" style="order:1">').appendTo('#color_selection');
 
 
                 var value = 1;
@@ -149,7 +149,7 @@ function refreshGraph(name, side, json, graph) {
                 
                 $("#set_weight").remove();
 
-                $('<select id="set_weight" onchange="if (this.selectedIndex) add_weight(this.selectedIndex);">').appendTo('#edges_settings');
+                $('<select id="set_weight" onchange="if (this.selectedIndex) add_weight(this.selectedIndex);" style="order:1">').appendTo('#edges_settings');
 
                 var value = 1;
                 for (let i = 0; i < unique.length; i++) {
@@ -307,7 +307,7 @@ function refreshGraph(name, side, json, graph) {
 
         $("#recolor").remove();
 
-        $('<select id="recolor" onchange="if (this.selectedIndex) recolor(this.selectedIndex);">').appendTo('#color_selection');
+        $('<select id="recolor" onchange="if (this.selectedIndex) recolor(this.selectedIndex);" style="order:1">').appendTo('#color_selection');
 
 
         var value = 1;
@@ -351,7 +351,7 @@ function refreshGraph(name, side, json, graph) {
 
         $("#set_weight").remove();
 
-        $('<select id="set_weight" onchange="if (this.selectedIndex) add_weight(this.selectedIndex);">').appendTo('#edges_settings');
+        $('<select id="set_weight" onchange="if (this.selectedIndex) add_weight(this.selectedIndex);" style="order:1">').appendTo('#edges_settings');
 
         var value = 1;
         for (let i = 0; i < unique.length; i++) {
@@ -636,7 +636,7 @@ function refresh_edge_weight_selection() {
     var len_options = y.options.length;
     if (len_options > 1) {
         $("#set_weight").remove();
-        var sel = $('<select id="set_weight" onchange="if (this.selectedIndex) add_weight(this.selectedIndex);">').appendTo('#edges_settings');
+        var sel = $('<select id="set_weight" onchange="if (this.selectedIndex) add_weight(this.selectedIndex);" style="order:1">').appendTo('#edges_settings');
         sel.append($('<option>').attr('value', -1).text('Default'));
     } 
 
@@ -648,9 +648,8 @@ function refresh_color_selection() {
     var len_options = y.options.length;
     if (len_options > 1) {
         $("#recolor").remove();
-        var sel = $('<select id="recolor" onchange="if (this.selectedIndex) recolor(this.selectedIndex,' + side + ');">').appendTo('#color_selection');
+        var sel = $('<select id="recolor" onchange="if (this.selectedIndex) recolor(this.selectedIndex,' + side + ');" style="order:1">').appendTo('#color_selection');
         sel.append($("<option>").attr('value', -1).text('Default'));
-
     }
 }
 
@@ -685,7 +684,7 @@ function recolor(index) {
 
     var labels = [];
     var assigned_colors = [];
-    if (sigma.instances(0) !== "undefined") {
+    if (typeof sigma.instances(0) !== "undefined") {
         sigma.instances(0).graph.nodes().forEach( n => {
             var label = eval("n." + selection);
             if (labels.includes(label)) {
@@ -706,7 +705,7 @@ function recolor(index) {
     }
 
 
-    if (sigma.instances(1) !== "undefined") {
+    if (typeof sigma.instances(1) !== "undefined") {
         sigma.instances(1).graph.nodes().forEach( n => {
             var label = eval("n." + selection);
             var color = assigned_colors[labels.indexOf(label)];
@@ -718,8 +717,31 @@ function recolor(index) {
         window.setTimeout( () => { sigma.instances(1).stopForceAtlas2(); }, 1);
     }
 
+    $('#networks').append('<div class="legend" id="legend">')
+    function handle_mousedown(e) {
+        window.my_dragging = {};
+        my_dragging.pageX0 = e.pageX;
+        my_dragging.pageY0 = e.pageY;
+        my_dragging.elem = this;
+        my_dragging.offset0 = $(this).offset();
+        function handle_dragging(e) {
+            var left = my_dragging.offset0.left + (e.pageX - my_dragging.pageX0);
+            var top = my_dragging.offset0.top + (e.pageY - my_dragging.pageY0);
+            $(my_dragging.elem)
+                .offset({ top: top, left: left });
+        }
+        function handle_mouseup(e) {
+            $('body')
+                .off('mousemove', handle_dragging)
+                .off('mouseup', handle_mouseup);
+        }
+        $('body')
+            .on('mouseup', handle_mouseup)
+            .on('mousemove', handle_dragging);
+    }
+    $('#legend').mousedown(handle_mousedown);
     for (let i = 0; i < labels.length; i++) {
-        $('#color_selection').append('<div class="color_label"' + ' style="background-color:' + assigned_colors[i] + ';margin:4px;order:'+(i+2)+'" id="' + labels[i] + '">' + labels[i] + '</div>')
+        $('#legend').append('<div class="color_label"' + ' style="background-color:' + assigned_colors[i] + ';margin:4px;order:'+(i+2)+'" id="' + labels[i] + '">' + labels[i] + '</div>')
     }
 
 
