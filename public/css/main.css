@@ -13,15 +13,6 @@ body {
     background-color: whitesmoke;
 }
 
-.info_box {
-    width: fit-content;
-    height: fit-content;
-    border: 2px;
-    border-style: dashed;
-    margin: 5px;
-    padding: 3px;
-}
-
 a[download] {
   color: hsla(216, 70%, 53%, 1);
   text-decoration: underline;
@@ -208,10 +199,38 @@ input[type="file"] {
     min-width: 200px;
     order: 2;
     display: flex;
-    flex-direction: column-reverse;
+    flex-direction: column;
     position: relative;
     z-index: 3;
   }
+
+
+.info_box {
+    width: fit-content;
+    height: fit-content;
+    border: 2px;
+    border-style: dashed;
+    border-radius: 2px;
+    border-color: gainsboro;
+    margin: 5px;
+    padding: 3px;
+    position: relative;
+    align-self: start;
+    z-index: 5;
+    background-color: whitesmoke;
+    opacity: 90%;
+    display: flex;
+    flex-direction: column;
+}
+
+.info_box p {
+    margin: 1px;
+}
+
+.info_box .remove_button {
+    align-self: flex-end;
+    z-index: 6;
+}
 
 .control_buttons {
     display: flex;

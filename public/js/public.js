@@ -164,22 +164,24 @@ function refreshGraph(name, side, json, graph) {
                 ////// INFO BOXES ///////
 
                 s.bind('clickNode', function (e) {
-                    var nodeId = e.data.node.id;
                     var container = e.data.renderer.container.id;
                     var container_id = "#" + container;
                     var info_box_id = container_id + '_node_info';
                     console.log(e);
                     console.log(attributes_to_label);
                     if ($(info_box_id).length === 0) {
-                        $("<div id='" + container + "_node_info' class='info_box'>").appendTo(container_id)
+                        $("<div id='" + container + "_node_info' class='info_box' title='click to remove'>").appendTo(container_id);
                         for (let i=0; i < attributes_to_label.length; i++) {
-                            $('<p>' + attributes_to_label[i] + ": " + eval('e.data.node.' + attributes_to_label[i]) + '</p>').appendTo(info_box_id)
+                            $('<p>' + attributes_to_label[i] + ": " + eval('e.data.node.' + attributes_to_label[i]) + '</p>').appendTo(info_box_id);
                         }
+                        $(info_box_id).on('click', function () {
+                            $(this).remove();
+                        });
                     }
                     else {
                         $(info_box_id + ' p').remove();
                         for (let i = 0; i < attributes_to_label.length; i++) {
-                            $('<p>' + attributes_to_label[i] + ": " + eval('e.data.node.' + attributes_to_label[i]) + '</p>').appendTo(info_box_id)
+                            $('<p>' + attributes_to_label[i] + ": " + eval('e.data.node.' + attributes_to_label[i]) + '</p>').appendTo(info_box_id);
                         }
                     }
                 })
@@ -360,6 +362,31 @@ function refreshGraph(name, side, json, graph) {
                 value++;
             }
         }
+
+        ////// INFO BOXES ///////
+
+        s.bind('clickNode', function (e) {
+            var container = e.data.renderer.container.id;
+            var container_id = "#" + container;
+            var info_box_id = container_id + '_node_info';
+            console.log(e);
+            console.log(attributes_to_label);
+            if ($(info_box_id).length === 0) {
+                $("<div id='" + container + "_node_info' class='info_box'>").appendTo(container_id);
+                for (let i = 0; i < attributes_to_label.length; i++) {
+                    $('<p>' + attributes_to_label[i] + ": " + eval('e.data.node.' + attributes_to_label[i]) + '</p>').appendTo(info_box_id);
+                }
+                $(info_box_id).on('click', function () {
+                    $(this).remove();
+                });
+            }
+            else {
+                $(info_box_id + ' p').remove();
+                for (let i = 0; i < attributes_to_label.length; i++) {
+                    $('<p>' + attributes_to_label[i] + ": " + eval('e.data.node.' + attributes_to_label[i]) + '</p>').appendTo(info_box_id);
+                }
+            }
+        })
 
 
         ////////// LAYOUT ///////////
@@ -935,6 +962,8 @@ $(document).ready( () => {
     })
 })
 
-//// NODE INFO IN A BOX ////////
+//// NODE INFO IN A BOX MAKE DRAGGABLE////////
+
+
 
 
