@@ -175,6 +175,7 @@ function refreshGraph(name, side, json, graph) {
                     console.log(attributes_to_label);
                     if ($(info_box_id).length === 0) {
                         $("<div id='" + container + "_node_info' class='info_box' title='click to remove'>").appendTo(container_id);
+                        $("<p>Selected node id: " + e.data.node.id + "</p>").appendTo(info_box_id);
                         for (let i = 0; i < attributes_to_label.length; i++) {
                             $('<p>' + attributes_to_label[i] + ": " + eval('e.data.node.' + attributes_to_label[i]) + '</p>').appendTo(info_box_id);
                         }
@@ -184,6 +185,7 @@ function refreshGraph(name, side, json, graph) {
                     }
                     else {
                         $(info_box_id + ' p').remove();
+                        $("<p>Selected node id: " + e.data.node.id + "</p>").appendTo(info_box_id);
                         for (let i = 0; i < attributes_to_label.length; i++) {
                             $('<p>' + attributes_to_label[i] + ": " + eval('e.data.node.' + attributes_to_label[i]) + '</p>').appendTo(info_box_id);
                         }
@@ -193,9 +195,11 @@ function refreshGraph(name, side, json, graph) {
 
                     if (container == "left_svg") {
                         s = sigma.instances(window.left_id);
+                        $("#right_svg_node_info").remove();
                         another_net = sigma.instances(window.right_id);
                     } else if (container == "right_svg") {
                         s = sigma.instances(window.right_id);
+                        $("#left_svg_node_info").remove();
                         another_net = sigma.instances(window.left_id);
                     }
                     var nodeId = e.data.node.id,
@@ -392,13 +396,15 @@ function refreshGraph(name, side, json, graph) {
         ////////// NEIGHBORS AND INFOBOXES ON DOUBLE CLICK /////////////////
         s.bind('doubleClickNode', e => {
 
-            ////////// INFOBOXES ///////////
+            // INFOBOXES
             var container = e.data.renderer.container.id;
             var container_id = "#" + container;
             var info_box_id = container_id + '_node_info';
-
+            console.log(e);
+            console.log(attributes_to_label);
             if ($(info_box_id).length === 0) {
                 $("<div id='" + container + "_node_info' class='info_box' title='click to remove'>").appendTo(container_id);
+                $("<p>Selected node id: " + e.data.node.id + "</p>").appendTo(info_box_id);
                 for (let i = 0; i < attributes_to_label.length; i++) {
                     $('<p>' + attributes_to_label[i] + ": " + eval('e.data.node.' + attributes_to_label[i]) + '</p>').appendTo(info_box_id);
                 }
@@ -408,6 +414,7 @@ function refreshGraph(name, side, json, graph) {
             }
             else {
                 $(info_box_id + ' p').remove();
+                $("<p>Selected node id: " + e.data.node.id + "</p>").appendTo(info_box_id);
                 for (let i = 0; i < attributes_to_label.length; i++) {
                     $('<p>' + attributes_to_label[i] + ": " + eval('e.data.node.' + attributes_to_label[i]) + '</p>').appendTo(info_box_id);
                 }
@@ -417,9 +424,11 @@ function refreshGraph(name, side, json, graph) {
 
             if (container == "left_svg") {
                 s = sigma.instances(window.left_id);
+                $("#right_svg_node_info").remove();
                 another_net = sigma.instances(window.right_id);
             } else if (container == "right_svg") {
                 s = sigma.instances(window.right_id);
+                $("#left_svg_node_info").remove();
                 another_net = sigma.instances(window.left_id);
             }
             var nodeId = e.data.node.id,
@@ -776,7 +785,7 @@ $('#right_clear').on('click', () => {
 function recolor(index) {
     $('.color_label').remove();
 
-    var colors = ['#d41243', '#a2b825', '#4deeea', '#306B34', '#ffc03d', '#00aedb', '#B3001B', '#74ee15', '#a200ff', '#52B788', '#f000ff', '#EE6352', '#56EEF4', '#8E4162', '#9BF3F0', '#251351', '#001eff', '#f47835', '#FF4B3E', '#900C3F', '#5438DC'];
+    var colors = ['#a2b825', '#4deeea', '#ffc03d', '#00aedb', '#74ee15', '#a200ff', '#52B788', '#d41243', '#f000ff', '#EE6352', '#306B34', '#56EEF4', '#8E4162', '#9BF3F0', '#251351', '#001eff', '#f47835', '#FF4B3E', '#900C3F', '#5438DC', '#B3001B'];
     var x = document.getElementById("recolor");
     var selection = x.options[index].text;
 

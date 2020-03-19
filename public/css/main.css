@@ -231,7 +231,7 @@ input[type="file"] {
     border: 2px;
     border-style: dashed;
     border-radius: 2px;
-    border-color: gainsboro;
+    border-color: #FF0000;
     margin: 5px;
     padding: 3px;
     position: relative;
