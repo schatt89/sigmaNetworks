@@ -6,14 +6,15 @@ var not_attributes = ['id', 'read_cam0:size', 'read_cam0:x', 'read_cam0:y', 'x',
 var settings = {
     minNodeSize: 4,
     maxNodeSize: 12,
-    defaultNodeColor: '#264249',
+    defaultNodeColor: '#454545',
     edgeColor: 'default',
-    defaultEdgeColor: '#526b2d',
+    defaultEdgeColor: '#000',
     minEdgeSize: 1,
     maxEdgeSize: 3,
     borderSize: 2,
     defaultNodeBorderColor: '#000',
-    drawLabels: false
+    drawLabels: false,
+    doubleClickEnabled: false
 };
 
 
@@ -164,7 +165,7 @@ function refreshGraph(name, side, json, graph) {
 
                 ////// INFO BOXES ///////
 
-                s.bind('clickNode', function (e) {
+                s.bind('doubleClickNode', e => {
                     var container = e.data.renderer.container.id;
                     var container_id = "#" + container;
                     var info_box_id = container_id + '_node_info';
@@ -175,7 +176,7 @@ function refreshGraph(name, side, json, graph) {
                         for (let i=0; i < attributes_to_label.length; i++) {
                             $('<p>' + attributes_to_label[i] + ": " + eval('e.data.node.' + attributes_to_label[i]) + '</p>').appendTo(info_box_id);
                         }
-                        $(info_box_id).on('click', function () {
+                        $(info_box_id).on('click', function() {
                             $(this).remove();
                         });
                     }
@@ -188,8 +189,13 @@ function refreshGraph(name, side, json, graph) {
                 })
 
                 ////////// NEIGHBORS /////////////////
-                s.bind('clickNode', e => {
-                    console.log(e.data.node.color);
+                s.bind('doubleClickNode', e => {
+                    var container = e.data.renderer.container.id;
+                    if (container == "left_svg") {
+                        s = sigma.instances(window.left_id);
+                    } else if (container == "right_svg") {
+                        s = sigma.instances(window.right_id);
+                    }
                     var nodeId = e.data.node.id,
                         toKeep = s.graph.neighbors(nodeId);
                     toKeep[nodeId] = e.data.node;
@@ -246,8 +252,6 @@ function refreshGraph(name, side, json, graph) {
                         }
                         j++;
                     }
-                    /*s.startForceAtlas2();
-                    window.setTimeout(function () { s.stopForceAtlas2(); }, 100);*/
                 });
 
             }
@@ -366,14 +370,14 @@ function refreshGraph(name, side, json, graph) {
 
         ////// INFO BOXES ///////
 
-        s.bind('clickNode', function (e) {
+        s.bind('doubleClickNode', e => {
             var container = e.data.renderer.container.id;
             var container_id = "#" + container;
             var info_box_id = container_id + '_node_info';
             console.log(e);
             console.log(attributes_to_label);
             if ($(info_box_id).length === 0) {
-                $("<div id='" + container + "_node_info' class='info_box'>").appendTo(container_id);
+                $("<div id='" + container + "_node_info' class='info_box' title='click to remove'>").appendTo(container_id);
                 for (let i = 0; i < attributes_to_label.length; i++) {
                     $('<p>' + attributes_to_label[i] + ": " + eval('e.data.node.' + attributes_to_label[i]) + '</p>').appendTo(info_box_id);
                 }
@@ -390,10 +394,16 @@ function refreshGraph(name, side, json, graph) {
         })
 
         ////////// NEIGHBORS /////////////////
-        s.bind('clickNode', e => {
-            console.log(e.data.node.color);
+        s.bind('doubleClickNode', e => {
+            var container = e.data.renderer.container.id;
+            if (container == "left_svg") {
+                s = sigma.instances(window.left_id);
+            } else if (container == "right_svg") {
+                s = sigma.instances(window.right_id);
+            }
             var nodeId = e.data.node.id,
                 toKeep = s.graph.neighbors(nodeId);
+                console.log(s);
             toKeep[nodeId] = e.data.node;
 
             s.graph.nodes().forEach(n => {
@@ -725,7 +735,7 @@ $('#right_clear').on('click', () => {
 function recolor(index) {
     $('.color_label').remove();
 
-    var colors = ['#d41243', '#a2b825', '#4deeea', '#306B34', '#ffc03d', '#00aedb', '#B3001B', '#74ee15', '#a200ff', '#5438DC', '#52B788', '#f000ff', '#EE6352', '#56EEF4', '#8E4162', '#9BF3F0', '#251351', '#001eff', '#f47835', '#FF4B3E'];
+    var colors = ['#d41243', '#a2b825', '#4deeea', '#306B34', '#ffc03d', '#00aedb', '#B3001B', '#74ee15', '#a200ff', '#52B788', '#f000ff', '#EE6352', '#56EEF4', '#8E4162', '#9BF3F0', '#251351', '#001eff', '#f47835', '#FF4B3E', '#900C3F', '#5438DC'];
     var x = document.getElementById("recolor");
     var selection = x.options[index].text;
 
@@ -745,19 +755,15 @@ function recolor(index) {
             n.color = color;
             n.originalColor = color;
         });
-
-        sigma.instances(0).startForceAtlas2();
-        window.setTimeout( () => { sigma.instances(0).stopForceAtlas2(); }, 100);
+        sigma.instances(0).refresh();
 
         sigma.instances(1).graph.nodes().forEach(n => {
             var label = eval("n." + selection);
             var color = assigned_colors[labels.indexOf(label)];
             n.color = color;
             n.originalColor = color;
-        })
-
-        sigma.instances(1).startForceAtlas2();
-        window.setTimeout(() => { sigma.instances(1).stopForceAtlas2(); }, 1);
+        });
+        sigma.instances(1).refresh();
 
         $('#networks').append('<div class="legend" id="legend">')
         function handle_mousedown(e) {
@@ -810,9 +816,7 @@ function add_weight(index) {
             //e.originalColor = e.color;
             //e.color = weight > 0 ? "#dc143c" : e.color;
         })
-
-        sigma.instances(0).startForceAtlas2();
-        window.setTimeout(() => { sigma.instances(0).stopForceAtlas2(); }, 100);
+        sigma.instances(0).refresh();
 
         sigma.instances(1).graph.edges().forEach(e => {
             var weight = eval("e." + selection);
@@ -821,9 +825,8 @@ function add_weight(index) {
             //e.originalColor = e.color;
             //e.color = weight > 0 ? "#dc143c" : e.color;
         })
+        sigma.instances(1).refresh();
 
-        sigma.instances(1).startForceAtlas2();
-        window.setTimeout(() => { sigma.instances(1).stopForceAtlas2(); }, 100);
     } else {
         alert("both networks should be visualized");
         $("#set_weight option[value='-1']").attr("selected", true);
@@ -888,18 +891,18 @@ $('#common_structure').on("click", () => {
 
         console.log(nodes_intersection);
 
-        sigma.instances(window.left_id).graph.nodes().forEach( n => {
+        left_sigma.graph.nodes().forEach( n => {
             !nodes_intersection.includes(n.id) ? n.color = '#eee' : n.originalColor = n.originalColor;
             n.originalColor = n.color;
         })
-        sigma.instances(window.right_id).graph.nodes().forEach( n => {
+        right_sigma.graph.nodes().forEach( n => {
             !nodes_intersection.includes(n.id) ? n.color = '#eee' : n.originalColor = n.originalColor;
             n.originalColor = n.color;
         })
 
         console.log(edges_intersection);
 
-        sigma.instances(window.left_id).graph.edges().forEach( e => {
+        left_sigma.graph.edges().forEach( e => {
             if (!nodes_intersection.includes(e.source) || !nodes_intersection.includes(e.target) || !e.intersection == true) {
                 e.color = '#eee';
                 e.originalColor = e.color;
@@ -908,29 +911,28 @@ $('#common_structure').on("click", () => {
         });
 
 
-        sigma.instances(window.right_id).graph.edges().forEach( e => {
+        right_sigma.graph.edges().forEach( e => {
             if (!nodes_intersection.includes(e.source) || !nodes_intersection.includes(e.target) || !e.intersection == true) {
                 e.color = '#eee';
                 e.originalColor = e.color;
                 //e.hidden = true;
             }
         });
-        sigma.instances(window.left_id).startForceAtlas2();
-        sigma.instances(window.right_id).startForceAtlas2();
-        window.setTimeout( () => { sigma.instances(window.left_id).stopForceAtlas2(); }, 100);
-        window.setTimeout( () => { sigma.instances(window.right_id).stopForceAtlas2(); }, 100);
+
+        left_sigma.refresh();
+        right_sigma.refresh();
 
         var x = [];
         var y = [];
         var ids = [];
-        sigma.instances(window.right_id).graph.nodes().forEach( n => {
+        right_sigma.graph.nodes().forEach( n => {
             if (nodes_intersection.includes(n.id)) {
                 x.push(n.x);
                 y.push(n.y);
                 ids.push(n.id);
             }
         })
-        sigma.instances(window.right_id).graph.nodes().forEach( n => {
+        right_sigma.graph.nodes().forEach( n => {
             if (nodes_intersection.includes(n.id)) {
                 n.x = x[ids.indexOf(n.id)];
                 n.y = y[ids.indexOf(n.id)];
@@ -978,10 +980,8 @@ $('#reset_common_structure').on('click', () => {
         e.originalColor = e.color;
     });
 
-    sigma.instances(0).startForceAtlas2();
-    sigma.instances(1).startForceAtlas2();
-    window.setTimeout( () => { sigma.instances(0).stopForceAtlas2(); }, 100);
-    window.setTimeout( () => { sigma.instances(1).stopForceAtlas2(); }, 100);
+    sigma.instances(0).refresh();
+    sigma.instances(1).refresh();
 });
 
 
