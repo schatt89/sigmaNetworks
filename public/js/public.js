@@ -389,6 +389,46 @@ function refreshGraph(name, side, json, graph) {
             }
         })
 
+        ////////// NEIGHBORS /////////////////
+        s.bind('clickNode', e => {
+            console.log(e.data.node.color);
+            var nodeId = e.data.node.id,
+                toKeep = s.graph.neighbors(nodeId);
+            toKeep[nodeId] = e.data.node;
+
+            s.graph.nodes().forEach(n => {
+                if (toKeep[n.id]) {
+                    n.color = n.originalColor;
+                }
+                else {
+                    n.color = '#eee';
+                }
+            });
+
+            s.graph.edges().forEach(e => {
+                if (toKeep[e.source] && toKeep[e.target]) {
+                    e.color = e.originalColor;
+                }
+                else {
+                    e.color = '#eee';
+                }
+            });
+
+            s.refresh();
+        });
+
+        s.bind('clickStage', e => {
+            s.graph.nodes().forEach(n => {
+                n.color = n.originalColor;
+            });
+
+            s.graph.edges().forEach(e => {
+                e.color = e.originalColor;
+            });
+
+            // Same as in the previous event:
+            s.refresh();
+        });
 
         ////////// LAYOUT ///////////
 
@@ -909,30 +949,39 @@ $('#common_structure').on("click", () => {
 $('#reset_common_structure').on('click', () => {
     $('#set_weight option[value="-1"]').attr("selected", true);
     $('#recolor option[value="-1"]').attr("selected", true);
-    sigma.instances(window.left_id).graph.nodes().forEach( n => {
+    $('#legend').remove();
+    $('.info_box').remove();
+
+    // nodes
+    sigma.instances(0).graph.nodes().forEach( n => {
         n.color = settings.defaultNodeColor;
+        n.originalColor = n.color;
     })
-    sigma.instances(window.right_id).graph.nodes().forEach( n => {
+    sigma.instances(1).graph.nodes().forEach( n => {
         n.color = settings.defaultNodeColor;
+        n.originalColor = n.color;
     })
 
-    sigma.instances(window.left_id).graph.edges().forEach( e => {
-            //e.hidden = false;
-            e.size = 0;
+    // edges
+    sigma.instances(0).graph.edges().forEach( e => {
+        //e.hidden = false;
+        e.size = 0;
         e.color = settings.defaultEdgeColor;
+        e.originalColor = e.color;
     });
 
 
-    sigma.instances(window.right_id).graph.edges().forEach( e => {
-            //e.hidden = false;
-            e.size = 0;
-            e.color = settings.defaultEdgeColor;
+    sigma.instances(1).graph.edges().forEach( e => {
+        //e.hidden = false;
+        e.size = 0;
+        e.color = settings.defaultEdgeColor;
+        e.originalColor = e.color;
     });
 
-    sigma.instances(window.left_id).startForceAtlas2();
-    sigma.instances(window.right_id).startForceAtlas2();
-    window.setTimeout( () => { sigma.instances(window.left_id).stopForceAtlas2(); }, 100);
-    window.setTimeout( () => { sigma.instances(window.right_id).stopForceAtlas2(); }, 100);
+    sigma.instances(0).startForceAtlas2();
+    sigma.instances(1).startForceAtlas2();
+    window.setTimeout( () => { sigma.instances(0).stopForceAtlas2(); }, 100);
+    window.setTimeout( () => { sigma.instances(1).stopForceAtlas2(); }, 100);
 });
 
 
