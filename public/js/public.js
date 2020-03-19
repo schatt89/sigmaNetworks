@@ -3,8 +3,21 @@ var left_first_time = true;
 var right_first_time = true;
 var not_attributes = ['id', 'read_cam0:size', 'read_cam0:x', 'read_cam0:y', 'x', 'y', 'cam0:x', 'cam0:y', 'cam0:size', 'originalColor', 'label', 'size', 'source', 'target', 'size'];
 
+var settings = {
+    minNodeSize: 4,
+    maxNodeSize: 12,
+    defaultNodeColor: '#264249',
+    edgeColor: 'default',
+    defaultEdgeColor: '#526b2d',
+    minEdgeSize: 1,
+    maxEdgeSize: 3,
+    borderSize: 2,
+    defaultNodeBorderColor: '#000',
+    drawLabels: false
+};
 
-/*
+
+
 sigma.classes.graph.addMethod('neighbors', function (nodeId) {
     var k,
         neighbors = {},
@@ -15,22 +28,10 @@ sigma.classes.graph.addMethod('neighbors', function (nodeId) {
 
     return neighbors;
 });
-*/
+
 
 
 function refreshGraph(name, side, json, graph) {
-    var settings = {
-                minNodeSize: 4,
-                maxNodeSize: 12,
-                defaultNodeColor: '#264249',
-                edgeColor: 'default',
-                defaultEdgeColor: '#526b2d',
-                minEdgeSize: 1,
-                maxEdgeSize: 3,
-                borderSize: 2,
-                defaultNodeBorderColor: '#000',
-                drawLabels: false
-            };
 
     var atlas_settings = {
         linLogMode: true,
@@ -186,14 +187,14 @@ function refreshGraph(name, side, json, graph) {
                     }
                 })
 
-                /*
-                s.bind('clickNode', function (e) {
+                ////////// NEIGHBORS /////////////////
+                s.bind('clickNode', e => {
                     console.log(e.data.node.color);
                     var nodeId = e.data.node.id,
                         toKeep = s.graph.neighbors(nodeId);
                     toKeep[nodeId] = e.data.node;
     
-                    s.graph.nodes().forEach(function (n) {
+                    s.graph.nodes().forEach( n => {
                         if (toKeep[n.id]) {
                             n.color = n.originalColor;
                         }
@@ -202,7 +203,7 @@ function refreshGraph(name, side, json, graph) {
                         }
                     });
     
-                    s.graph.edges().forEach(function (e) {
+                    s.graph.edges().forEach( e => {
                         if (toKeep[e.source] && toKeep[e.target]) {
                             e.color = e.originalColor;
                         }
@@ -214,19 +215,19 @@ function refreshGraph(name, side, json, graph) {
                     s.refresh();
                 });
                 
-                s.bind('clickStage', function (e) {
-                    s.graph.nodes().forEach(function (n) {
+                s.bind('clickStage', e => {
+                    s.graph.nodes().forEach( n => {
                         n.color = n.originalColor;
                     });
     
-                    s.graph.edges().forEach(function (e) {
+                    s.graph.edges().forEach( e => {
                         e.color = e.originalColor;
                     });
     
                     // Same as in the previous event:
                     s.refresh();
                 });
-                */
+                
 
                 ////////// LAYOUT ///////////
                 atlasObj = s.startForceAtlas2(atlas_settings);
@@ -718,38 +719,38 @@ function recolor(index) {
         sigma.instances(1).startForceAtlas2();
         window.setTimeout(() => { sigma.instances(1).stopForceAtlas2(); }, 1);
 
-    } else {
-        alert("both networks should be visualized")
-    }
-
-    $('#networks').append('<div class="legend" id="legend">')
-    function handle_mousedown(e) {
-        window.my_dragging = {};
-        my_dragging.pageX0 = e.pageX;
-        my_dragging.pageY0 = e.pageY;
-        my_dragging.elem = this;
-        my_dragging.offset0 = $(this).offset();
-        function handle_dragging(e) {
-            var left = my_dragging.offset0.left + (e.pageX - my_dragging.pageX0);
-            var top = my_dragging.offset0.top + (e.pageY - my_dragging.pageY0);
-            $(my_dragging.elem)
-                .offset({ top: top, left: left });
-        }
-        function handle_mouseup(e) {
+        $('#networks').append('<div class="legend" id="legend">')
+        function handle_mousedown(e) {
+            window.my_dragging = {};
+            my_dragging.pageX0 = e.pageX;
+            my_dragging.pageY0 = e.pageY;
+            my_dragging.elem = this;
+            my_dragging.offset0 = $(this).offset();
+            function handle_dragging(e) {
+                var left = my_dragging.offset0.left + (e.pageX - my_dragging.pageX0);
+                var top = my_dragging.offset0.top + (e.pageY - my_dragging.pageY0);
+                $(my_dragging.elem)
+                    .offset({ top: top, left: left });
+            }
+            function handle_mouseup(e) {
+                $('body')
+                    .off('mousemove', handle_dragging)
+                    .off('mouseup', handle_mouseup);
+            }
             $('body')
-                .off('mousemove', handle_dragging)
-                .off('mouseup', handle_mouseup);
+                .on('mouseup', handle_mouseup)
+                .on('mousemove', handle_dragging);
         }
-        $('body')
-            .on('mouseup', handle_mouseup)
-            .on('mousemove', handle_dragging);
-    }
-    $('#legend').mousedown(handle_mousedown);
-    for (let i = 0; i < labels.length; i++) {
-        $('#legend').append('<div class="color_label"' + ' style="background-color:' + assigned_colors[i] + ';margin:4px;order:'+(i+2)+'" id="' + labels[i] + '">' + labels[i] + '</div>')
-    }
+        $('#legend').mousedown(handle_mousedown);
+        for (let i = 0; i < labels.length; i++) {
+            $('#legend').append('<div class="color_label"' + ' style="background-color:' + assigned_colors[i] + ';margin:4px;order:' + (i + 2) + '" id="' + labels[i] + '">' + labels[i] + '</div>')
+        }
 
+    } else {
+        alert("both networks should be visualized");
+        $("#recolor option[value='-1']").attr("selected", true);
 
+    }
 
 }
 
@@ -757,31 +758,37 @@ function recolor(index) {
 ///////////// ADD WEIGHT TO THE EDGES ///////////////////
 
 function add_weight(index) {
+
+    if (typeof sigma.instances(0) !== "undefined" && typeof sigma.instances(1) !== "undefined") {
+        var x = document.getElementById("set_weight");
+        var selection = x.options[index].text;
+
+        sigma.instances(0).graph.edges().forEach(e => {
+            var weight = eval("e." + selection);
+            e.size = weight;
+            //e.color = e.originalColor;
+            //e.originalColor = e.color;
+            //e.color = weight > 0 ? "#dc143c" : e.color;
+        })
+
+        sigma.instances(0).startForceAtlas2();
+        window.setTimeout(() => { sigma.instances(0).stopForceAtlas2(); }, 100);
+
+        sigma.instances(1).graph.edges().forEach(e => {
+            var weight = eval("e." + selection);
+            e.size = weight;
+            //e.color = e.originalColor;
+            //e.originalColor = e.color;
+            //e.color = weight > 0 ? "#dc143c" : e.color;
+        })
+
+        sigma.instances(1).startForceAtlas2();
+        window.setTimeout(() => { sigma.instances(1).stopForceAtlas2(); }, 100);
+    } else {
+        alert("both networks should be visualized");
+        $("#set_weight option[value='-1']").attr("selected", true);
+    }
     
-    var x = document.getElementById("set_weight");
-    var selection = x.options[index].text;
-
-    sigma.instances(0).graph.edges().forEach( e => {
-        var weight = eval("e." + selection);
-        e.size = weight;
-        //e.color = e.originalColor;
-        //e.originalColor = e.color;
-        //e.color = weight > 0 ? "#dc143c" : e.color;
-    }) 
-
-    sigma.instances(0).startForceAtlas2();
-    window.setTimeout( () => { sigma.instances(0).stopForceAtlas2(); }, 100);
-
-    sigma.instances(1).graph.edges().forEach( e => {
-        var weight = eval("e." + selection);
-        e.size = weight;
-        //e.color = e.originalColor;
-        //e.originalColor = e.color;
-        //e.color = weight > 0 ? "#dc143c" : e.color;
-    })
-
-    sigma.instances(1).startForceAtlas2();
-    window.setTimeout( () => { sigma.instances(1).stopForceAtlas2(); }, 100);
 }
     
 
@@ -828,7 +835,7 @@ function find_common_structure() {
 }
 
 
-document.getElementById('common_structure').onclick = () => {
+$('#common_structure').on("click", () => {
     var left_sigma = sigma.instances(window.left_id);
     var right_sigma = sigma.instances(window.right_id);
 
@@ -843,9 +850,11 @@ document.getElementById('common_structure').onclick = () => {
 
         sigma.instances(window.left_id).graph.nodes().forEach( n => {
             !nodes_intersection.includes(n.id) ? n.color = '#eee' : n.originalColor = n.originalColor;
+            n.originalColor = n.color;
         })
         sigma.instances(window.right_id).graph.nodes().forEach( n => {
             !nodes_intersection.includes(n.id) ? n.color = '#eee' : n.originalColor = n.originalColor;
+            n.originalColor = n.color;
         })
 
         console.log(edges_intersection);
@@ -853,6 +862,7 @@ document.getElementById('common_structure').onclick = () => {
         sigma.instances(window.left_id).graph.edges().forEach( e => {
             if (!nodes_intersection.includes(e.source) || !nodes_intersection.includes(e.target) || !e.intersection == true) {
                 e.color = '#eee';
+                e.originalColor = e.color;
                 //e.hidden = true;
             }
         });
@@ -861,6 +871,7 @@ document.getElementById('common_structure').onclick = () => {
         sigma.instances(window.right_id).graph.edges().forEach( e => {
             if (!nodes_intersection.includes(e.source) || !nodes_intersection.includes(e.target) || !e.intersection == true) {
                 e.color = '#eee';
+                e.originalColor = e.color;
                 //e.hidden = true;
             }
         });
@@ -892,35 +903,37 @@ document.getElementById('common_structure').onclick = () => {
 
     }
 
-}
+});
 
 ////// RESET COMMON STRUCTURE //////
-document.getElementById('reset_common_structure').onclick = () => {
+$('#reset_common_structure').on('click', () => {
+    $('#set_weight option[value="-1"]').attr("selected", true);
+    $('#recolor option[value="-1"]').attr("selected", true);
     sigma.instances(window.left_id).graph.nodes().forEach( n => {
-        n.color = n.originalColor;
+        n.color = settings.defaultNodeColor;
     })
     sigma.instances(window.right_id).graph.nodes().forEach( n => {
-        n.color = n.originalColor;
+        n.color = settings.defaultNodeColor;
     })
 
     sigma.instances(window.left_id).graph.edges().forEach( e => {
             //e.hidden = false;
             e.size = 0;
-            e.color = e.originalColor;
+        e.color = settings.defaultEdgeColor;
     });
 
 
     sigma.instances(window.right_id).graph.edges().forEach( e => {
             //e.hidden = false;
             e.size = 0;
-            e.color = e.originalColor;
+            e.color = settings.defaultEdgeColor;
     });
 
     sigma.instances(window.left_id).startForceAtlas2();
     sigma.instances(window.right_id).startForceAtlas2();
     window.setTimeout( () => { sigma.instances(window.left_id).stopForceAtlas2(); }, 100);
     window.setTimeout( () => { sigma.instances(window.right_id).stopForceAtlas2(); }, 100);
-}
+});
 
 
 ////// ZOOM IN AND OUT //////
@@ -988,9 +1001,3 @@ $(document).ready( () => {
         })
     })
 })
-
-//// NODE INFO IN A BOX MAKE DRAGGABLE////////
-
-
-
-
