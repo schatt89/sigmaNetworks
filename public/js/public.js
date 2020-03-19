@@ -654,23 +654,22 @@ function refresh_color_selection() {
 }
 
 document.getElementById('left_clear').onclick = () => {
+    $('#left_select option[value="-1"]').attr("selected", true);
     sigma.instances(window.left_id).kill();
     left_first_time = true;
 
-    if (typeof sigma.instances(window.right_id) == 'undefined') { // check if another side is also cleared
-        refresh_color_selection();
-        refresh_edge_weight_selection();
-    }
+    refresh_color_selection();
+    refresh_edge_weight_selection();
+
 }
 
 document.getElementById('right_clear').onclick = () => {
+    $('#right_select option[value="-1"]').attr("selected", true);
     sigma.instances(window.right_id).kill();
     right_first_time = true;
 
-    if (typeof sigma.instances(window.left_id) == 'undefined') { // check if another side is also cleared
-        refresh_color_selection();
-        refresh_edge_weight_selection();
-    }
+    refresh_color_selection();
+    refresh_edge_weight_selection();
 }
 
 //// RECOLOR THE NODES ////
@@ -684,7 +683,7 @@ function recolor(index) {
 
     var labels = [];
     var assigned_colors = [];
-    if (typeof sigma.instances(0) !== "undefined") {
+    if (typeof sigma.instances(0) !== "undefined" && typeof sigma.instances(1) !== "undefined") {
         sigma.instances(0).graph.nodes().forEach( n => {
             var label = eval("n." + selection);
             if (labels.includes(label)) {
@@ -702,11 +701,7 @@ function recolor(index) {
         sigma.instances(0).startForceAtlas2();
         window.setTimeout( () => { sigma.instances(0).stopForceAtlas2(); }, 100);
 
-    }
-
-
-    if (typeof sigma.instances(1) !== "undefined") {
-        sigma.instances(1).graph.nodes().forEach( n => {
+        sigma.instances(1).graph.nodes().forEach(n => {
             var label = eval("n." + selection);
             var color = assigned_colors[labels.indexOf(label)];
             n.color = color;
@@ -714,7 +709,10 @@ function recolor(index) {
         })
 
         sigma.instances(1).startForceAtlas2();
-        window.setTimeout( () => { sigma.instances(1).stopForceAtlas2(); }, 1);
+        window.setTimeout(() => { sigma.instances(1).stopForceAtlas2(); }, 1);
+
+    } else {
+        alert("both networks should be visualized")
     }
 
     $('#networks').append('<div class="legend" id="legend">')
@@ -920,7 +918,7 @@ document.getElementById('reset_common_structure').onclick = () => {
 
 ////// ZOOM IN AND OUT //////
 
-// zoom in ///////////
+//// zoom in ///////////
 $(document).ready( () => {
     $("#left_zoom_in").bind("click", () => {
         c = sigma.instances(window.left_id).camera;

@@ -10,7 +10,7 @@ body {
     margin: 0; padding: 0; 
     display: flex; 
     font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif; font-size: 80%; 
-    background-color: whitesmoke;
+    background-color: white;
 }
 
 .legend {
@@ -24,7 +24,7 @@ body {
     z-index: 6;
     position: absolute;
     left: 80%;
-}
+} 
 
 .color_label {
     width: fit-content;
@@ -237,7 +237,7 @@ input[type="file"] {
     position: relative;
     align-self: start;
     z-index: 5;
-    background-color: whitesmoke;
+    background-color: white;
     opacity: 90%;
     display: flex;
     flex-direction: column;
