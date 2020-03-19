@@ -467,7 +467,7 @@ function select_data(index, side) {
 
 //////////// UPLOADING A CUSTOM FILE //////////////
 
-document.getElementById('left_import').onclick = () => {
+$('#left_import').on('click', () => {
     const files = document.getElementById('left_file').files;
     console.log(files);
     if (files.length <= 0) {
@@ -483,7 +483,7 @@ document.getElementById('left_import').onclick = () => {
         const result = JSON.parse(e.target.result);
         console.log(result)
         var formatted = JSON.stringify(result, null, 2);
-        document.getElementById('left_result').value = formatted;
+        //document.getElementById('left_result').value = formatted;
         const response = await fetch("/api", {
             method: "POST",
             body: formatted,
@@ -508,9 +508,9 @@ document.getElementById('left_import').onclick = () => {
 
     fr.readAsText(files.item(0));
 
-}
+});
 
-document.getElementById('right_import').onclick = () => {
+$('#right_import').on('click', () => {
     const files = document.getElementById('right_file').files;
     console.log(files);
     if (files.length <= 0) {
@@ -526,7 +526,7 @@ document.getElementById('right_import').onclick = () => {
         const result = JSON.parse(e.target.result);
         console.log(result)
         var formatted = JSON.stringify(result, null, 2);
-        document.getElementById('right_result').value = formatted;
+        //document.getElementById('right_result').value = formatted;
         const response = await fetch("/api", {
             method: "POST",
             body: formatted,
@@ -551,7 +551,7 @@ document.getElementById('right_import').onclick = () => {
 
     fr.readAsText(files.item(0));
 
-}
+});
 
 /// UI events ///
 
@@ -653,24 +653,31 @@ function refresh_color_selection() {
     }
 }
 
-document.getElementById('left_clear').onclick = () => {
+$('#left_clear').on("click", () => {
+    $('#set_weight option[value="-1"]').attr("selected", true);
     $('#left_select option[value="-1"]').attr("selected", true);
-    sigma.instances(window.left_id).kill();
-    left_first_time = true;
+    if (typeof sigma.instances(window.left_id) !== "undefined") {
+        sigma.instances(window.left_id).kill();
+        left_first_time = true;
+        refresh_color_selection();
+        refresh_edge_weight_selection();
+    } else {
+        alert("Nothing to clear")
+    }
+});
 
-    refresh_color_selection();
-    refresh_edge_weight_selection();
-
-}
-
-document.getElementById('right_clear').onclick = () => {
+$('#right_clear').on('click', () => {
+    $('#set_weight option[value="-1"]').attr("selected", true);
     $('#right_select option[value="-1"]').attr("selected", true);
-    sigma.instances(window.right_id).kill();
-    right_first_time = true;
-
-    refresh_color_selection();
-    refresh_edge_weight_selection();
-}
+    if (typeof sigma.instances(window.right_id) !== 'undefined') {
+        sigma.instances(window.right_id).kill(); 
+        right_first_time = true;
+        refresh_color_selection();
+        refresh_edge_weight_selection();
+    } else {
+        alert("Nothing to clear")
+    }
+});
 
 //// RECOLOR THE NODES ////
 
