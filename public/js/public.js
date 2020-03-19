@@ -163,9 +163,11 @@ function refreshGraph(name, side, json, graph) {
                     }
                 }
 
-                ////// INFO BOXES ///////
 
+                ////////// NEIGHBORS AND INFOBOXES ON DOUBLE CLICK /////////////////
                 s.bind('doubleClickNode', e => {
+
+                    // INFOBOXES
                     var container = e.data.renderer.container.id;
                     var container_id = "#" + container;
                     var info_box_id = container_id + '_node_info';
@@ -173,10 +175,10 @@ function refreshGraph(name, side, json, graph) {
                     console.log(attributes_to_label);
                     if ($(info_box_id).length === 0) {
                         $("<div id='" + container + "_node_info' class='info_box' title='click to remove'>").appendTo(container_id);
-                        for (let i=0; i < attributes_to_label.length; i++) {
+                        for (let i = 0; i < attributes_to_label.length; i++) {
                             $('<p>' + attributes_to_label[i] + ": " + eval('e.data.node.' + attributes_to_label[i]) + '</p>').appendTo(info_box_id);
                         }
-                        $(info_box_id).on('click', function() {
+                        $(info_box_id).on('click', function () {
                             $(this).remove();
                         });
                     }
@@ -186,23 +188,32 @@ function refreshGraph(name, side, json, graph) {
                             $('<p>' + attributes_to_label[i] + ": " + eval('e.data.node.' + attributes_to_label[i]) + '</p>').appendTo(info_box_id);
                         }
                     }
-                })
 
-                ////////// NEIGHBORS /////////////////
-                s.bind('doubleClickNode', e => {
-                    var container = e.data.renderer.container.id;
+                    ////// NEIGHBORS ///////
+
                     if (container == "left_svg") {
                         s = sigma.instances(window.left_id);
+                        another_net = sigma.instances(window.right_id);
                     } else if (container == "right_svg") {
                         s = sigma.instances(window.right_id);
+                        another_net = sigma.instances(window.left_id);
                     }
                     var nodeId = e.data.node.id,
                         toKeep = s.graph.neighbors(nodeId);
                     toKeep[nodeId] = e.data.node;
-    
+        
                     s.graph.nodes().forEach( n => {
                         if (toKeep[n.id]) {
-                            n.color = n.originalColor;
+                            n.color = n.id == nodeId ? '#FF0000' : n.originalColor;
+                        }
+                        else {
+                            n.color = '#eee';
+                        }
+                    });
+
+                    another_net.graph.nodes().forEach(n => {
+                        if (toKeep[n.id]) {
+                            n.color = n.id == nodeId ? '#FF0000' : n.originalColor;
                         }
                         else {
                             n.color = '#eee';
@@ -217,8 +228,18 @@ function refreshGraph(name, side, json, graph) {
                             e.color = '#eee';
                         }
                     });
+
+                    another_net.graph.edges().forEach(e => {
+                        if (toKeep[e.source] && toKeep[e.target]) {
+                            e.color = e.originalColor;
+                        }
+                        else {
+                            e.color = '#eee';
+                        }
+                    });
     
                     s.refresh();
+                    another_net.refresh();
                 });
                 
                 s.bind('clickStage', e => {
@@ -368,14 +389,14 @@ function refreshGraph(name, side, json, graph) {
             }
         }
 
-        ////// INFO BOXES ///////
-
+        ////////// NEIGHBORS AND INFOBOXES ON DOUBLE CLICK /////////////////
         s.bind('doubleClickNode', e => {
+
+            ////////// INFOBOXES ///////////
             var container = e.data.renderer.container.id;
             var container_id = "#" + container;
             var info_box_id = container_id + '_node_info';
-            console.log(e);
-            console.log(attributes_to_label);
+
             if ($(info_box_id).length === 0) {
                 $("<div id='" + container + "_node_info' class='info_box' title='click to remove'>").appendTo(container_id);
                 for (let i = 0; i < attributes_to_label.length; i++) {
@@ -391,24 +412,34 @@ function refreshGraph(name, side, json, graph) {
                     $('<p>' + attributes_to_label[i] + ": " + eval('e.data.node.' + attributes_to_label[i]) + '</p>').appendTo(info_box_id);
                 }
             }
-        })
 
-        ////////// NEIGHBORS /////////////////
-        s.bind('doubleClickNode', e => {
-            var container = e.data.renderer.container.id;
+            ////// NEIGHBORS ///////
+
             if (container == "left_svg") {
                 s = sigma.instances(window.left_id);
+                another_net = sigma.instances(window.right_id);
             } else if (container == "right_svg") {
                 s = sigma.instances(window.right_id);
+                another_net = sigma.instances(window.left_id);
             }
             var nodeId = e.data.node.id,
                 toKeep = s.graph.neighbors(nodeId);
-                console.log(s);
             toKeep[nodeId] = e.data.node;
+            console.log(toKeep);
+            console.log(e.data.node);
 
             s.graph.nodes().forEach(n => {
                 if (toKeep[n.id]) {
-                    n.color = n.originalColor;
+                    n.color = n.id == nodeId ? '#FF0000' : n.originalColor;
+                }
+                else {
+                    n.color = '#eee';
+                }
+            });
+
+            another_net.graph.nodes().forEach(n => {
+                if (toKeep[n.id]) {
+                    n.color = n.id == nodeId ? '#FF0000' : n.originalColor;
                 }
                 else {
                     n.color = '#eee';
@@ -424,7 +455,17 @@ function refreshGraph(name, side, json, graph) {
                 }
             });
 
+            another_net.graph.edges().forEach(e => {
+                if (toKeep[e.source] && toKeep[e.target]) {
+                    e.color = e.originalColor;
+                }
+                else {
+                    e.color = '#eee';
+                }
+            });
+
             s.refresh();
+            another_net.refresh();
         });
 
         s.bind('clickStage', e => {
