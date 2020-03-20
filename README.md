@@ -6,7 +6,7 @@
 
 The application is designed to work with **two** networks that are expected to have **common structure**. For example, these could be a friendship network observed in two periods of time.
 
-You can try and see how it works with the datasets we have in the selection: *Investor network - before [crisis]* and *Investor network - after [crisis]*.
+You can try and see how it works with the datasets we have in the selection: *Investor network - before [crisis]* and *Investor network - during [crisis]*.
 
 1. Select a dataset on the left and right side or upload your datasets in .json format. To use your dataset:
    - See the [.json template](https://github.com/schatt89/sigmaNetworks/blob/master/public/data/template.json) 
