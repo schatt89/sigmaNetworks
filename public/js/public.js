@@ -247,6 +247,12 @@ function refreshGraph(name, side, json, graph) {
                 });
                 
                 s.bind('clickStage', e => {
+                    var container = e.data.renderer.container.id
+                    if (container == "left_svg") {
+                        s = sigma.instances(window.left_id);
+                    } else if (container == "right_svg") {
+                        s = sigma.instances(window.right_id);
+                    }
                     s.graph.nodes().forEach( n => {
                         n.color = n.originalColor;
                     });
@@ -478,6 +484,12 @@ function refreshGraph(name, side, json, graph) {
         });
 
         s.bind('clickStage', e => {
+            var container = e.data.renderer.container.id
+            if (container == "left_svg") {
+                s = sigma.instances(window.left_id);
+            } else if (container == "right_svg") {
+                s = sigma.instances(window.right_id);
+            }
             s.graph.nodes().forEach(n => {
                 n.color = n.originalColor;
             });
