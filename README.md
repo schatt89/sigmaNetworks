@@ -8,14 +8,15 @@ The application is designed to work with **two** networks that are expected to h
 
 You can try and see how it works with the datasets we have in the selection: *Investor network - before [crisis]* and *Investor network - during [crisis]*.
 
-1. Select a dataset on the left and right side or upload your datasets in .json format. To use your dataset:
+1. Go to [sigma-networks.herokuapp.com](https://sigma-networks.herokuapp.com/) (loading the page may take a while)
+2. Select a dataset on the left and right side or upload your datasets in .json format. To use your dataset:
    - See the [.json template](https://github.com/schatt89/sigmaNetworks/blob/master/public/data/template.json) 
    - See the [`.ipynb` notebook](https://github.com/schatt89/sigmaNetworks/blob/master/transform_data/convert_graphml_to_json.ipynb) to learn how to convert your data to the desired .json format
    - Import file and then click `Build a network` button
-2. Select a node attribute to color the nodes and place the legend by dragging it
-3. Select an edge attribute to add weight to the edges
-4. Update statistics if you need them
-5. Highlight the common links and nodes to see the underlying structure of the networks 
+3. Select a node attribute to color the nodes and place the legend by dragging it
+4. Select an edge attribute to add weight to the edges
+5. Update statistics if you need them
+6. Highlight the common links and nodes to see the underlying structure of the networks 
 
 Some features:
 - Hover over a node to see its attributes
