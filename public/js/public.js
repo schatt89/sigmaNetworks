@@ -769,6 +769,7 @@ function refresh_color_selection() {
 $('#left_clear').on("click", () => {
     $('#set_weight option[value="-1"]').attr("selected", true);
     $('#left_select option[value="-1"]').attr("selected", true);
+    $('#left_svg_node_info').remove();
     if (typeof sigma.instances(window.left_id) !== "undefined") {
         sigma.instances(window.left_id).kill();
         left_first_time = true;
@@ -782,6 +783,7 @@ $('#left_clear').on("click", () => {
 $('#right_clear').on('click', () => {
     $('#set_weight option[value="-1"]').attr("selected", true);
     $('#right_select option[value="-1"]').attr("selected", true);
+    $('#right_svg_node_info').remove();
     if (typeof sigma.instances(window.right_id) !== 'undefined') {
         sigma.instances(window.right_id).kill(); 
         right_first_time = true;
