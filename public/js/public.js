@@ -535,9 +535,9 @@ function network_from_selected_data(sel, side) {
     } else if (sel == 3) {
         var name = "data/data.json"
     } else if (sel == 4) {
-        var name = "data/data2.json"
+        var name = "data/wave1.json"
     } else if (sel == 5) {
-        var name = "data/sigma-data.json"
+        var name = "data/wave2.json"
     }
 
     console.log(window.left_id);
