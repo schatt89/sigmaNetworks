@@ -88,27 +88,25 @@
                       </div>
                     </div>
                     <div class="mini-container">
-                      <div class = "selection">
+                      <div class = "data">
                         <p><label class="label">data</label>
-                          select a dataset</p>
-            
+                          select a dataset <b>or</b> upload your dataset in <a download="template.json" href="data/template.json" title='download a json template'>.json</a></p>
+                        <div class="hidden">
                           <select name="ab" id="left_select" onchange="if (this.selectedIndex) select_data(this.selectedIndex, 'left');">
                             <option value="-1">No selection</option>
                             <option value="1">Investor network - before</option>
                             <option value="2">Investor network - during</option>
-                            <option value="3">Another option</option> 
+                            <option value="3">Another option</option>
                             <option value="4">Artificial data wave 1</option>
                             <option value="5">Artificial data wave 2</option>
-                        </select> 
-
-                      </div>
-                      <div class="uploading">
-                        <p><label class = "label">json</label>
-                          upload your dataset in <a download="template.json" href="data/template.json" title='download a json template'>.json</a>
-                        </p>
+                          </select>
+                        </div>
+                        <div class="hidden">
                           <input type="file" name="#left_svg" id="left_file" class="inputfile" />
-                          <label for="left_file" class="button"> Import </label> <label class="filename" id="left_filename"> file.json </label> <br/>
-                          <button id="left_import" class="button">Build a network</button> 
+                          <label for="left_file" class="button"> Import </label> <label class="filename" id="left_filename"> file.json </label>
+                          <br />
+                          <button id="left_import" class="button">Build a network</button>
+                        </div>
                       </div>
                       <div class="clear">
                         <p><label class="label">clear</label>kill network visualization</p>
@@ -134,27 +132,25 @@
                       </div>
                     </div>
                     <div class="mini-container">
-                      <div class="selection">
+                      <div class="data">
                         <p><label class="label">data</label>
-                          select a dataset</p>
-            
+                          select a dataset <b>or</b> upload your dataset in <a download="template.json" href="data/template.json" title='download a json template'>.json</a></p>
+                        <div class="hidden">
                           <select name="ab" id="right_select" onchange="if (this.selectedIndex) select_data(this.selectedIndex, 'right');">
                             <option value="-1">No selection</option>
                             <option value="1">Investor network - before</option>
                             <option value="2">Investor network - during</option>
-                            <option value="3">Another option</option> 
+                            <option value="3">Another option</option>
                             <option value="4">Artificial data wave 1</option>
                             <option value="5">Artificial data wave 2</option>
-                        </select> 
-
-                      </div>
-                      <div class="uploading">
-                        <p><label class = "label">json</label>
-                          upload your dataset in <a download="template.json"href="data/template.json" title='download a json template'>.json</a>
-                        </p>
+                          </select>
+                        </div>
+                        <div class = "hidden">
                           <input type="file" name="#right_svg" id="right_file" class="inputfile" />
-                          <label for="right_file" class="button"> Import </label> <label class="filename" id="right_filename"> file.json </label> <br/>
-                          <button id="right_import" class="button">Build a network</button> 
+                          <label for="right_file" class="button"> Import </label> <label class="filename" id="right_filename"> file.json </label>
+                          <br />
+                          <button id="right_import" class="button">Build a network</button>
+                        </div>
                       </div>
                       <div class="clear">
                         <p><label class="label">clear</label>kill network visualization</p>

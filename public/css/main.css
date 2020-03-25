@@ -39,11 +39,11 @@ a[download] {
 }
 
 a[download]::after {
-  content: url('https://img.icons8.com/small/16/000000/download.png');
+  font: normal normal normal 12px/1 FontAwesome;
+  content: ' \f059';
   height: 1em;
-  position: absolute;
   width: 1em;
-  margin: 3px 1px;
+  bottom: 0;
 }
 
 a[download]:hover,
@@ -152,7 +152,6 @@ input[type="file"] {
 	background-color:#ededed;
 	border-radius:5px;
 	border:1px solid #d6bcd6;
-	display:inline-block;
 	cursor: pointer;
 	color:#264249;
 	padding:2px 12px;
@@ -173,15 +172,12 @@ input[type="file"] {
 
 .mini-container div {
     border-style: dashed;
-    border-width: 1%;
     border-color: gainsboro;
     border-radius: 3px;
     padding: 5px;
-    width: 200px;
     height: inherit;
     margin: 2px;
     background-color: #aaa;
-    flex: 1;
 }
 
 .mini-container div .label { margin-right: .5em; font-size: 120%; font-weight: bold; display: inline-block; }
@@ -209,6 +205,48 @@ input[type="file"] {
     flex-wrap: wrap;
     flex-direction: row;
     padding: 2px;
+}
+
+.data select {
+    display: inline-block;
+    top: 0;
+    cursor: pointer;
+    padding: 5px 15px;
+    outline: 0;
+    border: 1px solid #d6bcd6;
+    border-radius: 3px;
+    background: linear-gradient(to top, #ededed 5%, #bab1ba 100%);
+    color: #264249;
+    margin: 3px; 
+    font-size: 100%;
+    flex: 2;
+}
+.data select::-ms-expand {
+    display: none;
+}
+.data select:hover,
+.data select:focus {
+    color: #000000;
+    background: #ededed;
+}
+.data select:disabled {
+    opacity: 1;
+    pointer-events: none;
+}
+
+.hidden {
+    border: 0px;
+    border-style: none;
+    width: fit-content;
+    height: fit-content;
+    display: inline-block;
+    vertical-align:top;
+} .hidden .button {
+    margin: 5px;
+}
+
+.clear {
+    flex: 1;
 }
 
 
