@@ -63,7 +63,9 @@ function refreshGraph(name, side, json, graph) {
         },
             (s) => {
 
-                ///// FOR NODE COLORING /////////////
+                var side = s.renderers[0].container.id == "left_svg" ? "left" : "right";
+
+                ///// FOR NODE COLORING /////////////        
 
                 var attributes = Object.keys(s.graph.nodes()[0]);
                 attributes_to_label = [];
@@ -208,7 +210,7 @@ function refreshGraph(name, side, json, graph) {
         
                     s.graph.nodes().forEach( n => {
                         if (toKeep[n.id]) {
-                            n.color = n.id == nodeId ? '#FF0000' : n.originalColor;
+                            n.color = n.id == nodeId ? '#ff5252' : n.originalColor;
                         }
                         else {
                             n.color = '#eee';
@@ -217,7 +219,7 @@ function refreshGraph(name, side, json, graph) {
 
                     another_net.graph.nodes().forEach(n => {
                         if (toKeep[n.id]) {
-                            n.color = n.id == nodeId ? '#FF0000' : n.originalColor;
+                            n.color = n.id == nodeId ? '#ff5252' : n.originalColor;
                         }
                         else {
                             n.color = '#eee';
@@ -264,6 +266,15 @@ function refreshGraph(name, side, json, graph) {
                     // Same as in the previous event:
                     s.refresh();
                 });
+
+                /////////// STATISTICS ///////
+
+                var n1 = s.graph.nodes().length;
+                var e1 = s.graph.edges().length;
+                var d1 = e1 * 2 / (n1 * (n1 - 1));
+                $('#' + side + '_node_count').text("Nodes: " + n1);
+                $('#' + side + '_edge_count').text("Edges: " + e1);
+                $('#' + side + '_density').text("Density: " + (d1).toFixed(3));
                 
 
                 ////////// LAYOUT ///////////
@@ -445,7 +456,7 @@ function refreshGraph(name, side, json, graph) {
 
             s.graph.nodes().forEach(n => {
                 if (toKeep[n.id]) {
-                    n.color = n.id == nodeId ? '#FF0000' : n.originalColor;
+                    n.color = n.id == nodeId ? '#ff5252' : n.originalColor;
                 }
                 else {
                     n.color = '#eee';
@@ -454,7 +465,7 @@ function refreshGraph(name, side, json, graph) {
 
             another_net.graph.nodes().forEach(n => {
                 if (toKeep[n.id]) {
-                    n.color = n.id == nodeId ? '#FF0000' : n.originalColor;
+                    n.color = n.id == nodeId ? '#ff5252' : n.originalColor;
                 }
                 else {
                     n.color = '#eee';
@@ -501,6 +512,15 @@ function refreshGraph(name, side, json, graph) {
             // Same as in the previous event:
             s.refresh();
         });
+
+        /////////// STATISTICS ///////
+
+        var n1 = s.graph.nodes().length;
+        var e1 = s.graph.edges().length;
+        var d1 = e1 * 2 / (n1 * (n1 - 1));
+        $('#' + side + '_node_count').text("Nodes: " + n1);
+        $('#' + side + '_edge_count').text("Edges: " + e1);
+        $('#' + side + '_density').text("Density: " + (d1).toFixed(3));
 
         ////////// LAYOUT ///////////
 
@@ -580,7 +600,11 @@ function select_data(index, side) {
 
 //////////// UPLOADING A CUSTOM FILE //////////////
 
-$('#left_import').on('click', () => {
+left_upload = document.querySelector('#left_file');
+
+left_upload.addEventListener('change', function (e) {
+    e.preventDefault();
+
     const files = document.getElementById('left_file').files;
     console.log(files);
     if (files.length <= 0) {
@@ -617,13 +641,19 @@ $('#left_import').on('click', () => {
         window.left_id = sigma.instances(0) ? 1 : 0;
 
         refreshGraph(name = "none", side = "left", json = "from_upload", graph = d.data);
-    }
 
+    }
+    
     fr.readAsText(files.item(0));
+    // TODO: stats for lett
 
 });
 
-$('#right_import').on('click', () => {
+right_upload = document.getElementById('right_file');
+
+right_upload.addEventListener('change', function (e) {
+    e.preventDefault();
+
     const files = document.getElementById('right_file').files;
     console.log(files);
     if (files.length <= 0) {
@@ -639,13 +669,14 @@ $('#right_import').on('click', () => {
         const result = JSON.parse(e.target.result);
         console.log(result)
         var formatted = JSON.stringify(result, null, 2);
-        //document.getElementById('right_result').value = formatted;
+        //document.getElementById('left_result').value = formatted;
         const response = await fetch("/api", {
             method: "POST",
             body: formatted,
             headers: { "Content-Type": "application/json" }
         })
         const d = await response.json();
+        console.log(d);
 
         //// add building network with sigma here ////
 
@@ -659,9 +690,8 @@ $('#right_import').on('click', () => {
         window.right_id = sigma.instances(0) ? 1 : 0;
 
         refreshGraph(name = "none", side = "right", json = "from_upload", graph = d.data);
-
     }
-
+    // TODO: stats for right
     fr.readAsText(files.item(0));
 
 });
@@ -674,7 +704,7 @@ $('#dragbar').mousedown( e => {
     e.preventDefault();
 
     dragging = true;
-    var main = $('#main');
+    var main = $('#right_side');
     var ghostbar = $('<div>',
         {
             id: 'ghostbar',
@@ -698,8 +728,8 @@ $(document).mouseup( e => {
 
         $('#console').text("side:" + percentage + " main:" + mainPercentage);
 
-        $('#sidebar').css("width", percentage + "%");
-        $('#main').css("width", mainPercentage + "%");
+        $('#left_side').css("width", percentage + "%");
+        $('#right_side').css("width", mainPercentage + "%");
         $('#ghostbar').remove();
         $(document).unbind('mousemove');
         dragging = false;
@@ -1114,3 +1144,74 @@ $(document).ready( () => {
         })
     })
 })
+
+//// for template /////
+
+// arbitrary js object:
+var myJsObj = {
+    "_comment": "The .json must have 'nodes':[] and 'edges':[] parts. Each node and each edge should have a unique 'id'. Nodes and edges may include any number of attributes",
+    "nodes": [
+        {
+            "sector_code": "Households",
+            "postal_code": "Eastern-Finland",
+            "age": "Retired",
+            "id": "0"
+        },
+        {
+            "sector_code": "Households",
+            "postal_code": "Northern-Finland",
+            "age": "Middle-Age",
+            "id": "1"
+        },
+        {
+            "sector_code": "Households",
+            "postal_code": "Northern-Finland",
+            "age": "Mature",
+            "id": "2"
+        },
+        {
+            "sector_code": "Households",
+            "postal_code": "Northern-Finland",
+            "age": "Retired",
+            "id": "3"
+        }
+    ],
+    "edges": [
+        {
+            "source": "0",
+            "target": "3",
+            "id": "0",
+            "neighbors": "0"
+        },
+        {
+            "source": "3",
+            "target": "2",
+            "id": "1",
+            "neighbors": "1"
+        },
+        {
+            "source": "2",
+            "target": "0",
+            "id": "2",
+            "neighbors": "0"
+        },
+        {
+            "source": "1",
+            "target": "2",
+            "id": "3",
+            "neighbors": "1"
+        },
+        {
+            "source": "1",
+            "target": "3",
+            "id": "4",
+            "neighbors": "1"
+        }
+    ]
+};
+
+// using JSON.stringify pretty print capability:
+var str = JSON.stringify(myJsObj, undefined, 4);
+
+// display pretty printed object in text area:
+document.getElementById('content').value = str;

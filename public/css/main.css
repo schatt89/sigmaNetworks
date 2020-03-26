@@ -9,7 +9,8 @@ body {
     height: 100vh;
     margin: 0; padding: 0; 
     display: flex; 
-    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif; font-size: 80%; 
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif; font-size: 80%;
+    color: #232343;
     background-color: white;
 }
 
@@ -19,7 +20,7 @@ body {
     border: 3px;
     border-radius: 3px;
     border-style: dashed;
-    border-color: gainsboro;
+    border-color: #aaa69d;
     overflow: hidden;
     z-index: 6;
     position: absolute;
@@ -33,23 +34,6 @@ body {
     border-radius: 3px;
 }
 
-a[download] {
-  color: hsla(216, 70%, 53%, 1);
-  text-decoration: underline;
-}
-
-a[download]::after {
-  font: normal normal normal 12px/1 FontAwesome;
-  content: ' \f059';
-  height: 1em;
-  width: 1em;
-  bottom: 0;
-}
-
-a[download]:hover,
-a[download]:focus {
-  text-decoration: none;
-}
 
 a .zoom {
   height: 1em;
@@ -65,8 +49,8 @@ a .zoom {
 
 .structure {
     flex-basis: 200px;
-    padding: 0 2px;
-    background-color: #aaa;
+    padding: 2px 2px;
+    background-color: #d1ccc0;
     border-radius: 3px;
     margin: 2px 0px 0px 2px;
     overflow: scroll;
@@ -75,13 +59,13 @@ a .zoom {
 }
 .structure div {
     border-style: dashed;
-    border-color: gainsboro;
+    border-color: #aaa69d;
     border-radius: 3px;
     padding: 5px;
     width: inherit;
     height: inherit;
     margin: 2px;
-    background-color: #aaa;
+    background-color: #d1ccc0;
     min-height: fit-content;
     flex: 1;
 }
@@ -105,10 +89,10 @@ a .zoom {
         cursor: pointer;
         padding: 5px 15px;
         outline: 0;
-        border: 1px solid #d6bcd6;
+        border: 1px solid #ddd6f3;
         border-radius: 3px;
-        background: linear-gradient(to top, #ededed 5%, #bab1ba 100%);
-        color: #264249;
+        background: linear-gradient(to bottom, #ddd6f3 5%, #f7f1e3 100%);
+        color: #2c2c54;
         margin-top: 0em; 
         font-size: 100%;
     }
@@ -117,8 +101,8 @@ a .zoom {
         }
         .selection select:hover,
         .selection select:focus {
-            color: #000000;
-            background: #ededed;
+               color: #46465a;
+               background: #e7e3f3;
         }
         .selection select:disabled {
             opacity: 1;
@@ -135,16 +119,6 @@ a .zoom {
 
 
 .uploading .inputfile {margin-bottom: 0.25em; max-width: 100%; overflow: hidden;}
-.uploading textarea {
-   margin-top: 3px;
-   max-width: 97%;
-   min-width: 97%;
-   width: 97%;
-   max-height: 200px;
-   border-radius: 3px;
-   border:1px solid #d6bcd6;
-   font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
-}
 
 input[type="file"] {
     display: none;
@@ -152,22 +126,25 @@ input[type="file"] {
 
 
 .button {
-	background:linear-gradient(to bottom, #ededed 5%, #bab1ba 100%);
-	background-color:#ededed;
+	background:linear-gradient(to top, #ddd6f3 5%, #f7f1e3 100%);
+	background-color:#ddd6f3;
 	border-radius:5px;
-	border:1px solid #d6bcd6;
+	border:1px solid #ddd6f3;
 	cursor: pointer;
-	color:#264249;
+	color:#2c2c54;
 	padding:2px 12px;
 	text-decoration:none;
     text-shadow:0px 1px 0px #e1e2ed;
     margin-bottom: 3px;
     font-size: 100%;
     font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    box-shadow: 0px 8px 10px rgba(49, 13, 94, 0.15);
 }
 .button:hover {
-	background:linear-gradient(to bottom, #bab1ba 5%, #ededed 100%);
-	background-color:#bab1ba;
+	background:linear-gradient(to top, #f7f1e3 5%, #ddd6f3 100%);
+    background-color:#f7f1e3;
+    color: #2c2c54;
+    box-shadow: 0px 4px 7px rgba(90, 0, 200, 0.25);
 }
 .button:active {
 	position:relative;
@@ -176,18 +153,16 @@ input[type="file"] {
 
 .mini-container div {
     border-style: dashed;
-    border-color: gainsboro;
+    border-color: #aaa69d;
     border-radius: 3px;
     padding: 5px;
     height: inherit;
     margin: 2px;
-    background-color: #aaa;
+    background-color: #d1ccc0;
 }
 
 .mini-container div .label { margin-right: .5em; font-size: 120%; font-weight: bold; display: inline-block; }
 .mini-container div p { margin-top: 0; margin-bottom: .5em;}
-
-
 
 /* network-specific controls */
 
@@ -202,7 +177,7 @@ input[type="file"] {
 
 .mini-container {
     display: flex;
-    background-color: #aaa;
+    background-color: #d1ccc0;
     border-radius: 3px;
     margin: 0 2px;
     flex-basis: 10%;
@@ -217,10 +192,10 @@ input[type="file"] {
     cursor: pointer;
     padding: 5px 15px;
     outline: 0;
-    border: 1px solid #d6bcd6;
+    border: 1px solid #ddd6f3;
     border-radius: 3px;
-    background: linear-gradient(to top, #ededed 5%, #bab1ba 100%);
-    color: #264249;
+    background: linear-gradient(to bottom, #ddd6f3 5%, #f7f1e3 100%);
+    color: #2c2c54;
     margin: 3px; 
     font-size: 100%;
     flex: 2;
@@ -230,8 +205,8 @@ input[type="file"] {
 }
 .data select:hover,
 .data select:focus {
-    color: #000000;
-    background: #ededed;
+    color: #46465a;
+    background: #e7e3f3;
 }
 .data select:disabled {
     opacity: 1;
@@ -246,7 +221,7 @@ input[type="file"] {
     display: inline-block;
     vertical-align:top;
 } .hidden .button {
-    margin: 5px;
+    margin: 8px 3px;
 }
 
 .clear {
@@ -273,7 +248,7 @@ input[type="file"] {
     border: 2px;
     border-style: dashed;
     border-radius: 2px;
-    border-color: #FF0000;
+    border-color: #ff5252;
     margin: 5px;
     padding: 3px;
     position: relative;
@@ -311,21 +286,21 @@ i.fa-search-plus {
   margin: 10px;
   cursor: pointer;
   font-size: 15px;
-  color: #264249;
+  color: #2c2c54;
 }
 
 i.fa-search-minus {
   margin: 10px;
   cursor: pointer;
   font-size: 15px;
-  color: #264249;
+  color: #2c2c54;
 }
 
 i.fa-arrows-alt {
   margin: 10px;
   cursor: pointer;
   font-size: 15px;
-  color: #264249;
+  color: #2c2c54;
 }
 
 i:hover {
@@ -339,7 +314,7 @@ i:hover {
     position: relative;
 }
   
-#main{
+#right_side {
    float: right;
    height:100vh;
     width: 50%;
@@ -356,7 +331,7 @@ i:hover {
 }
 
 
-#sidebar{
+#left_side {
    width:50%;
    float: left;
    height:100vh;
@@ -364,7 +339,8 @@ i:hover {
 }
 
 #dragbar{
-   background-color: gray;
+   background-color: #aaa69d;
+   opacity: 70%;
    height:100%;
    float: right;
    width: 3px;
@@ -372,8 +348,82 @@ i:hover {
 }
 #ghostbar{
     width:3px;
-    background-color: gray;
+    background-color: #aaa69d;
+    opacity: 70%;
     opacity:0.5;
     position:absolute;
     cursor: col-resize;
     z-index:999}
+
+/* POPUP BOX WITH TEMPLATE */
+
+.overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.7);
+  transition: opacity 500ms;
+  visibility: hidden;
+  opacity: 0;
+  z-index: 10;
+}
+.overlay:target {
+  visibility: visible;
+  opacity: 1;
+}
+
+.popup {
+  margin: 70px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 5px;
+  width: 30%;
+  position: relative;
+  transition: all 5s ease-in-out;
+  height: fit-content;
+}
+
+.popup h2 {
+  margin-top: 0;
+  margin-bottom: 5px;
+}
+.popup .close {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  transition: all 200ms;
+  font-size: 20px;
+  font-weight: bold;
+  text-decoration: none;
+}
+.popup .close:hover {
+  color: #ddd6f3;
+  transform: translateY(-2px);
+}
+.popup .content {
+  max-height: 30%;
+  overflow: auto;
+}
+
+@media screen and (max-width: 700px){
+  .box{
+    width: 70%;
+  }
+  .popup{
+    width: 70%;
+  }
+}
+
+.popup textarea {
+   max-width: 97%;
+   min-width: 97%;
+   border-radius: 3px;
+   border:1px solid #ddd6f3;
+   font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+}
+
+a {
+    color: #227093;
+}

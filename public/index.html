@@ -21,23 +21,31 @@
     </head>
     <body>
           <div class = "structure">
+
             <div class = "common">
-              <p><label class='label'>common structure</label>press the button to highlight common nodes and edges of the two networks</p>
+              <!-- <p><label class='label'>common structure</label> press the button to highlight common nodes and edges of the two networks</p> -->
+              <p><label class='label'>common structure</label> <br/> highlight common nodes and edges in both networks</p>
+              
               <button class="button" id="common_structure"> Highlight! </button>
               <button class="button" id="reset_common_structure"> Reset </button>
             </div>
+
             <div class='selection' id='color_selection'>
-              <p><label class='label'>recolor</label>select attribute to color the nodes of both networks</p>
+              <!-- <p><label class='label'>color</label> select attribute to color the nodes of both networks</p> -->
+              <p><label class='label'>color nodes</label></p>
               <select id="recolor" onchange="if (this.selectedIndex) recolor(this.selectedIndex);">
-              <option value="-1" name="Default">Default</option>
+              <option value="-1" name="Default">select an attribute</option>
               </select>
             </div>
+
             <div class="selection" id="edges_settings">
-              <p><label class="label">edge settings</label>select an edge attribute to visualize the edges of both networks</p>
+              <!-- <p><label class="label">edge settings</label>select an edge attribute to visualize the edges of both networks</p> -->
+              <p><label class="label">weight edges</label></p>
               <select id="set_weight" onchange="if (this.selectedIndex) add_weight(this.selectedIndex);">
-                <option value="-1" name="Default">Default</option>
+                <option value="-1" name="Default">select an attribute</option>
               </select>
             </div>
+
             <div class="statistics">
               <p><label class="label">statistics</label>click 'update' when networks are ready to see the statistics</p>
               <button class="button" id="statistics">Update</button>
@@ -60,15 +68,19 @@
                 <li class="count" id="similarity_coef">Jaccard index:</li>
               </ul>
             </div>
+
             <div class="source">
-              <a href="https://github.com/schatt89/sigmaNetworks"><i class="fa fa-github" style="font-size:24px"></i> source code</a>
+              <a href="https://github.com/schatt89/sigmaNetworks" style="text-decoration: none;"><i class="fa fa-github" style="font-size:24px"></i></a>
             </div>
+
           </div>
+
           <div id="networks">
 
-              <div id="sidebar">
+              <div id="left_side">
                   <span id="position"></span>
                   <div id="dragbar"></div>
+
                   <div id="left_container" class="container">
                     <div id="left_svg" class="svg">
                       <div id="left_control_buttons" class="control_buttons">
@@ -83,10 +95,11 @@
                         </div>
                       </div>
                     </div>
+
                     <div class="mini-container">
                       <div class = "data">
                         <p><label class="label">data</label>
-                          select a dataset <b>or</b> upload your dataset in <a download="template.json" href="data/template.json" title='download a json template'>.json</a></p>
+                          select a dataset <b>or</b> upload your dataset in <a href="#popup1" title="see a json template" style="text-decoration-style: dashed">.json</a></p>
                         <div class="hidden">
                           <select name="ab" id="left_select" onchange="if (this.selectedIndex) select_data(this.selectedIndex, 'left');">
                             <option value="-1">No selection</option>
@@ -100,19 +113,18 @@
                         <div class="hidden">
                           <input type="file" name="#left_svg" id="left_file" class="inputfile" />
                           <label for="left_file" class="button"> Import </label> <label class="filename" id="left_filename"> file.json </label>
-                          <br />
-                          <button id="left_import" class="button">Build a network</button>
                         </div>
                       </div>
+
                       <div class="clear">
-                        <p><label class="label">clear</label>kill network visualization</p>
-                        <button class="button" id="left_clear">Clear Chart</button>
+                        <button class="button" id="left_clear">Clear</button>
                       </div>
 
                     </div>
                   </div>
               </div>
-              <div id="main">
+
+              <div id="right_side">
                   <div id="right_container" class="container">
                     <div id="right_svg" class="svg">
                       <div id="right_control_buttons" class="control_buttons">
@@ -130,7 +142,7 @@
                     <div class="mini-container">
                       <div class="data">
                         <p><label class="label">data</label>
-                          select a dataset <b>or</b> upload your dataset in <a download="template.json" href="data/template.json" title='download a json template'>.json</a></p>
+                          select a dataset <b>or</b> upload your dataset in <a href="#popup1" title="see a json template" style="text-decoration-style: dashed">.json</a></p>
                         <div class="hidden">
                           <select name="ab" id="right_select" onchange="if (this.selectedIndex) select_data(this.selectedIndex, 'right');">
                             <option value="-1">No selection</option>
@@ -145,18 +157,25 @@
                           <input type="file" name="#right_svg" id="right_file" class="inputfile" />
                           <label for="right_file" class="button"> Import </label> <label class="filename" id="right_filename"> file.json </label>
                           <br />
-                          <button id="right_import" class="button">Build a network</button>
                         </div>
                       </div>
                       <div class="clear">
-                        <p><label class="label">clear</label>kill network visualization</p>
-                        <button class="button" id="right_clear"> Clear Chart </button>
+                        <button class="button" id="right_clear"> Clear</button>
                       </div>
                     </div>
                     </div>
                   </div>
               </div>
               </div>  
+
+              <div id="popup1" class="overlay">
+                <div class="popup">
+                  <h2>Please use this .json template</h2>
+                  <a class="close" href="#">&times;</a>
+                  <textarea class="content" id="content" cols=50 rows=25></textarea>
+                </div>
+              </div>
+
               <script src="https://d3js.org/d3.v4.min.js"></script>
               <script src="js/public.js"></script>
     </body>
