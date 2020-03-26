@@ -70,6 +70,8 @@ a .zoom {
     border-radius: 3px;
     margin: 2px 0px 0px 2px;
     overflow: scroll;
+    display: flex;
+    flex-direction: column;
 }
 .structure div {
     border-style: dashed;
@@ -80,8 +82,10 @@ a .zoom {
     height: inherit;
     margin: 2px;
     background-color: #aaa;
+    min-height: fit-content;
     flex: 1;
 }
+
 
 .structure .selection {
     max-height: 230px;
