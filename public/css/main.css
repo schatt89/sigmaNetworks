@@ -151,9 +151,6 @@ input[type="file"] {
 	top:1px;
 }
 
-#left_clear, #right_clear {
-    padding: 12px 12px;
-}
 
 .mini-container div {
     border-style: dashed;
@@ -366,7 +363,7 @@ i:hover {
   bottom: 0;
   left: 0;
   right: 0;
-  background: rgba(0, 0, 0, 0.7);
+  background:rgba(10, 1, 20, 0.589);
   transition: opacity 500ms;
   visibility: hidden;
   opacity: 0;
@@ -380,7 +377,7 @@ i:hover {
 .popup {
   margin: 70px auto;
   padding: 20px;
-  background: #fff;
+  background: #ddd6f3;
   border-radius: 5px;
   width: 30%;
   position: relative;
@@ -402,7 +399,7 @@ i:hover {
   text-decoration: none;
 }
 .popup .close:hover {
-  color: #ddd6f3;
+  color: rgba(49, 13, 94, 1);
   transform: translateY(-2px);
 }
 .popup .content {
@@ -423,12 +420,12 @@ i:hover {
    max-width: 97%;
    min-width: 97%;
    border-radius: 3px;
-   border:1px solid #ddd6f3;
+   border:1px solid rgba(49, 13, 94, 1);
    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
 }
 
 a {
-    color: #227093;
+    color: rgba(179, 57, 57,1.0);
 }
 
 /* TOGGLE */
@@ -462,15 +459,15 @@ a {
   width: 23px;
   left: 4px;
   bottom: 4px;
-  background-color: rgb(210, 205, 193);
+  background-color: #aaa69d;
   -webkit-transition: .4s;
   transition: .4s;
   border-radius: 50%;
 }
 
 input:checked + .slider {
-  background-color: #84817a;
-  box-shadow: 5px 5px 10px rgba(34, 112, 147, 0.5);
+  background-color: #ddd6f3;
+  box-shadow: 5px 5px 10px  rgba(49, 13, 94, 0.5);
   text-shadow: 0px 1px 0px rgba(247, 241, 227, 0.3);
 }
 

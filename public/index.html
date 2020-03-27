@@ -23,7 +23,6 @@
           <div class = "structure">
 
             <div class = "common">
-              <!-- <p><label class='label'>common structure</label> press the button to highlight common nodes and edges of the two networks</p> -->
               <p><label class='label'>common structure</label> <br/> highlight common nodes and edges in both networks</p>
               
 
@@ -40,18 +39,16 @@
             </div>
 
             <div class='selection' id='color_selection'>
-              <!-- <p><label class='label'>color</label> select attribute to color the nodes of both networks</p> -->
-              <p><label class='label'>color nodes</label></p>
+              <p><label class='label'>color nodes</label> <br/> select node attribute to color the nodes</p>
               <select id="recolor" onchange="if (this.selectedIndex) recolor(this.selectedIndex);">
-              <option value="-1" name="Default">select an attribute</option>
+              <option value="-1" name="Default">Default</option>
               </select>
             </div>
 
             <div class="selection" id="edges_settings">
-              <!-- <p><label class="label">edge settings</label>select an edge attribute to visualize the edges of both networks</p> -->
-              <p><label class="label">edge weight</label></p>
+              <p><label class="label">edge weight</label> <br/> select edge attribute to weight the edges</p>
               <select id="set_weight" onchange="if (this.selectedIndex) add_weight(this.selectedIndex);">
-                <option value="-1" name="Default">select an attribute</option>
+                <option value="-1" name="Default">Default</option>
               </select>
             </div>
 

@@ -806,7 +806,7 @@ $('#left_clear').on("click", () => {
         refresh_color_selection();
         refresh_edge_weight_selection();
     } else {
-        alert("Nothing to clear")
+        console.log("Nothing to clear");
     }
 });
 
@@ -821,6 +821,7 @@ $('#right_clear').on('click', () => {
         refresh_edge_weight_selection();
     } else {
         alert("Nothing to clear")
+        console.log("Not")
     }
 });
 
@@ -929,7 +930,92 @@ function add_weight(index) {
 }
     
 
-//////////// COMMON STRUCTURE HIGHLIGHT ////////////////
+//////////// COMMON STRUCTURE HIGHLIGHT AND RESET ////////////////
+$("#togBtn").on("click", () => {
+    var checkBox = document.getElementById("togBtn");
+    // If the checkbox is checked, display the output text
+    if (checkBox.checked == true) {
+        var left_sigma = sigma.instances(window.left_id);
+        var right_sigma = sigma.instances(window.right_id);
+
+        if (typeof left_sigma === 'undefined' || typeof right_sigma === 'undefined') {
+            alert("Both networks should be visualized")
+        } else {
+            var result = find_common_structure();
+            var nodes_intersection = result[0];
+            var edges_intersection = result[1];
+
+            console.log(nodes_intersection);
+
+            left_sigma.graph.nodes().forEach(n => {
+                !nodes_intersection.includes(n.id) ? n.color = '#eee' : n.originalColor = n.originalColor;
+                n.originalColor = n.color;
+            })
+            right_sigma.graph.nodes().forEach(n => {
+                !nodes_intersection.includes(n.id) ? n.color = '#eee' : n.originalColor = n.originalColor;
+                n.originalColor = n.color;
+            })
+
+            console.log(edges_intersection);
+
+            left_sigma.graph.edges().forEach(e => {
+                if (!nodes_intersection.includes(e.source) || !nodes_intersection.includes(e.target) || !e.intersection == true) {
+                    e.color = '#eee';
+                    e.originalColor = e.color;
+                    //e.hidden = true;
+                }
+            });
+
+
+            right_sigma.graph.edges().forEach(e => {
+                if (!nodes_intersection.includes(e.source) || !nodes_intersection.includes(e.target) || !e.intersection == true) {
+                    e.color = '#eee';
+                    e.originalColor = e.color;
+                    //e.hidden = true;
+                }
+            });
+
+            left_sigma.refresh();
+            right_sigma.refresh();
+        }
+    } else {
+        $('#set_weight option[value="-1"]').attr("selected", true);
+        $('#recolor option[value="-1"]').attr("selected", true);
+        $('#legend').remove();
+        $('.info_box').remove();
+
+        // nodes
+        sigma.instances(0).graph.nodes().forEach(n => {
+            n.color = settings.defaultNodeColor;
+            n.originalColor = n.color;
+        })
+        sigma.instances(1).graph.nodes().forEach(n => {
+            n.color = settings.defaultNodeColor;
+            n.originalColor = n.color;
+        })
+
+        // edges
+        sigma.instances(0).graph.edges().forEach(e => {
+            //e.hidden = false;
+            e.size = 0;
+            e.color = settings.defaultEdgeColor;
+            e.originalColor = e.color;
+        });
+
+
+        sigma.instances(1).graph.edges().forEach(e => {
+            //e.hidden = false;
+            e.size = 0;
+            e.color = settings.defaultEdgeColor;
+            e.originalColor = e.color;
+        });
+
+        sigma.instances(0).refresh();
+        sigma.instances(1).refresh();
+    }
+})
+    // Get the checkbox
+
 
 function find_common_structure() {
     var left_sigma = sigma.instances(window.left_id);
@@ -970,114 +1056,6 @@ function find_common_structure() {
         return [nodes_intersection, edges_intersection];
     }
 }
-
-
-$('#common_structure').on("click", () => {
-    var left_sigma = sigma.instances(window.left_id);
-    var right_sigma = sigma.instances(window.right_id);
-
-    if (typeof left_sigma === 'undefined' || typeof right_sigma === 'undefined') {
-        alert("Both networks should be visualized")
-    } else {
-        var result = find_common_structure();
-        var nodes_intersection = result[0];
-        var edges_intersection = result[1];
-
-        console.log(nodes_intersection);
-
-        left_sigma.graph.nodes().forEach( n => {
-            !nodes_intersection.includes(n.id) ? n.color = '#eee' : n.originalColor = n.originalColor;
-            n.originalColor = n.color;
-        })
-        right_sigma.graph.nodes().forEach( n => {
-            !nodes_intersection.includes(n.id) ? n.color = '#eee' : n.originalColor = n.originalColor;
-            n.originalColor = n.color;
-        })
-
-        console.log(edges_intersection);
-
-        left_sigma.graph.edges().forEach( e => {
-            if (!nodes_intersection.includes(e.source) || !nodes_intersection.includes(e.target) || !e.intersection == true) {
-                e.color = '#eee';
-                e.originalColor = e.color;
-                //e.hidden = true;
-            }
-        });
-
-
-        right_sigma.graph.edges().forEach( e => {
-            if (!nodes_intersection.includes(e.source) || !nodes_intersection.includes(e.target) || !e.intersection == true) {
-                e.color = '#eee';
-                e.originalColor = e.color;
-                //e.hidden = true;
-            }
-        });
-
-        left_sigma.refresh();
-        right_sigma.refresh();
-
-        var x = [];
-        var y = [];
-        var ids = [];
-        right_sigma.graph.nodes().forEach( n => {
-            if (nodes_intersection.includes(n.id)) {
-                x.push(n.x);
-                y.push(n.y);
-                ids.push(n.id);
-            }
-        })
-        right_sigma.graph.nodes().forEach( n => {
-            if (nodes_intersection.includes(n.id)) {
-                n.x = x[ids.indexOf(n.id)];
-                n.y = y[ids.indexOf(n.id)];
-            } else {
-                n.x = 0;
-                n.y = 0;
-            }
-        })
-
-
-    }
-
-});
-
-////// RESET COMMON STRUCTURE //////
-$('#reset_common_structure').on('click', () => {
-    $('#set_weight option[value="-1"]').attr("selected", true);
-    $('#recolor option[value="-1"]').attr("selected", true);
-    $('#legend').remove();
-    $('.info_box').remove();
-
-    // nodes
-    sigma.instances(0).graph.nodes().forEach( n => {
-        n.color = settings.defaultNodeColor;
-        n.originalColor = n.color;
-    })
-    sigma.instances(1).graph.nodes().forEach( n => {
-        n.color = settings.defaultNodeColor;
-        n.originalColor = n.color;
-    })
-
-    // edges
-    sigma.instances(0).graph.edges().forEach( e => {
-        //e.hidden = false;
-        e.size = 0;
-        e.color = settings.defaultEdgeColor;
-        e.originalColor = e.color;
-    });
-
-
-    sigma.instances(1).graph.edges().forEach( e => {
-        //e.hidden = false;
-        e.size = 0;
-        e.color = settings.defaultEdgeColor;
-        e.originalColor = e.color;
-    });
-
-    sigma.instances(0).refresh();
-    sigma.instances(1).refresh();
-});
-
 
 ////// ZOOM IN AND OUT //////
 
