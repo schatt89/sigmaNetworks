@@ -800,11 +800,19 @@ $('#left_clear').on("click", () => {
     $('#set_weight option[value="-1"]').attr("selected", true);
     $('#left_select option[value="-1"]').attr("selected", true);
     $('#left_svg_node_info').remove();
+
     if (typeof sigma.instances(window.left_id) !== "undefined") {
         sigma.instances(window.left_id).kill();
         left_first_time = true;
         refresh_color_selection();
         refresh_edge_weight_selection();
+        $('#left_node_count').text("Nodes:");
+        $('#left_edge_count').text("Edges:");
+        $('#left_density').text("Density:");
+        var checkBox = document.getElementById("togBtn");
+        if (checkBox.checked == true) {
+            $("#togBtn").trigger("click");
+        }
     } else {
         console.log("Nothing to clear");
     }
@@ -819,6 +827,13 @@ $('#right_clear').on('click', () => {
         right_first_time = true;
         refresh_color_selection();
         refresh_edge_weight_selection();
+        $('#right_node_count').text("Nodes:");
+        $('#right_edge_count').text("Edges:");
+        $('#right_density').text("Density:");
+        var checkBox = document.getElementById("togBtn");
+        if (checkBox.checked == true) {
+            $("#togBtn").trigger("click");
+        }
     } else {
         alert("Nothing to clear")
         console.log("Not")
@@ -830,7 +845,7 @@ $('#right_clear').on('click', () => {
 function recolor(index) {
     $('.color_label').remove();
 
-    var colors = ['#a2b825', '#4deeea', '#ffc03d', '#00aedb', '#74ee15', '#a200ff', '#52B788', '#d41243', '#f000ff', '#EE6352', '#306B34', '#56EEF4', '#8E4162', '#9BF3F0', '#251351', '#001eff', '#f47835', '#FF4B3E', '#900C3F', '#5438DC', '#B3001B'];
+    var colors = ['#65587f', '#f18867', '#e85f99', '#50bda1', '#ffc03d', '#00aedb', '#a2b825', '#4deeea', '#74ee15', '#a200ff', '#52B788', '#d41243', '#f000ff', '#EE6352', '#306B34', '#56EEF4', '#8E4162', '#9BF3F0', '#251351', '#001eff', '#f47835', '#FF4B3E', '#900C3F', '#5438DC', '#B3001B'];
     var x = document.getElementById("recolor");
     var selection = x.options[index].text;
 
@@ -944,6 +959,8 @@ $("#togBtn").on("click", () => {
             var result = find_common_structure();
             var nodes_intersection = result[0];
             var edges_intersection = result[1];
+            var e1 = sigma.instances(window.left_id).graph.edges().length;
+            var e2 = sigma.instances(window.right_id).graph.edges().length;
 
             console.log(nodes_intersection);
 
@@ -962,7 +979,6 @@ $("#togBtn").on("click", () => {
                 if (!nodes_intersection.includes(e.source) || !nodes_intersection.includes(e.target) || !e.intersection == true) {
                     e.color = '#eee';
                     e.originalColor = e.color;
-                    //e.hidden = true;
                 }
             });
 
@@ -971,18 +987,24 @@ $("#togBtn").on("click", () => {
                 if (!nodes_intersection.includes(e.source) || !nodes_intersection.includes(e.target) || !e.intersection == true) {
                     e.color = '#eee';
                     e.originalColor = e.color;
-                    //e.hidden = true;
                 }
             });
 
             left_sigma.refresh();
             right_sigma.refresh();
+
+            $('#common_nodes').text("Common nodes: " + result[0].length);
+            $('#common_edges').text("Common edges: " + result[1].length);
+            $('#similarity_coef').text("Jaccard index: " + (result[1].length / ((e1 + e2) - result[1].length)).toFixed(3));
         }
     } else {
         $('#set_weight option[value="-1"]').attr("selected", true);
         $('#recolor option[value="-1"]').attr("selected", true);
         $('#legend').remove();
         $('.info_box').remove();
+        $('#common_nodes').text("Common nodes:");
+        $('#common_edges').text("Common edges:");
+        $('#similarity_coef').text("Jaccard index:");
 
         // nodes
         sigma.instances(0).graph.nodes().forEach(n => {

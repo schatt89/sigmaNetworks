@@ -228,6 +228,12 @@ input[type="file"] {
     justify-content: center;
 }
 
+.source {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 
 
 /* SVG styles */
