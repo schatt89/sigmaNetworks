@@ -26,8 +26,17 @@
               <!-- <p><label class='label'>common structure</label> press the button to highlight common nodes and edges of the two networks</p> -->
               <p><label class='label'>common structure</label> <br/> highlight common nodes and edges in both networks</p>
               
-              <button class="button" id="common_structure"> Highlight! </button>
-              <button class="button" id="reset_common_structure"> Reset </button>
+
+              <label class="switch"><input type="checkbox" id="togBtn">
+                <span class="slider"></span>
+              </label>
+
+
+              <ul class="list" id="list_common">
+                <li class="count" id="common_nodes">Common nodes:</li>
+                <li class="count" id="common_edges">Common edges:</li>
+                <li class="count" id="similarity_coef">Jaccard index:</li>
+              </ul>
             </div>
 
             <div class='selection' id='color_selection'>
@@ -40,33 +49,10 @@
 
             <div class="selection" id="edges_settings">
               <!-- <p><label class="label">edge settings</label>select an edge attribute to visualize the edges of both networks</p> -->
-              <p><label class="label">weight edges</label></p>
+              <p><label class="label">edge weight</label></p>
               <select id="set_weight" onchange="if (this.selectedIndex) add_weight(this.selectedIndex);">
                 <option value="-1" name="Default">select an attribute</option>
               </select>
-            </div>
-
-            <div class="statistics">
-              <p><label class="label">statistics</label>click 'update' when networks are ready to see the statistics</p>
-              <button class="button" id="statistics">Update</button>
-              <h3>Left network</h3>
-              <ul class="list">
-                <li class="count" id="left_node_count">Nodes: </li>
-                <li class="count" id="left_edge_count">Edges: </li>
-                <li class="count" id="left_density">Density: </li>
-              </ul>
-              <h3>Right network</h3>
-              <ul class="list">
-                <li class="count" id="right_node_count">Nodes: </li>
-                <li class="count" id="right_edge_count">Edges: </li>
-                <li class="count" id="right_density">Density: </li>
-              </ul>
-              <h3>Common Structure</h3>
-              <ul class="list">
-                <li class="count" id="common_nodes">Common nodes:</li>
-                <li class="count" id="common_edges">Common edges:</li>
-                <li class="count" id="similarity_coef">Jaccard index:</li>
-              </ul>
             </div>
 
             <div class="source">
@@ -100,7 +86,7 @@
                       <div class = "data">
                         <p><label class="label">data</label>
                           select a dataset <b>or</b> upload your dataset in <a href="#popup1" title="see a json template" style="text-decoration-style: dashed">.json</a></p>
-                        <div class="hidden">
+
                           <select name="ab" id="left_select" onchange="if (this.selectedIndex) select_data(this.selectedIndex, 'left');">
                             <option value="-1">No selection</option>
                             <option value="1">Investor network - before</option>
@@ -109,13 +95,18 @@
                             <option value="4">Artificial data wave 1</option>
                             <option value="5">Artificial data wave 2</option>
                           </select>
-                        </div>
-                        <div class="hidden">
+
                           <input type="file" name="#left_svg" id="left_file" class="inputfile" />
                           <label for="left_file" class="button"> Import </label> <label class="filename" id="left_filename"> file.json </label>
-                        </div>
                       </div>
-
+                    <div class="statistics" id="left_statistics">
+                      <p><label class="label">statistics</label></p>
+                        <ul class="list">
+                          <li class="count" id="left_node_count">Nodes: </li>
+                          <li class="count" id="left_edge_count">Edges: </li>
+                          <li class="count" id="left_density">Density: </li>
+                        </ul>
+                    </div>
                       <div class="clear">
                         <button class="button" id="left_clear">Clear</button>
                       </div>
@@ -143,7 +134,6 @@
                       <div class="data">
                         <p><label class="label">data</label>
                           select a dataset <b>or</b> upload your dataset in <a href="#popup1" title="see a json template" style="text-decoration-style: dashed">.json</a></p>
-                        <div class="hidden">
                           <select name="ab" id="right_select" onchange="if (this.selectedIndex) select_data(this.selectedIndex, 'right');">
                             <option value="-1">No selection</option>
                             <option value="1">Investor network - before</option>
@@ -152,12 +142,17 @@
                             <option value="4">Artificial data wave 1</option>
                             <option value="5">Artificial data wave 2</option>
                           </select>
-                        </div>
-                        <div class = "hidden">
+
                           <input type="file" name="#right_svg" id="right_file" class="inputfile" />
                           <label for="right_file" class="button"> Import </label> <label class="filename" id="right_filename"> file.json </label>
-                          <br />
-                        </div>
+                      </div>
+                      <div class="statistics" id="right_statistics">
+                        <p><label class="label">statistics</label></p>
+                          <ul class="list">
+                            <li class="count" id="right_node_count">Nodes: </li>
+                            <li class="count" id="right_edge_count">Edges: </li>
+                            <li class="count" id="right_density">Density: </li>
+                          </ul>
                       </div>
                       <div class="clear">
                         <button class="button" id="right_clear"> Clear</button>
