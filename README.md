@@ -12,17 +12,17 @@ You can try and see how it works with the datasets we have in the selection: *In
 2. Select a dataset on the left and right side or upload your datasets in .json format. To use your dataset:
    - See the [.json template](https://github.com/schatt89/sigmaNetworks/blob/master/public/data/template.json) 
    - See the [`.ipynb` notebook](https://github.com/schatt89/sigmaNetworks/blob/master/transform_data/convert_graphml_to_json.ipynb) to learn how to convert your data to the desired .json format
-   - Import file and then click `Build a network` button
+   - Click `Import` button to upload your file
 3. Select a node attribute to color the nodes and place the legend by dragging it
 4. Select an edge attribute to add weight to the edges
-5. Update statistics if you need them
+5. See statistics
 6. Highlight the common links and nodes to see the underlying structure of the networks 
 
 Some features:
 - Hover over a node to see its attributes
 - Double click on a node will display its attributes in an infobox and highlight its first-order neighbors in both networks
 - Click on an infobox to close it
-- `Reset` button will cancel any highlight
-- `Clear Chart` button will remove the network
+- `Reset` will cancel any highlight
+- `Clear` button will remove the network
 - You can change the size of the left and right side by dragging the separating bar
 - Use navigation icons to zoom in and out 
