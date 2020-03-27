@@ -1238,6 +1238,7 @@ $(document).ready(() => {
 $(document).ready(() => {
     $("#right_svg_download").bind("click", () => {
         sigma.instances(window.right_id).toSVG({
+            size: 500,
             labels: false,
             classes: false,
             data: true,
