@@ -13,6 +13,7 @@
         <script src="js/sigma/plugins/sigma.plugins.dragNodes/sigma.plugins.dragNodes.js"></script>
         <script src="js/sigma/plugins/sigma.plugins.animate/sigma.plugins.animate.js"></script>
         <script src="js/sigma/plugins/sigma.layout.noverlap/sigma.layout.noverlap.js"></script>
+        <script src="js/sigma/plugins/sigma.exporters.svg/sigma.exporters.svg.js"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="shortcut icon" href="favicon.ico">
         <meta name="msapplication-TileColor" content="#da532c">
@@ -21,7 +22,7 @@
     </head>
     <body>
           <div class = "structure">
-            <div class="first_box" style="border-style:none">
+            <div class="first_box" style="border-style:none;">
               <img src="logo3.png" width="80" height="80">
               <h2>sigma networks</h2>
             </div>
@@ -80,6 +81,9 @@
                         <div class="zoom" id="left_reset_zoom" title="reset">
                           <i class="fa fa-arrows-alt"></i>
                         </div>
+                        <div class="download" id="left_svg_download" title="download svg">
+                          <i class="fa fa-download"></i>
+                        </div>
                       </div>
                     </div>
 
@@ -128,6 +132,9 @@
                         </div>
                         <div class="zoom" id="right_reset_zoom" title="reset">
                           <i class="fa fa-arrows-alt"></i>
+                        </div>
+                        <div class="download" id="right_svg_download" title="download svg">
+                          <i class="fa fa-download"></i>
                         </div>
                       </div>
                     </div>

@@ -1215,3 +1215,35 @@ var str = JSON.stringify(myJsObj, undefined, 4);
 
 // display pretty printed object in text area:
 document.getElementById('content').value = str;
+
+
+///// DOWNLOADING SVG ///////
+
+
+// Retrieving the svg file as a string
+
+$(document).ready(() => {
+    $("#left_svg_download").bind("click", () => {
+        sigma.instances(window.left_id).toSVG({
+            labels: false,
+            classes: false,
+            data: true,
+            download: true,
+            filename: 'left_network.svg'
+        });
+
+    });
+});
+
+$(document).ready(() => {
+    $("#right_svg_download").bind("click", () => {
+        sigma.instances(window.right_id).toSVG({
+            labels: false,
+            classes: false,
+            data: true,
+            download: true,
+            filename: 'right_network.svg'
+        });
+
+    });
+});

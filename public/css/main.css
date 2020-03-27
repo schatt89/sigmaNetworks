@@ -309,6 +309,13 @@ i.fa-arrows-alt {
   color: #2c2c54;
 }
 
+i.fa-download {
+  margin: 10px;
+  cursor: pointer;
+  font-size: 15px;
+  color: #2c2c54;
+}
+
 i:hover {
   opacity: 0.6;
 }

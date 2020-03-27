@@ -12,7 +12,7 @@ You can try and see how it works with the datasets we have in the selection: *In
 2. Select a dataset on the left and right side or upload your datasets in .json format. To use your dataset:
    - See the [.json template](https://github.com/schatt89/sigmaNetworks/blob/master/public/data/template.json) 
    - See the [`.ipynb` notebook](https://github.com/schatt89/sigmaNetworks/blob/master/transform_data/convert_graphml_to_json.ipynb) to learn how to convert your data to the desired .json format
-   - Click `Import` button to upload your file
+   - Click the `Import` button to upload your file
 3. Select a node attribute to color the nodes and place the legend by dragging it
 4. Select an edge attribute to add weight to the edges
 5. See statistics
