@@ -1320,9 +1320,11 @@ function MCIS() {
     
 
     sigma.instances(0).graph.nodes().forEach(n => {
+        n.originalColor = n.color;
         n.color = maxclique.includes(n.id) ? "#ff0000" : n.color;        
     });
     sigma.instances(1).graph.nodes().forEach(n => {
+        n.originalColor = n.color;
         n.color = maxclique.includes(n.id) ? "#ff0000" : n.color;
     });
 
@@ -1330,4 +1332,56 @@ function MCIS() {
     sigma.instances(1).refresh();
 
 }
+
+$("#togBtn2").on("click", () => {
+    var checkBox = document.getElementById("togBtn2");
+    // If the checkbox is checked, display the output text
+    if (checkBox.checked == true) {
+        var left_sigma = sigma.instances(window.left_id);
+        var right_sigma = sigma.instances(window.right_id);
+
+        if (typeof left_sigma === 'undefined' || typeof right_sigma === 'undefined') {
+            alert("Both networks should be visualized")
+        } else {
+            MCIS()
+        }
+    } else {
+        $('#set_weight option[value="-1"]').attr("selected", true);
+        $('#recolor option[value="-1"]').attr("selected", true);
+        $('#legend').remove();
+        $('.info_box').remove();
+        $('#common_nodes').text("Common nodes:");
+        $('#common_edges').text("Common edges:");
+        $('#similarity_coef').text("Jaccard index:");
+
+        // nodes
+        sigma.instances(0).graph.nodes().forEach(n => {
+            n.color = settings.defaultNodeColor;
+            n.originalColor = n.color;
+        })
+        sigma.instances(1).graph.nodes().forEach(n => {
+            n.color = settings.defaultNodeColor;
+            n.originalColor = n.color;
+        })
+
+        // edges
+        sigma.instances(0).graph.edges().forEach(e => {
+            //e.hidden = false;
+            e.size = 0;
+            e.color = settings.defaultEdgeColor;
+            e.originalColor = e.color;
+        });
+
+
+        sigma.instances(1).graph.edges().forEach(e => {
+            //e.hidden = false;
+            e.size = 0;
+            e.color = settings.defaultEdgeColor;
+            e.originalColor = e.color;
+        });
+
+        sigma.instances(0).refresh();
+        sigma.instances(1).refresh();
+    }
+})
 
