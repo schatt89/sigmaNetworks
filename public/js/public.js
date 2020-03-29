@@ -1056,6 +1056,15 @@ function find_common_structure() {
             right_nodes.push(n.id);
         })
 
+        var left_edges = [];
+        left_sigma.graph.edges().forEach( e => {
+            left_edges.push([e.source, e.target]);
+        })
+        var right_edges = [];
+        right_sigma.graph.edges().forEach( e => {
+            right_edges.push([e.source, e.target]);
+        })
+
         var nodes_intersection = left_nodes.filter( value => right_nodes.includes(value));
 
         //// edge intersection ////
@@ -1075,7 +1084,7 @@ function find_common_structure() {
                 }
             });
         });
-        return [nodes_intersection, edges_intersection];
+        return [nodes_intersection, edges_intersection, left_nodes, right_nodes, left_edges, right_edges];
     }
 }
 
@@ -1248,3 +1257,77 @@ $(document).ready(() => {
 
     });
 });
+
+
+//////// FINDING MAXIMUM COMMON INDUCED GRAPH /////////
+
+function MCIS() {
+    var n0 = [];
+    sigma.instances(0).graph.nodes().forEach( n => {
+        n0.push(n.id)
+    });
+    var e0 = [];
+    sigma.instances(0).graph.edges().forEach(e => {
+        e0.push([e.source, e.target])
+    });
+
+    var n1 = [];
+    sigma.instances(1).graph.nodes().forEach(n => {
+        n1.push(n.id)
+    });
+    var e1 = [];
+    sigma.instances(1).graph.edges().forEach(e => {
+        e1.push([e.source, e.target])
+    });
+
+    var g0 = new jsnx.Graph();
+    g0.addNodesFrom(n0);
+    g0.addEdgesFrom(e0);
+    console.log(g0);
+
+    var g1 = new jsnx.Graph();
+    g1.addNodesFrom(n1);
+    g1.addEdgesFrom(e1);
+    console.log(g1);
+
+    var common_nodes = n0.filter(value => n1.includes(value));
+    var all_possible = common_nodes.flatMap(
+        (v, i) => common_nodes.slice(i + 1).map(w => [v, w])
+    );
+
+    selected_edges = [];
+    for (let i = 0; i < all_possible.length; i++) {
+        var b0 = g0.hasEdge(all_possible[i][0], all_possible[i][1]);
+        var b1 = g1.hasEdge(all_possible[i][0], all_possible[i][1]);
+        (b0 && b1) || (!b0 && !b1) ? selected_edges.push(all_possible[i]) : false; 
+    }
+
+    var G = new jsnx.Graph();
+    G.addNodesFrom(common_nodes);
+    G.addEdgesFrom(selected_edges);
+    cliques = new jsnx.findCliques(G);
+    cliques_list = [];
+    lengths = [];
+    for (let value of cliques) {
+        cliques_list.push(value);
+        lengths.push(value.length);
+    }
+
+    console.log(lengths);
+    
+    var maxclique = cliques_list[cliques_list.reduce((p, c, i, a) => a[p].length > c.length ? p : i, 0)];
+    console.log(maxclique);
+    
+
+    sigma.instances(0).graph.nodes().forEach(n => {
+        n.color = maxclique.includes(n.id) ? "#ff0000" : n.color;        
+    });
+    sigma.instances(1).graph.nodes().forEach(n => {
+        n.color = maxclique.includes(n.id) ? "#ff0000" : n.color;
+    });
+
+    sigma.instances(0).refresh();
+    sigma.instances(1).refresh();
+
+}
+

@@ -14,6 +14,7 @@
         <script src="js/sigma/plugins/sigma.plugins.animate/sigma.plugins.animate.js"></script>
         <script src="js/sigma/plugins/sigma.layout.noverlap/sigma.layout.noverlap.js"></script>
         <script src="js/sigma/plugins/sigma.exporters.svg/sigma.exporters.svg.js"></script>
+        <script src="js/networkX.js"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="shortcut icon" href="favicon.ico">
         <meta name="msapplication-TileColor" content="#da532c">
@@ -41,6 +42,13 @@
                 <li class="count" id="common_edges">Common edges:</li>
                 <li class="count" id="similarity_coef">Jaccard index:</li>
               </ul>
+            </br>
+
+              <p><label class="label">common substructure</label> <br/> highlight maximum common induced subgraph (MCIS) </p>
+
+              <label class="switch"><input type="checkbox" id="togBtn2">
+                <span class="slider"></span>
+              </label>
             </div>
 
             <div class='selection' id='color_selection'>
