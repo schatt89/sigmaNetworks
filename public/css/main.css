@@ -47,7 +47,7 @@ a .zoom {
     list-style-type:none;
     margin: 0px;
 }
-#list_common {
+#list_common, #list_clique {
     margin-top: 5px;
 }
 
