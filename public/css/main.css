@@ -67,10 +67,12 @@ a .zoom {
     border-radius: 3px;
     padding: 5px;
     width: inherit;
-    height: inherit;
+    height: fit-content;
     margin: 2px;
     background-color: #d1ccc0;
     min-height: fit-content;
+    max-height: 137px;
+    overflow: scroll;
 }
 
 

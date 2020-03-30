@@ -272,9 +272,9 @@ function refreshGraph(name, side, json, graph) {
                 var n1 = s.graph.nodes().length;
                 var e1 = s.graph.edges().length;
                 var d1 = e1 * 2 / (n1 * (n1 - 1));
-                $('#' + side + '_node_count').text("Nodes: " + n1);
-                $('#' + side + '_edge_count').text("Edges: " + e1);
-                $('#' + side + '_density').text("Density: " + (d1).toFixed(3));
+                $('#' + side + '_node_count').text(n1);
+                $('#' + side + '_edge_count').text(e1);
+                $('#' + side + '_density').text((d1).toFixed(3));
                 
 
                 ////////// LAYOUT ///////////
@@ -518,9 +518,9 @@ function refreshGraph(name, side, json, graph) {
         var n1 = s.graph.nodes().length;
         var e1 = s.graph.edges().length;
         var d1 = e1 * 2 / (n1 * (n1 - 1));
-        $('#' + side + '_node_count').text("Nodes: " + n1);
-        $('#' + side + '_edge_count').text("Edges: " + e1);
-        $('#' + side + '_density').text("Density: " + (d1).toFixed(3));
+        $('#' + side + '_node_count').text(n1);
+        $('#' + side + '_edge_count').text(e1);
+        $('#' + side + '_density').text((d1).toFixed(3));
 
         ////////// LAYOUT ///////////
 
@@ -737,8 +737,9 @@ $(document).mouseup( e => {
 });
 
 ///////////// STATISTICS ///////////////////////////
-
+/*
 $("#statistics").click( () => {
+    
 
     if (typeof sigma.instances(window.left_id) !== "undefined") {
         var n1 = sigma.instances(window.left_id).graph.nodes().length;
@@ -747,6 +748,7 @@ $("#statistics").click( () => {
         $('#left_node_count').text("Nodes: " + n1);
         $('#left_edge_count').text("Edges: " + e1);
         $('#left_density').text("Density: " + (d1).toFixed(3));
+        // $('#node_count').text("Nodes: " + n1.pad(5, '') + "  " + right_value);
     } 
 
     if (typeof sigma.instances(window.right_id) !== "undefined") {
@@ -756,6 +758,7 @@ $("#statistics").click( () => {
         $('#right_node_count').text("Nodes: " + n2);
         $('#right_edge_count').text("Edges: " + e2);
         $('#right_density').text("Density: " + (d2).toFixed(3));
+        // $('#node_count').text("Nodes: " + left_value + "  " + n2.pad(5, ''));
     }
 
     if (typeof sigma.instances(window.left_id) !== "undefined" && typeof sigma.instances(window.right_id) !== "undefined") {
@@ -769,7 +772,7 @@ $("#statistics").click( () => {
     }
 
 }
-)
+)*/
 
 
 //// CLEAR SVG //////

@@ -25,7 +25,7 @@
           <div class = "structure">
             <div class="first_box" style="border-style:none;">
               <img src="logo3.png" width="80" height="80">
-              <h2>sigma networks</h2>
+              <h2 style="margin-bottom:4px;margin-top: 4px;">sigma networks</h2>
             </div>
 
             <div class = "common">
@@ -38,9 +38,9 @@
 
 
               <ul class="list" id="list_common">
-                <li class="count" id="common_nodes">Common nodes:</li>
-                <li class="count" id="common_edges">Common edges:</li>
-                <li class="count" id="similarity_coef">Jaccard index:</li>
+                <li id="common_nodes">Common nodes:</li>
+                <li id="common_edges">Common edges:</li>
+                <li id="similarity_coef">Jaccard index:</li>
               </ul>
             </br>
 
@@ -52,7 +52,7 @@
 
 
               <ul class="list" id="list_clique">
-                <li class="count" id="MaxClique">MaxClique node IDs:</li>
+                <li id="MaxClique">MaxClique node IDs:</li>
               </ul>
 
             </div>
@@ -70,11 +70,33 @@
                 <option value="-1" name="Default">Default</option>
               </select>
             </div>
-
+              <div class="selection">
+                <table class="list">
+                  <tr>
+                    <th>stats</th>
+                    <th align="right">left</th>
+                    <th align="right">right</th>
+                  </tr>
+                  <tr>
+                    <td>Nodes:</td>
+                    <td class="count" align="right" id="left_node_count"></td>
+                    <td class="count" align="right" id="right_node_count"></td>
+                  </tr>
+                  <tr>
+                    <td>Edges:</td>
+                    <td class="count" align="right" id="left_edge_count"></td>
+                    <td class="count" align="right" id="right_edge_count"></td>
+                  </tr>
+                  <tr>
+                    <td>Density:</td>
+                    <td class="count" align="right" id="left_density"></td>
+                    <td class="count" align="right" id="right_density"></td>
+                  </tr>
+                </table>
+              </div>
             <div class="source" style="border-style:none;">
               <a href="https://github.com/schatt89/sigmaNetworks" style="text-decoration: none"> <i class="fa fa-github" style="font-size:24px;color:#232343"></i></a>
             </div>
-
           </div>
 
           <div id="networks">
@@ -118,14 +140,6 @@
                           <input type="file" name="#left_svg" id="left_file" class="inputfile" />
                           <label for="left_file" class="button"> Import </label> <label class="filename" id="left_filename"> file.json </label>
                       </div>
-                    <div class="statistics" id="left_statistics">
-                      <p><label class="label">statistics</label></p>
-                        <ul class="list">
-                          <li class="count" id="left_node_count">Nodes: </li>
-                          <li class="count" id="left_edge_count">Edges: </li>
-                          <li class="count" id="left_density">Density: </li>
-                        </ul>
-                    </div>
                       <div class="clear">
                         <button class="button" id="left_clear">Clear</button>
                       </div>
@@ -167,14 +181,6 @@
 
                           <input type="file" name="#right_svg" id="right_file" class="inputfile" />
                           <label for="right_file" class="button"> Import </label> <label class="filename" id="right_filename"> file.json </label>
-                      </div>
-                      <div class="statistics" id="right_statistics">
-                        <p><label class="label">statistics</label></p>
-                          <ul class="list">
-                            <li class="count" id="right_node_count">Nodes: </li>
-                            <li class="count" id="right_edge_count">Edges: </li>
-                            <li class="count" id="right_density">Density: </li>
-                          </ul>
                       </div>
                       <div class="clear">
                         <button class="button" id="right_clear"> Clear</button>
