@@ -2,6 +2,8 @@ var left, right;
 var left_first_time = true;
 var right_first_time = true;
 var not_attributes = ['id', 'read_cam0:size', 'read_cam0:x', 'read_cam0:y', 'x', 'y', 'cam0:x', 'cam0:y', 'cam0:size', 'originalColor', 'label', 'size', 'source', 'target', 'size'];
+left_clear_div = document.querySelector('#left_clear_div');
+right_clear_div = document.querySelector('#right_clear_div');
 
 var settings = {
     minNodeSize: 4,
@@ -562,6 +564,7 @@ function network_from_selected_data(sel, side) {
 
     console.log(window.left_id);
     if (side == 'left' && left_first_time) {
+        left_clear_div.classList.remove('hide');
         left_first_time = false;
         console.log("left first time drawing");
     } else if (side == 'left' && typeof sigma.instances(window.left_id) !== 'undefined') {
@@ -570,6 +573,7 @@ function network_from_selected_data(sel, side) {
     }
 
     if (side == 'right' && right_first_time) {
+        right_clear_div.classList.remove('hide');
         right_first_time = false;
         console.log("right first time drawing");
     } else if (side == 'right' && typeof sigma.instances(window.right_id) !== 'undefined') {
@@ -603,6 +607,7 @@ function select_data(index, side) {
 left_upload = document.querySelector('#left_file');
 
 left_upload.addEventListener('change', function (e) {
+    left_clear_div.classList.remove('hide');
     e.preventDefault();
 
     const files = document.getElementById('left_file').files;
@@ -652,6 +657,7 @@ left_upload.addEventListener('change', function (e) {
 right_upload = document.getElementById('right_file');
 
 right_upload.addEventListener('change', function (e) {
+    right_clear_div.classList.remove('hide');
     e.preventDefault();
 
     const files = document.getElementById('right_file').files;
@@ -805,6 +811,7 @@ $('#left_clear').on("click", () => {
     $('#left_svg_node_info').remove();
 
     if (typeof sigma.instances(window.left_id) !== "undefined") {
+        left_clear_div.classList.add('hide');
         sigma.instances(window.left_id).kill();
         left_first_time = true;
         refresh_color_selection();
@@ -826,6 +833,7 @@ $('#right_clear').on('click', () => {
     $('#right_select option[value="-1"]').attr("selected", true);
     $('#right_svg_node_info').remove();
     if (typeof sigma.instances(window.right_id) !== 'undefined') {
+        right_clear_div.classList.add('hide');
         sigma.instances(window.right_id).kill(); 
         right_first_time = true;
         refresh_color_selection();

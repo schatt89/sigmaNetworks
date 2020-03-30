@@ -157,6 +157,10 @@ input[type="file"] {
 	top:1px;
 }
 
+div.hide {
+  display: none;
+}
+
 
 .mini-container div {
     border-style: dashed;
