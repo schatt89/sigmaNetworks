@@ -17,6 +17,7 @@ You can try and see how it works with the datasets we have in the selection: *In
 4. Select an edge attribute to add weight to the edges
 5. See statistics
 6. Highlight the common links and nodes to see the underlying structure of the networks 
+7. Highlight the Maximum Common Induced Subgraph (MCIS) of the networks
 
 Some features:
 - Hover over a node to see its attributes
