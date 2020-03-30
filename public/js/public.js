@@ -922,18 +922,18 @@ function add_weight(index) {
         sigma.instances(0).graph.edges().forEach(e => {
             var weight = eval("e." + selection);
             e.size = weight;
-            //e.color = e.originalColor;
-            //e.originalColor = e.color;
-            //e.color = weight > 0 ? "#dc143c" : e.color;
+            e.color = e.originalColor;
+            e.originalColor = e.color;
+            e.color = weight > 0 ? "#0000FF" : e.color;
         })
         sigma.instances(0).refresh();
 
         sigma.instances(1).graph.edges().forEach(e => {
             var weight = eval("e." + selection);
             e.size = weight;
-            //e.color = e.originalColor;
-            //e.originalColor = e.color;
-            //e.color = weight > 0 ? "#dc143c" : e.color;
+            e.color = e.originalColor;
+            e.originalColor = e.color;
+            e.color = weight > 0 ? "#0000FF" : e.color;
         })
         sigma.instances(1).refresh();
 
@@ -1328,6 +1328,8 @@ function MCIS() {
         n.color = maxclique.includes(n.id) ? "#ff0000" : n.color;
     });
 
+    $('#MaxClique').text("MaxClique node IDs: " + maxclique.join(', '));
+
     sigma.instances(0).refresh();
     sigma.instances(1).refresh();
 
@@ -1350,9 +1352,7 @@ $("#togBtn2").on("click", () => {
         $('#recolor option[value="-1"]').attr("selected", true);
         $('#legend').remove();
         $('.info_box').remove();
-        $('#common_nodes').text("Common nodes:");
-        $('#common_edges').text("Common edges:");
-        $('#similarity_coef').text("Jaccard index:");
+        $('#MaxClique').text("MaxClique node IDs:");
 
         // nodes
         sigma.instances(0).graph.nodes().forEach(n => {
