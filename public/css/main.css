@@ -73,12 +73,6 @@ a .zoom {
     overflow: scroll;
 }
 
-
-.structure .selection {
-    max-height: 230px;
-    overflow: scroll;
-}
-
 .structure div .label { margin-right: .5em; font-size: 120%; font-weight: bold; display: inline-block; }
 .structure div p { margin-top: 0; margin-bottom: .5em;}
 
