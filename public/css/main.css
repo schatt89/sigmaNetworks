@@ -159,7 +159,6 @@ input[type="file"] {
     border-color: #aaa69d;
     border-radius: 3px;
     padding: 5px;
-    height: inherit;
     margin: 2px;
     background-color: #d1ccc0;
 }
@@ -183,7 +182,7 @@ input[type="file"] {
     background-color: #d1ccc0;
     border-radius: 3px;
     margin: 0 2px;
-    flex-basis: 10%;
+    height: fit-content;
     flex-wrap: wrap;
     flex-direction: row;
     padding: 2px;

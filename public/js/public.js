@@ -809,9 +809,9 @@ $('#left_clear').on("click", () => {
         left_first_time = true;
         refresh_color_selection();
         refresh_edge_weight_selection();
-        $('#left_node_count').text("Nodes:");
-        $('#left_edge_count').text("Edges:");
-        $('#left_density').text("Density:");
+        $('#left_node_count').text("");
+        $('#left_edge_count').text("");
+        $('#left_density').text("");
         var checkBox = document.getElementById("togBtn");
         if (checkBox.checked == true) {
             $("#togBtn").trigger("click");
@@ -830,9 +830,9 @@ $('#right_clear').on('click', () => {
         right_first_time = true;
         refresh_color_selection();
         refresh_edge_weight_selection();
-        $('#right_node_count').text("Nodes:");
-        $('#right_edge_count').text("Edges:");
-        $('#right_density').text("Density:");
+        $('#right_node_count').text("");
+        $('#right_edge_count').text("");
+        $('#right_density').text("");
         var checkBox = document.getElementById("togBtn");
         if (checkBox.checked == true) {
             $("#togBtn").trigger("click");
