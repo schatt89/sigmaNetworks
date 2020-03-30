@@ -109,3 +109,7 @@ public/.DS_Store
 public/js/try.js
 
 transform_data/.ipynb_checkpoints/
+transform_data/FI0009013296_before.graphml
+transform_data/FI0009013296_during.graphml
+public/data/before_new.json
+public/data/during_new.json
