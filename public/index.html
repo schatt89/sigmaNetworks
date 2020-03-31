@@ -60,14 +60,14 @@
             <div class="selection" id="color_selection">
               <p><label class='label'>nodes</label> <br/> select node attribute to color the nodes</p>
               <select id="recolor" onchange="if (this.selectedIndex) recolor(this.selectedIndex);">
-              <option value="-1" name="Default">Default</option>
+              <option value="0" name="Default">Default</option>
               </select>
             </div>
 
             <div class="selection" id="edges_settings">
               <p><label class="label">edges</label> <br/> select edge attribute to weight the edges</p>
               <select id="set_weight" onchange="if (this.selectedIndex) add_weight(this.selectedIndex);">
-                <option value="-1" name="Default">Default</option>
+                <option value="0" name="Default">Default</option>
               </select>
             </div>
             <div class="selection" id="overlap_control">
@@ -132,8 +132,9 @@
                         <p><label class="label">data</label>
                           select a dataset <b>or</b> upload your dataset in <a href="#popup1" title="see a json template" style="text-decoration-style: dashed">.json</a></p>
 
-                          <select name="ab" id="left_select" onchange="if (this.selectedIndex) select_data(this.selectedIndex, 'left');">
-                            <option value="-1">No selection</option>
+                          <select name="ab" id="left_select" onchange="if (this.selectedIndex) select_data(this.value, 'left');">
+                            <option value="" style="display: none;"></option>
+                            <option value="0" selected>No selection</option>
                             <option value="1">Investor network - before</option>
                             <option value="2">Investor network - during</option>
                             <option value="3">Another option</option>
@@ -174,8 +175,9 @@
                       <div class="data">
                         <p><label class="label">data</label>
                           select a dataset <b>or</b> upload your dataset in <a href="#popup1" title="see a json template" style="text-decoration-style: dashed">.json</a></p>
-                          <select name="ab" id="right_select" onchange="if (this.selectedIndex) select_data(this.selectedIndex, 'right');">
-                            <option value="-1">No selection</option>
+                          <select name="ab" id="right_select" onchange="if (this.selectedIndex) select_data(this.value, 'right');">
+                            <option value="" style="display: none;"></option>
+                            <option value="0" selected>No selection</option>
                             <option value="1">Investor network - before</option>
                             <option value="2">Investor network - during</option>
                             <option value="3">Another option</option>

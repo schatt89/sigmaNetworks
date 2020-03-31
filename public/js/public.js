@@ -113,7 +113,7 @@ function refreshGraph(name, side, json, graph) {
                 var value = 1;
                 for (let i = 0; i < unique.length; i++) {
                     if (unique[i] == "Default") {
-                        $('#recolor').append(new Option(unique[i], -1));
+                        $('#recolor').append(new Option(unique[i], 0));
                     } else {
                         $('#recolor').append(new Option(unique[i], value));
                         value++;
@@ -158,7 +158,7 @@ function refreshGraph(name, side, json, graph) {
                 var value = 1;
                 for (let i = 0; i < unique.length; i++) {
                     if (unique[i] == "Default") {
-                        $('#set_weight').append(new Option(unique[i], -1));
+                        $('#set_weight').append(new Option(unique[i], 0));
                     } else {
                         $('#set_weight').append(new Option(unique[i], value));
                         value++;
@@ -300,7 +300,7 @@ function refreshGraph(name, side, json, graph) {
                 atlas_settings.barnesHutOptimize = s.graph.nodes().length > 200 ? true : false;
 
                 atlasObj = s.startForceAtlas2(atlas_settings);
-                window.setTimeout( () => { s.stopForceAtlas2(); }, 10000);
+                window.setTimeout( () => { s.stopForceAtlas2(); }, 5000);
                 var dragListener = sigma.plugins.dragNodes(s, s.renderers[0]);
 
                 dragListener.bind('startdrag', event => {
@@ -381,7 +381,7 @@ function refreshGraph(name, side, json, graph) {
         var value = 1;
         for (let i = 0; i < unique.length; i++) {
             if (unique[i] == "Default") {
-                $('#recolor').append(new Option(unique[i], -1));
+                $('#recolor').append(new Option(unique[i], 0));
             } else {
                 $('#recolor').append(new Option(unique[i], value));
                 value++;
@@ -424,7 +424,7 @@ function refreshGraph(name, side, json, graph) {
         var value = 1;
         for (let i = 0; i < unique.length; i++) {
             if (unique[i] == "Default") {
-                $('#set_weight').append(new Option(unique[i], -1));
+                $('#set_weight').append(new Option(unique[i], 0));
             } else {
                 $('#set_weight').append(new Option(unique[i], value));
                 value++;
@@ -567,7 +567,7 @@ function refreshGraph(name, side, json, graph) {
         atlas_settings.barnesHutOptimize = s.graph.nodes().length > 200 ? true : false;
 
         atlasObj = s.startForceAtlas2(atlas_settings);
-        window.setTimeout( () => { s.stopForceAtlas2(); }, 10000);
+        window.setTimeout( () => { s.stopForceAtlas2(); }, 5000);
         var dragListener = sigma.plugins.dragNodes(s, s.renderers[0]);
 
         dragListener.bind('startdrag', event => {
@@ -593,13 +593,16 @@ function network_from_selected_data(sel, side) {
     if (sel == 1) {
         var name = "data/before.json";
     } else if (sel == 2) {
-        var name = "data/during.json"
+        var name = "data/during.json";
     } else if (sel == 3) {
-        var name = "data/data.json"
+        var name = "data/data.json";
     } else if (sel == 4) {
-        var name = "data/wave1.json"
+        var name = "data/wave1.json";
     } else if (sel == 5) {
-        var name = "data/wave2.json"
+        var name = "data/wave2.json";
+    } else {
+        $("#" + side + "_clear").trigger("click");
+        eval("window." + side + "_id") = 0;
     }
 
     console.log(window.left_id);
@@ -829,7 +832,7 @@ function refresh_edge_weight_selection() {
     if (len_options > 1) {
         $("#set_weight").remove();
         var sel = $('<select id="set_weight" onchange="if (this.selectedIndex) add_weight(this.selectedIndex);" style="order:1">').appendTo('#edges_settings');
-        sel.append($('<option>').attr('value', -1).text('Default'));
+        sel.append($('<option>').attr('value', 0).text('Default'));
     } 
 
 }
@@ -841,13 +844,13 @@ function refresh_color_selection() {
     if (len_options > 1) {
         $("#recolor").remove();
         var sel = $('<select id="recolor" onchange="if (this.selectedIndex) recolor(this.selectedIndex,' + side + ');" style="order:1">').appendTo('#color_selection');
-        sel.append($("<option>").attr('value', -1).text('Default'));
+        sel.append($("<option>").attr('value', 0).text('Default'));
     }
 }
 
 $('#left_clear').on("click", () => {
-    $('#set_weight option[value="-1"]').attr("selected", true);
-    $('#left_select option[value="-1"]').attr("selected", true);
+    $('#set_weight option[value="0"]').attr("selected", true);
+    $('#left_select option[value="0"]').attr("selected", true);
     $('#left_svg_node_info').remove();
 
     if (typeof sigma.instances(window.left_id) !== "undefined") {
@@ -863,14 +866,18 @@ $('#left_clear').on("click", () => {
         if (checkBox.checked == true) {
             $("#togBtn").trigger("click");
         }
+        var checkBox = document.getElementById("togBtn2");
+        if (checkBox.checked == true) {
+            $("#togBtn2").trigger("click");
+        }
     } else {
         console.log("Nothing to clear");
     }
 });
 
 $('#right_clear').on('click', () => {
-    $('#set_weight option[value="-1"]').attr("selected", true);
-    $('#right_select option[value="-1"]').attr("selected", true);
+    $('#set_weight option[value="0"]').attr("selected", true);
+    $('#right_select option[value="0"]').attr("selected", true);
     $('#right_svg_node_info').remove();
     if (typeof sigma.instances(window.right_id) !== 'undefined') {
         right_clear_div.classList.add('hide');
@@ -884,6 +891,10 @@ $('#right_clear').on('click', () => {
         var checkBox = document.getElementById("togBtn");
         if (checkBox.checked == true) {
             $("#togBtn").trigger("click");
+        }
+        var checkBox = document.getElementById("togBtn2");
+        if (checkBox.checked == true) {
+            $("#togBtn2").trigger("click");
         }
     } else {
         alert("Nothing to clear")
@@ -902,7 +913,7 @@ function recolor(index) {
 
     var labels = [];
     var assigned_colors = [];
-    if (typeof sigma.instances(0) !== "undefined" && typeof sigma.instances(1) !== "undefined") {
+    if (typeof sigma.instances(0) !== "undefined" && typeof sigma.instances(1) !== "undefined" && index != 0) {
         sigma.instances(0).graph.nodes().forEach( n => {
             var label = eval("n." + selection);
             if (labels.includes(label)) {
@@ -952,10 +963,24 @@ function recolor(index) {
         for (let i = 0; i < labels.length; i++) {
             $('#legend').append('<div class="color_label"' + ' style="background-color:' + assigned_colors[i] + ';margin:4px;order:' + (i + 2) + '" id="' + labels[i] + '">' + labels[i] + '</div>')
         }
+    } else if (index == 0) {
+        $('#legend').remove();
 
+        // nodes
+        sigma.instances(0).graph.nodes().forEach(n => {
+            n.color = settings.defaultNodeColor;
+            n.originalColor = n.color;
+        })
+        sigma.instances(1).graph.nodes().forEach(n => {
+            n.color = settings.defaultNodeColor;
+            n.originalColor = n.color;
+        })
+
+        sigma.instances(0).refresh();
+        sigma.instances(1).refresh();
     } else {
         alert("both networks should be visualized");
-        $("#recolor option[value='-1']").attr("selected", true);
+        $("#recolor option[value='0']").attr("selected", true);
 
     }
 
@@ -990,7 +1015,7 @@ function add_weight(index) {
 
     } else {
         alert("both networks should be visualized");
-        $("#set_weight option[value='-1']").attr("selected", true);
+        $("#set_weight option[value='0']").attr("selected", true);
     }
     
 }
@@ -1049,8 +1074,8 @@ $("#togBtn").on("click", () => {
             $('#similarity_coef').text("Jaccard index: " + (result[1].length / ((e1 + e2) - result[1].length)).toFixed(3));
         }
     } else {
-        $('#set_weight option[value="-1"]').attr("selected", true);
-        $('#recolor option[value="-1"]').attr("selected", true);
+        $('#set_weight option[value="0"]').attr("selected", true);
+        $('#recolor option[value="0"]').attr("selected", true);
         $('#legend').remove();
         $('.info_box').remove();
         $('#common_nodes').text("Common nodes:");
@@ -1399,8 +1424,8 @@ $("#togBtn2").on("click", () => {
             MCIS()
         }
     } else {
-        $('#set_weight option[value="-1"]').attr("selected", true);
-        $('#recolor option[value="-1"]').attr("selected", true);
+        $('#set_weight option[value="0"]').attr("selected", true);
+        $('#recolor option[value="0"]').attr("selected", true);
         $('#legend').remove();
         $('.info_box').remove();
         $('#MaxClique').text("MaxClique node IDs:");
