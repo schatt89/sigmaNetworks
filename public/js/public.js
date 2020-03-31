@@ -43,7 +43,7 @@ function refreshGraph(name, side, json, graph) {
         strongGravityMode: false,
         gravity: 4,
         barnesHutOptimize: false,
-        barnesHutTheta: 0.9,
+        barnesHutTheta: 0.2,
         slowDown: 5,
         startingIterations: 20,
         iterationsPerRender: 1,
@@ -296,13 +296,11 @@ function refreshGraph(name, side, json, graph) {
                     }
                 });
 
-                //s.startNoverlap()
-
                 atlas_settings.gravity = s.graph.nodes().length > 100 ? 3 : 4;
                 atlas_settings.barnesHutOptimize = s.graph.nodes().length > 200 ? true : false;
 
                 atlasObj = s.startForceAtlas2(atlas_settings);
-                window.setTimeout( () => { s.stopForceAtlas2(); }, 5000);
+                window.setTimeout( () => { s.stopForceAtlas2(); }, 10000);
                 var dragListener = sigma.plugins.dragNodes(s, s.renderers[0]);
 
                 dragListener.bind('startdrag', event => {
@@ -569,7 +567,7 @@ function refreshGraph(name, side, json, graph) {
         atlas_settings.barnesHutOptimize = s.graph.nodes().length > 200 ? true : false;
 
         atlasObj = s.startForceAtlas2(atlas_settings);
-        window.setTimeout( () => { s.stopForceAtlas2(); }, 5000);
+        window.setTimeout( () => { s.stopForceAtlas2(); }, 10000);
         var dragListener = sigma.plugins.dragNodes(s, s.renderers[0]);
 
         dragListener.bind('startdrag', event => {
@@ -974,7 +972,7 @@ function add_weight(index) {
 
         sigma.instances(0).graph.edges().forEach(e => {
             var weight = eval("e." + selection);
-            e.size = weight;
+            //e.size = weight;
             e.color = e.originalColor;
             e.originalColor = e.color;
             e.color = weight > 0 ? "#0000FF" : e.color;
@@ -983,7 +981,7 @@ function add_weight(index) {
 
         sigma.instances(1).graph.edges().forEach(e => {
             var weight = eval("e." + selection);
-            e.size = weight;
+            //e.size = weight;
             e.color = e.originalColor;
             e.originalColor = e.color;
             e.color = weight > 0 ? "#0000FF" : e.color;
@@ -1072,7 +1070,7 @@ $("#togBtn").on("click", () => {
         // edges
         sigma.instances(0).graph.edges().forEach(e => {
             //e.hidden = false;
-            e.size = 0;
+            //e.size = 0;
             e.color = settings.defaultEdgeColor;
             e.originalColor = e.color;
         });
@@ -1080,7 +1078,7 @@ $("#togBtn").on("click", () => {
 
         sigma.instances(1).graph.edges().forEach(e => {
             //e.hidden = false;
-            e.size = 0;
+            //e.size = 0;
             e.color = settings.defaultEdgeColor;
             e.originalColor = e.color;
         });
@@ -1420,7 +1418,7 @@ $("#togBtn2").on("click", () => {
         // edges
         sigma.instances(0).graph.edges().forEach(e => {
             //e.hidden = false;
-            e.size = 0;
+            //e.size = 0;
             e.color = settings.defaultEdgeColor;
             e.originalColor = e.color;
         });
@@ -1428,7 +1426,7 @@ $("#togBtn2").on("click", () => {
 
         sigma.instances(1).graph.edges().forEach(e => {
             //e.hidden = false;
-            e.size = 0;
+            //e.size = 0;
             e.color = settings.defaultEdgeColor;
             e.originalColor = e.color;
         });
