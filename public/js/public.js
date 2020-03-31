@@ -6,20 +6,18 @@ left_clear_div = document.querySelector('#left_clear_div');
 right_clear_div = document.querySelector('#right_clear_div');
 
 var settings = {
-    minNodeSize: 4,
-    maxNodeSize: 12,
+    minNodeSize: 3,
+    maxNodeSize: 6,
     defaultNodeColor: '#454545',
     edgeColor: 'default',
-    defaultEdgeColor: '#000',
-    minEdgeSize: 1,
+    defaultEdgeColor: '#aaa69d',
+    minEdgeSize: 3,
     maxEdgeSize: 3,
     borderSize: 2,
     defaultNodeBorderColor: '#000',
     drawLabels: false,
     doubleClickEnabled: false
 };
-
-
 
 sigma.classes.graph.addMethod('neighbors', function (nodeId) {
     var k,
@@ -41,11 +39,11 @@ function refreshGraph(name, side, json, graph) {
         outboundAttractionDistribution: false,
         adjustSizes: false,
         edgeWeightInfluence: 0,
-        scalingRatio: 0.7,
+        scalingRatio: 0.8,
         strongGravityMode: false,
-        gravity: 3,
+        gravity: 4,
         barnesHutOptimize: false,
-        barnesHutTheta: 0.5,
+        barnesHutTheta: 0.9,
         slowDown: 5,
         startingIterations: 20,
         iterationsPerRender: 1,
@@ -280,6 +278,29 @@ function refreshGraph(name, side, json, graph) {
                 
 
                 ////////// LAYOUT ///////////
+
+                var noverlapListener = s.configNoverlap({
+                    nodeMargin: 0.1,
+                    scaleNodes: 1.05,
+                    gridSize: 75,
+                    easing: 'quadraticInOut', // animation transition function
+                    duration: 10000   // animation duration. Long here for the purposes of this example only
+                });
+                // Bind the events:
+                noverlapListener.bind('start stop interpolate', function (e) {
+                    if (e.type === 'start') {
+                        console.time('noverlap');
+                    }
+                    if (e.type === 'interpolate') {
+                        console.timeEnd('noverlap');
+                    }
+                });
+
+                //s.startNoverlap()
+
+                atlas_settings.gravity = s.graph.nodes().length > 100 ? 3 : 4;
+                atlas_settings.barnesHutOptimize = s.graph.nodes().length > 200 ? true : false;
+
                 atlasObj = s.startForceAtlas2(atlas_settings);
                 window.setTimeout( () => { s.stopForceAtlas2(); }, 5000);
                 var dragListener = sigma.plugins.dragNodes(s, s.renderers[0]);
@@ -525,6 +546,27 @@ function refreshGraph(name, side, json, graph) {
         $('#' + side + '_density').text((d1).toFixed(3));
 
         ////////// LAYOUT ///////////
+
+        var noverlapListener = s.configNoverlap({
+            nodeMargin: 0.1,
+            scaleNodes: 1.25,
+            gridSize: 75,
+            permittedExpansion: 1.1,
+            easing: 'quadraticInOut', // animation transition function
+            duration: 10000   // animation duration. Long here for the purposes of this example only
+        });
+        // Bind the events:
+        noverlapListener.bind('start stop interpolate', function (e) {
+            if (e.type === 'start') {
+                console.time('noverlap');
+            }
+            if (e.type === 'interpolate') {
+                console.timeEnd('noverlap');
+            }
+        });
+
+        atlas_settings.gravity = s.graph.nodes().length > 100 ? 6 : 3;
+        atlas_settings.barnesHutOptimize = s.graph.nodes().length > 200 ? true : false;
 
         atlasObj = s.startForceAtlas2(atlas_settings);
         window.setTimeout( () => { s.stopForceAtlas2(); }, 5000);
@@ -1393,6 +1435,14 @@ $("#togBtn2").on("click", () => {
 
         sigma.instances(0).refresh();
         sigma.instances(1).refresh();
+    }
+})
+
+// Start the nooverlap layout:
+$('#noOverlap').on("click", () => {
+    if (typeof sigma.instances(window.left_id) != 'undefined' && typeof sigma.instances(window.right_id) != 'undefined') {
+        sigma.instances(window.left_id).startNoverlap();
+        sigma.instances(window.right_id).startNoverlap();
     }
 })
 
