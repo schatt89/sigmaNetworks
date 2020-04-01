@@ -4,6 +4,8 @@ var right_first_time = true;
 var not_attributes = ['id', 'read_cam0:size', 'read_cam0:x', 'read_cam0:y', 'x', 'y', 'cam0:x', 'cam0:y', 'cam0:size', 'originalColor', 'label', 'size', 'source', 'target', 'size'];
 left_clear_div = document.querySelector('#left_clear_div');
 right_clear_div = document.querySelector('#right_clear_div');
+var s_left = []
+var s_right = []
 
 var settings = {
     minNodeSize: 3,
@@ -330,12 +332,17 @@ function refreshGraph(name, side, json, graph) {
             },
             settings: settings
         });
+        if (side == "left") {
+            s_left = s;
+        } else if (side == "right") {
+            s_right = s;
+        }
 
 
 
         ///// FOR NODE COLORING /////////////
 
-        var attributes = Object.keys(s.graph.nodes()[0]);
+        var attributes = Object.keys(eval("s_" + side).graph.nodes()[0]);
         attributes_to_label = [];
         for (let i = 0; i < attributes.length; i++) {
             if (!not_attributes.includes(attributes[i])) {
@@ -343,7 +350,7 @@ function refreshGraph(name, side, json, graph) {
             }
         }
 
-        s.graph.nodes().forEach( (node, i, a) => {
+        eval("s_" + side).graph.nodes().forEach( (node, i, a) => {
             node.x = Math.cos(Math.PI * 2 * i / a.length);
             node.y = Math.sin(Math.PI * 2 * i / a.length);
             node.label = node.label ? node.label : 'Node ' + node.id;
@@ -353,7 +360,7 @@ function refreshGraph(name, side, json, graph) {
         });
 
         sigma.plugins.relativeSize(s, 2);
-        s.graph.nodes().forEach( n => {
+        eval("s_" + side).graph.nodes().forEach( n => {
             n.originalColor = n.color;
             console.log(n);
         });
@@ -389,11 +396,11 @@ function refreshGraph(name, side, json, graph) {
         }
 
         ///// FOR EDGE VISUALIZATION /////////
-        s.graph.edges().forEach( e => {
+        eval("s_" + side).graph.edges().forEach( e => {
             e.originalColor = e.color;
         });
 
-        var edge_attributes = Object.keys(s.graph.edges()[0]);
+        var edge_attributes = Object.keys(eval("s_" + side).graph.edges()[0]);
         console.log(s.graph.edges()[0])
         attributes_to_edges = [];
         for (let i = 0; i < edge_attributes.length; i++) {
@@ -432,7 +439,7 @@ function refreshGraph(name, side, json, graph) {
         }
 
         ////////// NEIGHBORS AND INFOBOXES ON DOUBLE CLICK /////////////////
-        s.bind('doubleClickNode', e => {
+        eval("s_" + side).bind('doubleClickNode', e => {
 
             // INFOBOXES
             var container = e.data.renderer.container.id;
@@ -461,21 +468,21 @@ function refreshGraph(name, side, json, graph) {
             ////// NEIGHBORS ///////
 
             if (container == "left_svg") {
-                s = sigma.instances(window.left_id);
+                s_left = sigma.instances(window.left_id);
                 $("#right_svg_node_info").remove();
                 another_net = sigma.instances(window.right_id);
             } else if (container == "right_svg") {
-                s = sigma.instances(window.right_id);
+                s_right = sigma.instances(window.right_id);
                 $("#left_svg_node_info").remove();
                 another_net = sigma.instances(window.left_id);
             }
             var nodeId = e.data.node.id,
-                toKeep = s.graph.neighbors(nodeId);
+                toKeep = eval("s_" + side).graph.neighbors(nodeId);
             toKeep[nodeId] = e.data.node;
             console.log(toKeep);
             console.log(e.data.node);
 
-            s.graph.nodes().forEach(n => {
+            eval("s_" + side).graph.nodes().forEach(n => {
                 if (toKeep[n.id]) {
                     n.color = n.id == nodeId ? '#ff5252' : n.originalColor;
                 }
@@ -484,7 +491,7 @@ function refreshGraph(name, side, json, graph) {
                 }
             });
 
-            another_net.graph.nodes().forEach(n => {
+            eval("s_" + side).graph.nodes().forEach(n => {
                 if (toKeep[n.id]) {
                     n.color = n.id == nodeId ? '#ff5252' : n.originalColor;
                 }
@@ -493,7 +500,7 @@ function refreshGraph(name, side, json, graph) {
                 }
             });
 
-            s.graph.edges().forEach(e => {
+            eval("s_" + side).graph.edges().forEach(e => {
                 if (toKeep[e.source] && toKeep[e.target]) {
                     e.color = e.originalColor;
                 }
@@ -511,33 +518,33 @@ function refreshGraph(name, side, json, graph) {
                 }
             });
 
-            s.refresh();
+            eval("s_" + side).refresh();
             another_net.refresh();
         });
 
-        s.bind('clickStage', e => {
+        eval("s_" + side).bind('clickStage', e => {
             var container = e.data.renderer.container.id
             if (container == "left_svg") {
-                s = sigma.instances(window.left_id);
+                s_left = sigma.instances(window.left_id);
             } else if (container == "right_svg") {
-                s = sigma.instances(window.right_id);
+                s_right = sigma.instances(window.right_id);
             }
-            s.graph.nodes().forEach(n => {
+            eval("s_" + side).graph.nodes().forEach(n => {
                 n.color = n.originalColor;
             });
 
-            s.graph.edges().forEach(e => {
+            eval("s_" + side).graph.edges().forEach(e => {
                 e.color = e.originalColor;
             });
 
             // Same as in the previous event:
-            s.refresh();
+            eval("s_" + side).refresh();
         });
 
         /////////// STATISTICS ///////
 
-        var n1 = s.graph.nodes().length;
-        var e1 = s.graph.edges().length;
+        var n1 = eval("s_" + side).graph.nodes().length;
+        var e1 = eval("s_" + side).graph.edges().length;
         var d1 = e1 * 2 / (n1 * (n1 - 1));
         $('#' + side + '_node_count').text(n1);
         $('#' + side + '_edge_count').text(e1);
@@ -545,7 +552,7 @@ function refreshGraph(name, side, json, graph) {
 
         ////////// LAYOUT ///////////
 
-        var noverlapListener = s.configNoverlap({
+        var noverlapListener = eval("s_" + side).configNoverlap({
             nodeMargin: 0.1,
             scaleNodes: 1.25,
             gridSize: 75,
@@ -563,15 +570,15 @@ function refreshGraph(name, side, json, graph) {
             }
         });
 
-        atlas_settings.gravity = s.graph.nodes().length > 100 ? 6 : 3;
-        atlas_settings.barnesHutOptimize = s.graph.nodes().length > 200 ? true : false;
+        atlas_settings.gravity = eval("s_" + side).graph.nodes().length > 100 ? 6 : 3;
+        atlas_settings.barnesHutOptimize = eval("s_" + side).graph.nodes().length > 200 ? true : false;
 
-        atlasObj = s.startForceAtlas2(atlas_settings);
-        window.setTimeout( () => { s.stopForceAtlas2(); }, 5000);
-        var dragListener = sigma.plugins.dragNodes(s, s.renderers[0]);
+        atlasObj = eval("s_" + side).startForceAtlas2(atlas_settings);
+        window.setTimeout(() => { eval("s_" + side).stopForceAtlas2(); }, 5000);
+        var dragListener = sigma.plugins.dragNodes(eval("s_" + side), eval("s_" + side).renderers[0]);
 
         dragListener.bind('startdrag', event => {
-            s.stopForceAtlas2();
+            eval("s_" + side).stopForceAtlas2();
         });
         dragListener.bind('dragend', event => {
             nodes = atlasObj.supervisor.graph.nodes();
