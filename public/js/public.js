@@ -491,7 +491,7 @@ function refreshGraph(name, side, json, graph) {
                 }
             });
 
-            eval("s_" + side).graph.nodes().forEach(n => {
+            another_net.graph.nodes().forEach(n => {
                 if (toKeep[n.id]) {
                     n.color = n.id == nodeId ? '#ff5252' : n.originalColor;
                 }
