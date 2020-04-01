@@ -82,7 +82,7 @@ a .zoom {
     margin-bottom: 15px;
 }    .selection select {
         display: inline-block;
-        width: 100%;
+        width: 80%;
         cursor: pointer;
         padding: 2px;
         outline: 0;
@@ -315,6 +315,7 @@ div.hide {
   align-items: center;
 }
 
+
 i.fa-search-plus {
   margin: 10px;
   cursor: pointer;
@@ -338,6 +339,13 @@ i.fa-arrows-alt {
 
 i.fa-download {
   margin: 10px;
+  cursor: pointer;
+  font-size: 15px;
+  color: #2c2c54;
+}
+
+i.fa-undo {
+  margin: 0px 5px;
   cursor: pointer;
   font-size: 15px;
   color: #2c2c54;

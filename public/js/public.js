@@ -1,7 +1,7 @@
 var left, right;
 var left_first_time = true;
 var right_first_time = true;
-var not_attributes = ['id', 'read_cam0:size', 'read_cam0:x', 'read_cam0:y', 'x', 'y', 'cam0:x', 'cam0:y', 'cam0:size', 'originalColor', 'label', 'size', 'source', 'target', 'size'];
+var not_attributes = ['id', 'read_cam0:size', 'read_cam0:x', 'read_cam0:y', 'x', 'y', 'cam0:x', 'cam0:y', 'cam0:size', 'originalColor', 'label', 'size', 'source', 'target', 'size', 'subCommon_structure'];
 left_clear_div = document.querySelector('#left_clear_div');
 right_clear_div = document.querySelector('#right_clear_div');
 var s_left = []
@@ -1480,3 +1480,42 @@ $('#noOverlap').on("click", () => {
     }
 })
 
+
+//// RESET COLORS //////////////
+
+$(document).ready(() => {
+    $("#reset_node_color").bind("click", () => {
+        $("#legend").remove();
+        $('#recolor option[value="0"]').attr("selected", true);
+
+        sigma.instances(0).graph.nodes().forEach(n => {
+            n.originalColor = settings.defaultNodeColor;
+            n.color = settings.defaultNodeColor;
+        });
+        sigma.instances(1).graph.nodes().forEach(n => {
+            n.originalColor = settings.defaultNodeColor;
+            n.color = settings.defaultNodeColor;
+        });
+
+        sigma.instances(0).refresh();
+        sigma.instances(1).refresh();
+    });
+});
+
+$(document).ready(() => {
+    $("#reset_edge_color").bind("click", () => {
+        $('#set_weight option[value="0"]').attr("selected", true);
+
+        sigma.instances(0).graph.edges().forEach(e => {
+            e.color = settings.defaultEdgeColor;
+            e.originalColor = settings.defaultEdgeColor;
+        });
+        sigma.instances(1).graph.edges().forEach(e => {
+            e.color = settings.defaultEdgeColor;
+            e.originalColor = settings.defaultEdgeColor;
+        });
+
+        sigma.instances(0).refresh();
+        sigma.instances(1).refresh();
+    });
+});

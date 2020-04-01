@@ -59,17 +59,21 @@
 
             <div class="selection" id="color_selection">
               <p><label class='label'>nodes</label> <br/> select node attribute to color the nodes</p>
+              <i class="fa fa-undo" id="reset_node_color"></i>
               <select id="recolor" onchange="if (this.selectedIndex) recolor(this.selectedIndex);">
               <option value="0" name="Default">Default</option>
               </select>
+
             </div>
 
             <div class="selection" id="edges_settings">
               <p><label class="label">edges</label> <br/> select edge attribute to weight the edges</p>
+              <i class="fa fa-undo" id="reset_edge_color"></i>
               <select id="set_weight" onchange="if (this.selectedIndex) add_weight(this.selectedIndex);">
                 <option value="0" name="Default">Default</option>
               </select>
             </div>
+
             <div class="selection" id="overlap_control">
               <p><label class='label'>no overlap</label> <br /> click to run an algorithm that prevents the nodes from overlapping (useful for larger networks)</p>
               <button class="button" id="noOverlap">Run</button>
