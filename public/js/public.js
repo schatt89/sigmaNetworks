@@ -595,11 +595,9 @@ function network_from_selected_data(sel, side) {
     } else if (sel == 2) {
         var name = "data/during.json";
     } else if (sel == 3) {
-        var name = "data/data.json";
+        var name = "data/before_new.json";
     } else if (sel == 4) {
-        var name = "data/wave1.json";
-    } else if (sel == 5) {
-        var name = "data/wave2.json";
+        var name = "data/during_new.json";
     } else {
         $("#" + side + "_clear").trigger("click");
         eval("window." + side + "_id") = 0;
