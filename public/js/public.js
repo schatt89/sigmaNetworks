@@ -8,13 +8,13 @@ var s_left = []
 var s_right = []
 
 var settings = {
-    minNodeSize: 3,
-    maxNodeSize: 6,
+    minNodeSize: 6,
+    maxNodeSize: 8,
     defaultNodeColor: '#454545',
     edgeColor: 'default',
     defaultEdgeColor: '#aaa69d',
-    minEdgeSize: 3,
-    maxEdgeSize: 3,
+    minEdgeSize: 1,
+    maxEdgeSize: 2,
     borderSize: 2,
     defaultNodeBorderColor: '#000',
     drawLabels: false,
@@ -43,9 +43,9 @@ function refreshGraph(name, side, json, graph) {
         edgeWeightInfluence: 0,
         scalingRatio: 0.8,
         strongGravityMode: false,
-        gravity: 4,
+        gravity: 3,
         barnesHutOptimize: false,
-        barnesHutTheta: 0.2,
+        barnesHutTheta: 0.8,
         slowDown: 5,
         startingIterations: 20,
         iterationsPerRender: 1,
@@ -298,8 +298,8 @@ function refreshGraph(name, side, json, graph) {
                     }
                 });
 
-                atlas_settings.gravity = s.graph.nodes().length > 100 ? 3 : 4;
-                atlas_settings.barnesHutOptimize = s.graph.nodes().length > 200 ? true : false;
+                //atlas_settings.gravity = s.graph.nodes().length > 100 ? 3 : 4;
+                //atlas_settings.barnesHutOptimize = s.graph.nodes().length > 200 ? true : false;
 
                 atlasObj = s.startForceAtlas2(atlas_settings);
                 window.setTimeout( () => { s.stopForceAtlas2(); }, 5000);
@@ -570,8 +570,8 @@ function refreshGraph(name, side, json, graph) {
             }
         });
 
-        atlas_settings.gravity = eval("s_" + side).graph.nodes().length > 100 ? 6 : 3;
-        atlas_settings.barnesHutOptimize = eval("s_" + side).graph.nodes().length > 200 ? true : false;
+        //atlas_settings.gravity = eval("s_" + side).graph.nodes().length > 100 ? 6 : 3;
+        //atlas_settings.barnesHutOptimize = eval("s_" + side).graph.nodes().length > 200 ? true : false;
 
         atlasObj = eval("s_" + side).startForceAtlas2(atlas_settings);
         window.setTimeout(() => { eval("s_" + side).stopForceAtlas2(); }, 5000);
@@ -1004,8 +1004,7 @@ function add_weight(index) {
             var weight = eval("e." + selection);
             //e.size = weight;
             e.color = e.originalColor;
-            e.originalColor = e.color;
-            e.color = weight > 0 ? "#0000FF" : e.color;
+            e.color = weight > 0 ? "#7EB6FF" : e.color;
         })
         sigma.instances(0).refresh();
 
@@ -1013,8 +1012,7 @@ function add_weight(index) {
             var weight = eval("e." + selection);
             //e.size = weight;
             e.color = e.originalColor;
-            e.originalColor = e.color;
-            e.color = weight > 0 ? "#0000FF" : e.color;
+            e.color = weight > 0 ? "#7EB6FF" : e.color;
         })
         sigma.instances(1).refresh();
 
@@ -1046,19 +1044,21 @@ $("#togBtn").on("click", () => {
             console.log(nodes_intersection);
 
             left_sigma.graph.nodes().forEach(n => {
-                !nodes_intersection.includes(n.id) ? n.color = '#eee' : n.originalColor = n.originalColor;
                 n.originalColor = n.color;
+                !nodes_intersection.includes(n.id) ? n.color = '#eee' : n.originalColor = n.originalColor;
             })
             right_sigma.graph.nodes().forEach(n => {
-                !nodes_intersection.includes(n.id) ? n.color = '#eee' : n.originalColor = n.originalColor;
                 n.originalColor = n.color;
+                !nodes_intersection.includes(n.id) ? n.color = '#eee' : n.originalColor = n.originalColor;
             })
 
             console.log(edges_intersection);
 
             left_sigma.graph.edges().forEach(e => {
                 if (!nodes_intersection.includes(e.source) || !nodes_intersection.includes(e.target) || !e.intersection == true) {
+                    e.originalColor = e.color;
                     e.color = '#eee';
+                } else {
                     e.originalColor = e.color;
                 }
             });
@@ -1066,7 +1066,9 @@ $("#togBtn").on("click", () => {
 
             right_sigma.graph.edges().forEach(e => {
                 if (!nodes_intersection.includes(e.source) || !nodes_intersection.includes(e.target) || !e.intersection == true) {
+                    e.originalColor = e.color;
                     e.color = '#eee';
+                } else {
                     e.originalColor = e.color;
                 }
             });
@@ -1079,9 +1081,6 @@ $("#togBtn").on("click", () => {
             $('#similarity_coef').text("Jaccard index: " + (result[1].length / ((e1 + e2) - result[1].length)).toFixed(3));
         }
     } else {
-        $('#set_weight option[value="0"]').attr("selected", true);
-        $('#recolor option[value="0"]').attr("selected", true);
-        $('#legend').remove();
         $('.info_box').remove();
         $('#common_nodes').text("Common nodes:");
         $('#common_edges').text("Common edges:");
@@ -1089,28 +1088,24 @@ $("#togBtn").on("click", () => {
 
         // nodes
         sigma.instances(0).graph.nodes().forEach(n => {
-            n.color = settings.defaultNodeColor;
-            n.originalColor = n.color;
+            n.color = n.originalColor;
         })
         sigma.instances(1).graph.nodes().forEach(n => {
-            n.color = settings.defaultNodeColor;
-            n.originalColor = n.color;
+            n.color = n.originalColor;
         })
 
         // edges
         sigma.instances(0).graph.edges().forEach(e => {
             //e.hidden = false;
-            //e.size = 0;
-            e.color = settings.defaultEdgeColor;
-            e.originalColor = e.color;
+            e.size = 0;
+            e.color = e.originalColor;
         });
 
 
         sigma.instances(1).graph.edges().forEach(e => {
             //e.hidden = false;
-            //e.size = 0;
-            e.color = settings.defaultEdgeColor;
-            e.originalColor = e.color;
+            e.size = 0;
+            e.color = e.originalColor;
         });
 
         sigma.instances(0).refresh();
@@ -1402,12 +1397,30 @@ function MCIS() {
 
     sigma.instances(0).graph.nodes().forEach(n => {
         n.originalColor = n.color;
-        n.color = maxclique.includes(n.id) ? "#ff0000" : n.color;        
+        n.color = maxclique.includes(n.id) ? n.color : "#eee";        
     });
     sigma.instances(1).graph.nodes().forEach(n => {
         n.originalColor = n.color;
-        n.color = maxclique.includes(n.id) ? "#ff0000" : n.color;
+        n.color = maxclique.includes(n.id) ? n.color : "#eee";
     });
+
+    sigma.instances(0).graph.edges().forEach(e => {
+        if (maxclique.includes(e.source) && maxclique.includes(e.target)) {
+            e.originalColor = e.color;
+        } else {
+            e.originalColor = e.color;
+            e.color = "#eee"
+        }
+    })
+
+    sigma.instances(1).graph.edges().forEach(e => {
+        if (maxclique.includes(e.source) && maxclique.includes(e.target)) {
+            e.originalColor = e.color;
+        } else {
+            e.originalColor = e.color;
+            e.color = "#eee"
+        }
+    })
 
     $('#MaxClique').text("MaxClique node IDs: " + maxclique.join(', '));
 
@@ -1429,36 +1442,29 @@ $("#togBtn2").on("click", () => {
             MCIS()
         }
     } else {
-        $('#set_weight option[value="0"]').attr("selected", true);
-        $('#recolor option[value="0"]').attr("selected", true);
-        $('#legend').remove();
         $('.info_box').remove();
         $('#MaxClique').text("MaxClique node IDs:");
 
         // nodes
         sigma.instances(0).graph.nodes().forEach(n => {
-            n.color = settings.defaultNodeColor;
-            n.originalColor = n.color;
+            n.color = n.originalColor;
         })
         sigma.instances(1).graph.nodes().forEach(n => {
-            n.color = settings.defaultNodeColor;
-            n.originalColor = n.color;
+            n.color = n.originalColor;
         })
 
         // edges
         sigma.instances(0).graph.edges().forEach(e => {
             //e.hidden = false;
             //e.size = 0;
-            e.color = settings.defaultEdgeColor;
-            e.originalColor = e.color;
+            e.color = e.originalColor;
         });
 
 
         sigma.instances(1).graph.edges().forEach(e => {
             //e.hidden = false;
             //e.size = 0;
-            e.color = settings.defaultEdgeColor;
-            e.originalColor = e.color;
+            e.color = e.originalColor;
         });
 
         sigma.instances(0).refresh();
