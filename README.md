@@ -11,19 +11,20 @@ You can try and see how it works with the datasets we have in the selection: *In
 1. Go to [sigma-networks.herokuapp.com](https://sigma-networks.herokuapp.com/) (loading the page may take a while)
 2. Select a dataset on the left and right side or upload your datasets in .json format. To use your dataset:
    - See the [.json template](https://github.com/schatt89/sigmaNetworks/blob/master/public/data/template.json) 
-   - See the [`.ipynb` notebook](https://github.com/schatt89/sigmaNetworks/blob/master/transform_data/convert_graphml_to_json.ipynb) to learn how to convert your data to the desired .json format
+   - See the [.ipynb notebook](https://github.com/schatt89/sigmaNetworks/blob/master/transform_data/convert_graphml_to_json.ipynb) to learn how to convert your data to the desired .json format
    - Click the `Import` button to upload your file
 3. Select a node attribute to color the nodes and place the legend by dragging it
 4. Select an edge attribute to add weight to the edges
-5. See statistics
-6. Highlight the common links and nodes to see the underlying structure of the networks 
-7. Highlight the Maximum Common Induced Subgraph (MCIS) of the networks
+5. If the networks are large run no-overlap algorithm to prevent the nodes from overlapping
+6. See statistics
+7. Highlight the common links and nodes to see the underlying structure of the networks 
+8. Highlight the Maximum Common Induced Subgraph (MCIS) of the networks
 
 Some features:
 - Hover over a node to see its attributes
 - Double click on a node will display its attributes in an infobox and highlight its first-order neighbors in both networks
 - Click on an infobox to close it
-- `Reset` will cancel any highlight
+- `Reset` will cancel the highlight
 - `Clear` button will remove the network
 - You can change the size of the left and right side by dragging the separating bar
-- Use navigation icons to zoom in and out 
+- Use navigation icons to zoom in and out, and download the networks in svg
